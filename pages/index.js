@@ -1,6 +1,7 @@
 import styles from '../styles/Home.module.css'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -20,7 +21,9 @@ export default function Home() {
               заказов в любом месте
             </p>
             <button className={styles.button}>
-              Зарегистрироваться
+              <Link href={'/authorization'}>
+                Зарегистрироваться
+              </Link>
             </button>
           </div>
           <div className={styles.right_side}>

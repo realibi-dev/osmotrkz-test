@@ -13,6 +13,7 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                     title: field.title,
                     inputType: field.inputType,
                     options: field.options,
+                    placeholder: field.placeholder,
                 },
             }
         }, {})
@@ -24,27 +25,27 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
             <>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <div className={styles.checkbox_inputs}>
-                        <div className={styles.heading_text} style={{ fontSize: 16 }}>{fields.roleId?.title}</div>
-                        {fields.roleId?.options?.map(option => (
-                            <div> <input checked={fields.roleId?.value} type={fields.roleId?.inputType} name={fields.roleId?.name} onChange={e => handleInputChange(currentStepNum, fields.roleId?.name, option.value)} /> {option.title} </div>
+                        <div className={styles.heading_text} style={{ fontSize: 16 }}>{fields.role_id?.title}</div>
+                        {fields.role_id?.options?.map(option => (
+                            <div> <input checked={fields.role_id?.value} type={fields.role_id?.inputType} name={fields.roleId?.name} onChange={e => handleInputChange(currentStepNum, fields.role_id?.name, option.value)} /> {option.title} </div>
                         ))}
                     </div>
                     <div className={styles.checkbox_inputs}>
-                        <div className={styles.heading_text} style={{ fontSize: 16 }}>{fields.statusId?.title}</div>
-                        {fields.statusId?.options?.map(option => (
-                            <div> <input checked={fields.statusId?.value} type={fields.statusId?.inputType} name={fields.statusId?.name} onChange={e => handleInputChange(currentStepNum, fields.statusId?.name, option.value)} /> {option.title} </div>
+                        <div className={styles.heading_text} style={{ fontSize: 16 }}>{fields.status_id?.title}</div>
+                        {fields.status_id?.options?.map(option => (
+                            <div> <input checked={fields.status_id?.value} type={fields.status_id?.inputType} name={fields.statusId?.name} onChange={e => handleInputChange(currentStepNum, fields.status_id?.name, option.value)} /> {option.title} </div>
                         ))}
                     </div>
                 </div>
 
                 <div className={styles.input_item}>
-                    <span>{fields.fullName?.title}</span>
-                    <input value={fields.fullName?.value} type={fields.fullName?.inputType} onChange={e => handleInputChange(currentStepNum, fields.fullName?.name, e.target.value)} />
+                    <span>{fields.fio?.title}</span>
+                    <input value={fields.fio?.value} type={fields.fio?.inputType} onChange={e => handleInputChange(currentStepNum, fields.fio?.name, e.target.value)} />
                 </div>
 
                 <div className={styles.input_item}>
-                    <span>{fields.phoneNumber?.title}</span>
-                    <input value={fields.phoneNumber?.value} type={fields.phoneNumber?.inputType} onChange={e => handleInputChange(currentStepNum, fields.phoneNumber?.name, e.target.value)} />
+                    <span>{fields.phone?.title}</span>
+                    <input placeholder={fields.phone?.placeholder} value={fields.phone?.value} type={fields.phone?.inputType} onChange={e => handleInputChange(currentStepNum, fields.phone?.name, e.target.value)} />
                 </div>
                 
                 <div className={styles.input_item}>
@@ -58,8 +59,8 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                 </div>
 
                 <div className={styles.input_item}>
-                    <span>{fields.passwordConfirmation?.title}</span>
-                    <input value={fields.passwordConfirmation?.value} type={fields.passwordConfirmation?.inputType} onChange={e => handleInputChange(currentStepNum, fields.passwordConfirmation?.name, e.target.value)} />
+                    <span>{fields.confirmPassword?.title}</span>
+                    <input value={fields.confirmPassword?.value} type={fields.confirmPassword?.inputType} onChange={e => handleInputChange(currentStepNum, fields.confirmPassword?.name, e.target.value)} />
                 </div>
 
                 <div className={styles.checkbox_input_item}>
@@ -79,7 +80,7 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                 <div  style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
                     <div className={styles.input_item}>
                         <span>{fields.sertificate_number?.title}</span>
-                        <input value={fields.sertificate_number?.value} type={fields.sertificate_number?.inputType} onChange={e => handleInputChange(currentStepNum, fields.sertificate_number?.name, e.target.value)} />
+                        <input placeholder={fields.sertificate_number?.placeholder} value={fields.sertificate_number?.value} type={fields.sertificate_number?.inputType} onChange={e => handleInputChange(currentStepNum, fields.sertificate_number?.name, e.target.value)} />
                     </div>
                     <div className={styles.input_item}>
                         <span>{fields.date_of_sert_issue?.title}</span>
@@ -94,7 +95,7 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                 <div  style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
                     <div className={styles.input_item}>
                         <span>{fields.contract_number?.title}</span>
-                        <input value={fields.contract_number?.value} type={fields.contract_number?.inputType} onChange={e => handleInputChange(currentStepNum, fields.contract_number?.name, e.target.value)} />
+                        <input placeholder={fields.contract_number?.placeholder} value={fields.contract_number?.value} type={fields.contract_number?.inputType} onChange={e => handleInputChange(currentStepNum, fields.contract_number?.name, e.target.value)} />
                     </div>
                     <div className={styles.input_item}>
                         <span>{fields.date_of_cont_issue?.title}</span>
@@ -109,7 +110,7 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                 <div  style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
                     <div className={styles.input_item}>
                         <span>{fields.ward_number?.title}</span>
-                        <input value={fields.ward_number?.value} type={fields.ward_number?.inputType} onChange={e => handleInputChange(currentStepNum, fields.ward_number?.name, e.target.value)} />
+                        <input placeholder={fields.ward_number?.placeholder} value={fields.ward_number?.value} type={fields.ward_number?.inputType} onChange={e => handleInputChange(currentStepNum, fields.ward_number?.name, e.target.value)} />
                     </div>
                     <div className={styles.input_item}>
                         <span>{fields.date_of_ward_issue?.title}</span>

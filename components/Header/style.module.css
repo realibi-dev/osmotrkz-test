@@ -6,6 +6,7 @@
     box-shadow: 0px 4px 20px -5px rgba(34, 60, 80, 0.2);
     padding: 0 15%;
     box-sizing: border-box;
+    z-index: 3;
 }
 
 .logo {
@@ -23,6 +24,7 @@
 .menu_item {
     color: rgb(103, 103, 103);
     font-weight: 500;
+    font-size: 14px;
 }
 
 .login_button {
@@ -33,4 +35,49 @@
     font-size: 18px;
     border-radius: 20px;
     cursor: pointer;
+}
+
+.userData {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.userData > * {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.userName {
+    position: relative;
+    z-index: 3;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+.dropdown {
+    position: absolute;
+    width: 100%;
+    top: 42px;
+    box-sizing: border-box;
+    background-color: #fff;
+    box-shadow: 0px 4px 20px -5px rgba(34, 60, 80, 0.2);
+    
+}
+
+.dropdown_item {
+    padding: 8px;
+    box-sizing: border-box;
+    transition: 0.5s;
+}
+
+.dropdown_item:hover {
+    background-color: #ededed;
 }

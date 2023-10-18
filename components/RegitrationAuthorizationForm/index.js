@@ -4,20 +4,23 @@ import clsx from 'clsx'
 import FormBody from './FormBody';
 import FORMS_CONST from './constants';
 import axios from "axios";
+import { setCurrentUser, setToken } from "./../../helpers/user"
+import { useRouter } from 'next/router'
 
 export default function RegistrationAuthorizationForm() {
+    const router = useRouter();
     const [forms, setForms] = useState([
         {
             stepNum: FORMS_CONST.FORM_STEPS.REGISTRATION,
             headingText: 'Заполните все необходимые поля для регистрации',
             fields: [
-                { name: 'roleId', title: 'Выберите роль', inputType: 'radio', options: [ { value: 1, title: 'Заказчик' }, { value: 2, title: 'Исполнитель' } ], value: '' },
-                { name: 'statusId', title: 'Выберите статус', inputType: 'radio', options: [ { value: 1, title: 'Юридическое лицо' }, { value: 2, title: 'Физическое лицо' } ], value: '' },
-                { name: 'fullName', title: 'ФИО', inputType: 'text', value: '' },
-                { name: 'phoneNumber', title: 'Номер телефона', inputType: 'text', value: '' },
+                { name: 'role_id', title: 'Выберите роль', inputType: 'radio', options: [ { value: 1, title: 'Заказчик' }, { value: 2, title: 'Исполнитель' } ], value: '' },
+                { name: 'status_id', title: 'Выберите статус', inputType: 'radio', options: [ { value: 1, title: 'Юридическое лицо' }, { value: 2, title: 'Физическое лицо' } ], value: '' },
+                { name: 'fio', title: 'ФИО', inputType: 'text', value: '' },
+                { name: 'phone', title: 'Номер телефона', inputType: 'text', value: '', placeholder: '+7 (000) 000-00-00' },
                 { name: 'email', title: 'Email', inputType: 'text', value: '' },
-                { name: 'password', title: 'Придумайте пароль', inputType: 'text', value: '' },
-                { name: 'passwordConfirmation', title: 'Подтвердите пароль', inputType: 'text', value: '' },
+                { name: 'password', title: 'Придумайте пароль', inputType: 'password', value: '' },
+                { name: 'confirmPassword', title: 'Подтвердите пароль', inputType: 'password', value: '' },
                 { name: 'isOfferAccepted', title: 'Я согласен на обработку персональных данных', inputType: 'checkbox', value: false },
             ],
         },
@@ -26,13 +29,13 @@ export default function RegistrationAuthorizationForm() {
             headingText: 'Подтвердите свою квалификацию',
             fields: [
                 { name: 'sertificate', title: 'Загрузите сертификат оценщика', inputType: 'file', value: '' },
-                { name: 'sertificate_number', title: 'Номер документа', inputType: 'text', value: '' },
+                { name: 'sertificate_number', title: 'Номер документа', inputType: 'text', value: '', placeholder: 'XX XX XX XX' },
                 { name: 'date_of_sert_issue', title: 'Когда выдан', inputType: 'date', value: '' },
                 { name: 'insurance_contract', title: 'Добавьте договор о страховании', inputType: 'file', value: '' },
-                { name: 'contract_number', title: 'Номер документа', inputType: 'text', value: '' },
+                { name: 'contract_number', title: 'Номер документа', inputType: 'text', value: '', placeholder: 'XX XX XX XX' },
                 { name: 'date_of_cont_issue', title: 'Когда выдан', inputType: 'date', value: '' },
                 { name: 'ward', title: 'Добавьте сертификат палаты', inputType: 'file', value: '' },
-                { name: 'ward_number', title: 'Номер документа', inputType: 'text', value: '' },
+                { name: 'ward_number', title: 'Номер документа', inputType: 'text', value: '', placeholder: 'XX XX XX XX' },
                 { name: 'date_of_ward_issue', title: 'Когда выдан', inputType: 'date', value: '' },
                 { name: 'work_experience', title: 'Стаж работы', inputType: 'number', value: '' },
             ],
@@ -42,7 +45,7 @@ export default function RegistrationAuthorizationForm() {
             headingText: '',
             fields: [
                 { name: 'email', title: 'Email', inputType: 'text', value: '' },
-                { name: 'password', title: 'Придумайте пароль', inputType: 'text', value: '' },
+                { name: 'password', title: 'Придумайте пароль', inputType: 'password', value: '' },
                 { name: 'rememberMe', title: 'Запомнить меня', inputType: 'checkbox', value: false },
             ]
         }
@@ -93,17 +96,32 @@ export default function RegistrationAuthorizationForm() {
 
         axios
         .post(process.env.NEXT_PUBLIC_API_URL + 'register', payload, { headers: { "Content-Type": "multipart/form-data" } })
-        .then(data => {
-            console.log("success on registration");
-            console.log("data", data);
-        })
         .catch(data => {
             alert(data.message);
         })
     }
 
     const login = () => {
-        console.log(process.env.NEXT_PUBLIC_API_URL)
+        const authorizationFields = forms.find(form => form.stepNum === FORMS_CONST.FORM_STEPS.AUTHORIZATION).fields;
+        const payload = authorizationFields.reduce((acc, field) => {
+            return {
+                ...acc,
+                [field.name]: field.value,
+            }
+        }, {});
+
+        axios
+        .post(process.env.NEXT_PUBLIC_API_URL + 'auth', payload)
+        .then(({ data }) => {
+            if (data.success) {
+                setToken(data.token);
+                setCurrentUser(data.user);
+                router.push("/");
+            }
+        })
+        .catch(data => {
+            alert(data.message);
+        })
     }
 
     return (
