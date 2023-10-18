@@ -1,0 +1,34 @@
+.body {
+  padding: 0 15%;
+  box-sizing: border-box;
+}
+
+.top_banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 0;
+}
+
+.top_banner > .left_side {
+  color: #3f444b;
+}
+
+.left_side > .button {
+  background-color: #03cf91;
+  width: 85%;
+  height: 50px;
+  font-size: 16px;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+}
+
+.heading_text {
+  margin: 0;
+}
+
+.subtitle {
+  line-height: 22px;
+  margin: 24px 0;
+}

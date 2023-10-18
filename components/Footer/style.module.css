@@ -1,0 +1,25 @@
+.container {
+    padding: 40px 0;
+    border-top: 0.5px solid #eaeaea;
+    display: flex;
+    justify-content: space-between;
+}
+
+.column {
+    height: 100%;
+}
+
+.logo {
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.text {
+    font-size: 12px;
+    color: #6b6b6b;
+    margin-bottom: 8px;
+}
+
+.link_icon {
+    margin-right: 22px;
+}

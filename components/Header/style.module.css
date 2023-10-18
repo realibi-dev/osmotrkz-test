@@ -1,0 +1,36 @@
+.container {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px 4px 20px -5px rgba(34, 60, 80, 0.2);
+    padding: 0 15%;
+    box-sizing: border-box;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.menu {
+    list-style-type: none;
+    display: flex;
+    padding: 0;
+    gap: 40px;
+}
+
+.menu_item {
+    color: rgb(103, 103, 103);
+    font-weight: 500;
+}
+
+.login_button {
+    padding: 6px 24px;
+    border: 1px solid #04cf91;
+    color:#05ddab;
+    background-color: #fff;
+    font-size: 18px;
+    border-radius: 20px;
+    cursor: pointer;
+}

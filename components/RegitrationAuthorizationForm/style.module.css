@@ -1,0 +1,123 @@
+.container {
+    width: 600px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px rgba(34, 60, 80, 0.2);
+}
+
+.header {
+    height: 60px;
+    display: flex;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    justify-content: space-between;
+    gap: 1px;
+}
+
+.header_item {
+    cursor: pointer;
+    height: 100%;
+    width: 33.33%;
+    background-color: rgb(47, 47, 47);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    gap: 8px;
+    opacity: 0.2;
+}
+
+.header_item:nth-child(1) {
+    border-top-left-radius: 20px;
+}
+
+.header_item:nth-child(3) {
+    border-top-right-radius: 20px;
+}
+
+.number_tag {
+    background-color: #fff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    color: rgb(51, 51, 51);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.active_header {
+    opacity: 1;
+}
+
+.form_body {
+    padding: 10px 80px;
+    color: rgb(61, 61, 61);
+}
+
+.heading_text {
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    line-height: 26px;
+}
+
+.checkbox_inputs {
+    display: 'flex';
+    flex-direction: 'column';
+    align-items: flex-start;
+}
+
+.checkbox_inputs > * {
+    margin-bottom: 6px;
+}
+
+.input_item {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    gap: 8px;
+    box-sizing: border-box;
+}
+
+.input_item > span {
+    font-weight: 500;
+    color: rgb(103, 103, 103);
+}
+
+.input_item > input {
+    border: 1.5px solid rgb(198, 198, 198);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 18px;
+    color: rgb(88, 88, 88);
+}
+
+.input_item > input:focus {
+    outline: none;
+}
+
+.checkbox_input_item {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+    justify-content: center;
+    color: rgb(92, 92, 92);
+}
+
+.next_button_block {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.next_button {
+    background-color: #04cf91;
+    color: #fff;
+    width: 40%;
+    height: 40px;
+    border-radius: 30px;
+    border: none;
+    font-size: 16px;
+}
