@@ -1,9 +1,13 @@
 import Link from 'next/link'
+import Head from 'next/head'
 import styles from './style.module.css'
 
 export default function Header() {
     return (
         <div className={styles.container}>
+            <Head>
+                <title>OSMOTR.KZ</title>
+            </Head>
             <div className={styles.logo}>
                 <Link href={'/'}>ОСМОТР.KZ</Link>
             </div>
