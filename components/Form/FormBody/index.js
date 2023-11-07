@@ -5,6 +5,7 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
     const [fields, setFields] = useState({});
 
     useEffect(() => {
+        // comment
         const computedFields = formInfo.fields.reduce((acc, field) => {
             return {
                 ...acc,
