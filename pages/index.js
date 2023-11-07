@@ -21,7 +21,7 @@ export default function Home() {
               заказов в любом месте
             </p>
             <button className={styles.button}>
-              <Link href={'/authorization'}>
+              <Link href={'/registration'}>
                 Зарегистрироваться
               </Link>
             </button>
