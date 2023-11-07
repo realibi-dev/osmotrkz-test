@@ -17,7 +17,11 @@ export default function Header() {
 
     const handleLogout = () => {
         resetCurrentSession();
-        router.push("/authorization");
+        router.push("/login");
+    }
+
+    const handleProfileClick = () => {
+        router.push("/profile");
     }
 
     return (
@@ -45,6 +49,9 @@ export default function Header() {
                             <img src={'/user.png'} height={26} />
                             <span>{currentUser.fio}</span>
                             <div className={clsx(styles.dropdown, userNameExpanded ? styles.show : styles.hide)}>
+                                <div className={styles.dropdown_item} onClick={handleProfileClick}>
+                                    Профиль
+                                </div>
                                 <div className={styles.dropdown_item} onClick={handleLogout}>
                                     Выход
                                 </div>
@@ -54,7 +61,7 @@ export default function Header() {
                 )}
                 {!currentUser && (
                     <div className={styles.login_button}>
-                        <a href={'/authorization'}>Вход</a>
+                        <a href={'/login'}>Вход</a>
                     </div>
                 )}
             </div>

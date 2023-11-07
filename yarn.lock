@@ -1445,6 +1445,14 @@
   "resolved" "https://registry.npmjs.org/natural-compare/-/natural-compare-1.4.0.tgz"
   "version" "1.4.0"
 
+"ncalayer-js-client@^1.3.4":
+  "integrity" "sha512-T6f7USJ4Cspqwe1JjWFCsZK32Y0CF/1qCroPyEYb7S1wIEe6XTZ0si6gd3l11tFGdB1WSN+AjjltHoeo7K32mQ=="
+  "resolved" "https://registry.npmjs.org/ncalayer-js-client/-/ncalayer-js-client-1.3.4.tgz"
+  "version" "1.3.4"
+  dependencies:
+    "typescript" "^5.1.6"
+    "ws" "^8.4.2"
+
 "next@13.5.5":
   "integrity" "sha512-LddFJjpfrtrMMw8Q9VLhIURuSidiCNcMQjRqcPtrKd+Fx07MsG7hYndJb/f2d3I+mTbTotsTJfCnn0eZ/YPk8w=="
   "resolved" "https://registry.npmjs.org/next/-/next-13.5.5.tgz"
@@ -1998,7 +2006,7 @@
     "for-each" "^0.3.3"
     "is-typed-array" "^1.1.9"
 
-"typescript@>=3.3.1", "typescript@>=4.2.0":
+"typescript@^5.1.6", "typescript@>=3.3.1", "typescript@>=4.2.0":
   "integrity" "sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w=="
   "resolved" "https://registry.npmjs.org/typescript/-/typescript-5.2.2.tgz"
   "version" "5.2.2"
@@ -2089,6 +2097,11 @@
   "integrity" "sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ=="
   "resolved" "https://registry.npmjs.org/wrappy/-/wrappy-1.0.2.tgz"
   "version" "1.0.2"
+
+"ws@^8.4.2":
+  "integrity" "sha512-wEBG1ftX4jcglPxgFCMJmZ2PLtSbJ2Peg6TmpJFTbe9GZYOQCDPdMYu/Tm0/bGZkw8paZnJY45J4K2PZrLYq8g=="
+  "resolved" "https://registry.npmjs.org/ws/-/ws-8.14.2.tgz"
+  "version" "8.14.2"
 
 "yallist@^4.0.0":
   "integrity" "sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A=="

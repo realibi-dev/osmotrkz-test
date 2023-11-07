@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import FORMS_CONST from './../constants';
+import FORMS_CONST from '../../../helpers/constants';
 
 export default function FormBody({ styles, formInfo, handleInputChange, currentStepNum }) {
     const [fields, setFields] = useState({});
@@ -131,6 +131,36 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
 
     const renderAuthorizationForm = () => {
         return (
+            <></>
+        );
+    }
+
+    const renderLoginForm = () => {
+        return (
+            <>
+                <div className={styles.input_item}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <span>{fields.email?.title}</span>
+                        <a className={styles.link} href='/registration'>Регистрация</a>
+                    </div>
+                    <input value={fields.email?.value} type={fields.email?.inputType} onChange={e => handleInputChange(currentStepNum, fields.email?.name, e.target.value)} />
+                </div>
+                <div className={styles.input_item}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <span>{fields.password?.title}</span>
+                        <a className={styles.link} href='/login/reset'>Забыли пароль?</a>
+                    </div>
+                    <input value={fields.password?.value} type={fields.password?.inputType} onChange={e => handleInputChange(currentStepNum, fields.password?.name, e.target.value)} />
+                </div>
+                <div className={styles.checkbox_input_item}>
+                    <input checked={fields.rememberMe?.value} type={fields.rememberMe?.inputType} onChange={e => handleInputChange(currentStepNum, fields.rememberMe?.name, e.target.checked)} /> {fields.rememberMe?.title}
+                </div>
+            </>
+        );
+    }
+
+    const renderPasswordRecoveryForm = () => {
+        return (
             <>
                 <div className={styles.input_item}>
                     <span>{fields.email?.title}</span>
@@ -140,8 +170,36 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                     <span>{fields.password?.title}</span>
                     <input value={fields.password?.value} type={fields.password?.inputType} onChange={e => handleInputChange(currentStepNum, fields.password?.name, e.target.value)} />
                 </div>
-                <div className={styles.checkbox_input_item}>
-                    <input checked={fields.checkbox_input_item?.value} type={fields.rememberMe?.inputType} onChange={e => handleInputChange(currentStepNum, fields.rememberMe?.name, e.target.checked)} /> {fields.rememberMe?.title}
+                <div className={styles.input_item}>
+                    <span>{fields.confirmPassword?.title}</span>
+                    <input checked={fields.confirmPassword?.value} type={fields.confirmPassword?.inputType} onChange={e => handleInputChange(currentStepNum, fields.confirmPassword?.name, e.target.checked)} /> {fields.rememberMe?.title}
+                </div>
+            </>
+        );
+    }
+
+    const renderProfileEditForm = () => {
+        return (
+            <>
+                <div className={styles.input_item}>
+                    <span>{fields.fio?.title}</span>
+                    <input value={fields.fio?.value} type={fields.fio?.inputType} onChange={e => handleInputChange(currentStepNum, fields.fio?.name, e.target.value)} />
+                </div>
+                <div className={styles.input_item}>
+                    <span>{fields.phone?.title}</span>
+                    <input value={fields.phone?.value} type={fields.phone?.inputType} onChange={e => handleInputChange(currentStepNum, fields.phone?.name, e.target.value)} />
+                </div>
+                <div className={styles.input_item}>
+                    <span>{fields.email?.title}</span>
+                    <input value={fields.email?.value} type={fields.email?.inputType} onChange={e => handleInputChange(currentStepNum, fields.email?.name, e.target.value)} />
+                </div>
+                <div className={styles.input_item}>
+                    <span>{fields.password?.title}</span>
+                    <input value={fields.password?.value} type={fields.password?.inputType} onChange={e => handleInputChange(currentStepNum, fields.password?.name, e.target.value)} />
+                </div>
+                <div className={styles.input_item}>
+                    <span>{fields.passwordRepeat?.title}</span>
+                    <input checked={fields.passwordRepeat?.value} type={fields.passwordRepeat?.inputType} onChange={e => handleInputChange(currentStepNum, fields.passwordRepeat?.name, e.target.value)} />
                 </div>
             </>
         );
@@ -153,6 +211,9 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
             {currentStepNum === FORMS_CONST.FORM_STEPS.REGISTRATION && renderRegistrationForm()}
             {currentStepNum === FORMS_CONST.FORM_STEPS.QUALIFICATION && renderQualificationForm()}
             {currentStepNum === FORMS_CONST.FORM_STEPS.AUTHORIZATION && renderAuthorizationForm()}
+            {currentStepNum === FORMS_CONST.FORM_STEPS.LOGIN && renderLoginForm()}
+            {currentStepNum === FORMS_CONST.FORM_STEPS.RESET_PASSWORD && renderPasswordRecoveryForm()}
+            {currentStepNum === FORMS_CONST.FORM_STEPS.PROFILE_EDIT && renderProfileEditForm()}
         </div>
     );
 }

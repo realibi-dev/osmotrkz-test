@@ -1,6 +1,6 @@
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
-import RegistrationAuthorizationForm from '../../components/RegitrationAuthorizationForm'
+import Form from '../../components/Form'
 import styles from './style.module.css'
 
 export default function Authorization() {
@@ -9,7 +9,7 @@ export default function Authorization() {
         <Header />
         
         <div className={styles.body}>
-            <RegistrationAuthorizationForm />
+            <Form formType={'registrationAuthorization'} />
         </div>
 
         <div style={{ padding: '0 15%', boxSizing: 'border-box' }}>

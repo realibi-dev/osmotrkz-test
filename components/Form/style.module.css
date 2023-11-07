@@ -2,6 +2,8 @@
     width: 600px;
     border-radius: 20px;
     box-shadow: 0px 0px 10px rgba(34, 60, 80, 0.2);
+    position: relative;
+    background-color: #fff;
 }
 
 .header {
@@ -26,6 +28,11 @@
     font-weight: 700;
     gap: 8px;
     opacity: 0.2;
+}
+
+.header_item_full {
+    width: 100%;
+    border-radius: 20px 20px 0 0;
 }
 
 .header_item:nth-child(1) {
@@ -120,4 +127,24 @@
     border-radius: 30px;
     border: none;
     font-size: 16px;
+}
+
+.settings_image_1, .settings_image_2 {
+    position: absolute;
+    z-index: -1;
+}
+
+.settings_image_1 {
+    top: 0;
+    left: -240px;
+}
+
+.settings_image_2 {
+    bottom: 0;
+    right: -240px;
+}
+
+.link {
+    color: #00CF91;
+    font-size: 14px;
 }

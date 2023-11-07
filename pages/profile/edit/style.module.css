@@ -1,0 +1,38 @@
+.body {
+    padding: 50px 15%;
+    box-sizing: border-box;
+    color: #3F444A;
+}
+
+.box {
+    border-radius: 20px;
+    padding: 28px 80px;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 19px 0px rgba(117, 117, 117, 0.16);
+
+    display: flex;
+    justify-content: space-around;
+    gap: 90px;
+}
+
+.image_fullname {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+}
+
+.image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.fullname {
+    margin-top: 10px;
+    font-size: 20px;
+}
