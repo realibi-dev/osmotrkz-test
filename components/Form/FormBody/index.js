@@ -15,11 +15,12 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                     inputType: field.inputType,
                     options: field.options,
                     placeholder: field.placeholder,
+                    value: field?.value || '',
                 },
             }
         }, {})
         setFields(computedFields);
-    }, [currentStepNum]);
+    }, [currentStepNum, handleInputChange]);
 
     const renderRegistrationForm = () => {
         return (
@@ -28,13 +29,13 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                     <div className={styles.checkbox_inputs}>
                         <div className={styles.heading_text} style={{ fontSize: 16 }}>{fields.role_id?.title}</div>
                         {fields.role_id?.options?.map(option => (
-                            <div> <input checked={fields.role_id?.value} type={fields.role_id?.inputType} name={fields.roleId?.name} onChange={e => handleInputChange(currentStepNum, fields.role_id?.name, option.value)} /> {option.title} </div>
+                            <div> <input type={fields.role_id?.inputType} name={fields.roleId?.name} onChange={e => handleInputChange(currentStepNum, fields.role_id?.name, option.value)} /> {option.title} </div>
                         ))}
                     </div>
                     <div className={styles.checkbox_inputs}>
                         <div className={styles.heading_text} style={{ fontSize: 16 }}>{fields.status_id?.title}</div>
                         {fields.status_id?.options?.map(option => (
-                            <div> <input checked={fields.status_id?.value} type={fields.status_id?.inputType} name={fields.statusId?.name} onChange={e => handleInputChange(currentStepNum, fields.status_id?.name, option.value)} /> {option.title} </div>
+                            <div> <input checked={option.value === fields.status_id.value} type={fields.status_id?.inputType} name={fields.statusId?.name} onChange={e => handleInputChange(currentStepNum, fields.status_id?.name, option.value)} /> {option.title} </div>
                         ))}
                     </div>
                 </div>

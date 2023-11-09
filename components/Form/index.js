@@ -7,7 +7,7 @@ import axios from "axios";
 import { getCurrentUser, setCurrentUser, setToken } from "../../helpers/user"
 import { useRouter } from 'next/router'
 import Button from '../common/Button';
-import { connectAndSign } from '../../helpers/ncaLayer';
+import { getUserInfoFromSertificate } from '../../helpers/ncaLayer';
 
 export default function Form({ formType, stepNum, isNeedBackgroundImages=true, isNeedHeader=true, removeOutline=false }) {
     const router = useRouter();
@@ -16,7 +16,7 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
             stepNum: FORMS_CONST.FORM_STEPS.REGISTRATION,
             headingText: 'Заполните все необходимые поля для регистрации',
             fields: [
-                { name: 'role_id', title: 'Выберите роль', inputType: 'radio', options: [ { value: 1, title: 'Заказчик' }, { value: 2, title: 'Исполнитель' } ], value: '' },
+                { name: 'role_id', title: 'Выберите роль', inputType: 'checkbox', options: [ { value: 1, title: 'Заказчик' }, { value: 2, title: 'Исполнитель' } ], value: '' },
                 { name: 'status_id', title: 'Выберите статус', inputType: 'radio', options: [ { value: 1, title: 'Юридическое лицо' }, { value: 2, title: 'Физическое лицо' } ], value: '' },
                 { name: 'fio', title: 'ФИО', inputType: 'text', value: '' },
                 { name: 'phone', title: 'Номер телефона', inputType: 'text', value: '', placeholder: '+7 (000) 000-00-00' },
@@ -81,7 +81,6 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
     const [currentStepNum, setCurrentStepNum] = useState(stepNum || 1);
 
     const handleInputChange = (stepNum, fieldName, fieldValue) => {
-        console.log(fieldName, fieldValue);
         setForms(prevValue => prevValue.map(form => {
             if (form.stepNum === stepNum) {
                 form.fields = form.fields.map(field => {
@@ -99,12 +98,9 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
         }))
     }
 
-    const handleButtonClick = () => {
-        if (currentStepNum === FORMS_CONST.FORM_STEPS.QUALIFICATION){
-            registration();
-        }
+    const handleButtonClick = async () => {
         if (currentStepNum === FORMS_CONST.FORM_STEPS.AUTHORIZATION){
-            authorization();
+            registration();
             return;
         }
         if (currentStepNum === FORMS_CONST.FORM_STEPS.LOGIN) {
@@ -123,29 +119,29 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
         console.log(forms);
     }
 
-    const authorization = async () => {
-        const result = await connectAndSign();
-        if (result) {
-            router.push('/login');
-        }
-    }
-
-    const registration = () => {
+    const registration = async () => {
         const registrationFields = forms.find(form => form.stepNum === FORMS_CONST.FORM_STEPS.REGISTRATION).fields;
         const qualificationFields = forms.find(form => form.stepNum === FORMS_CONST.FORM_STEPS.QUALIFICATION).fields;
-        const totalFields = [...registrationFields, ...qualificationFields];
-        const payload = totalFields.reduce((acc, field) => {
+        const { nameSurname, givenName, iin, email } = await getUserInfoFromSertificate();
+        const totalFormFields = [...registrationFields, ...qualificationFields];
+
+        const certificateInfo = {
+            fio_from_ecp: `${nameSurname} ${givenName}`,
+            iin_from_ecp: iin,
+            email_from_ecp: email,
+        }
+        
+        const payload = totalFormFields.reduce((acc, field) => {
             return {
                 ...acc,
                 [field.name]: field.value,
             }
-        }, {});
+        }, certificateInfo);
 
         axios
         .post(process.env.NEXT_PUBLIC_API_URL + 'register', payload, { headers: { "Content-Type": "multipart/form-data" } })
-        .catch(data => {
-            alert(data.message);
-        })
+        .then(() => router.push('/registration/success'))
+        .catch(data => alert(data.message))
     }
 
     const login = () => {

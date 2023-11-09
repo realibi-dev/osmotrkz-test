@@ -1,5 +1,6 @@
 import styles from './style.module.css'
 import Button from '../../../components/common/Button'
+import moment from 'moment';
 
 export default function Stats({ userData, createApplicationHandler }) {
     return (
@@ -8,13 +9,13 @@ export default function Stats({ userData, createApplicationHandler }) {
                 <div className={styles.image_fullname}>
                     <div className={styles.image} style={{ backgroundImage: 'url(/profile.png)' }}></div>
                     <div className={styles.fullname}>
-                        {userData?.fio}
+                        {userData?.fio} ({!userData?.is_active && 'не активен'})
                     </div>
                 </div>
                 <div className={styles.info}>
                     <div className={styles.info_row}>
                         <span>Дата регистрации: </span>
-                        <span>06.11.2023</span>
+                        <span>{moment(userData?.reg_date).format('DD.MM.YYYY')}</span>
                     </div>
                     <div className={styles.info_row}>
                         <span>Город: </span>
