@@ -3,7 +3,6 @@ import Button from '../../../components/common/Button'
 import moment from 'moment';
 
 export default function Stats({ userData, createApplicationHandler }) {
-    
     return (
         <div className={styles.stats}>
             <div className={styles.profile_data}>
