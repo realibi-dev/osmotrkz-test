@@ -28,12 +28,10 @@ export default function Admin(){
     return (
         <div className={styles.container}>
             <Header />
-            
             <div className={styles.body}>
                 <h1>Заявки на регистрацию аккаунтов</h1>
                 <NewUsersTable users={newAccounts} activateAccount={activateAccount} />
             </div>
-
             <div style={{ padding: '0 15%', boxSizing: 'border-box' }}>
                 <Footer />
             </div>
