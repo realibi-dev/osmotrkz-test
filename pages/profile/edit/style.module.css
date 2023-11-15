@@ -36,3 +36,23 @@
     margin-top: 10px;
     font-size: 20px;
 }
+
+.avatarChangeBtn {
+    display: none;
+}
+
+.uploadButton {
+    margin-top: 20px;
+    font-size: 14px;
+    border: 1px solid red;
+    width: 150px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    background-color: #00CF91;
+    border-radius: 40px;
+    border: none;
+    cursor: pointer;
+}

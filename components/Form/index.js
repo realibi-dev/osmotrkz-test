@@ -1,82 +1,89 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './style.module.css'
 import clsx from 'clsx'
 import FormBody from './FormBody';
 import FORMS_CONST from '../../helpers/constants';
 import axios from "axios";
-import { getCurrentUser, setCurrentUser, setToken } from "../../helpers/user"
+import { getCurrentUser, setCurrentUser, setToken, resetCurrentSession } from "../../helpers/user"
 import { useRouter } from 'next/router'
 import Button from '../common/Button';
 import { getUserInfoFromSertificate } from '../../helpers/ncaLayer';
 
 export default function Form({ formType, stepNum, isNeedBackgroundImages=true, isNeedHeader=true, removeOutline=false }) {
     const router = useRouter();
-    const [forms, setForms] = useState([
-        {
-            stepNum: FORMS_CONST.FORM_STEPS.REGISTRATION,
-            headingText: 'Заполните все необходимые поля для регистрации',
-            fields: [
-                { name: 'role_id', title: 'Выберите роль', inputType: 'checkbox', options: [ { value: 1, title: 'Заказчик' }, { value: 2, title: 'Исполнитель' } ], value: '' },
-                { name: 'status_id', title: 'Выберите статус', inputType: 'radio', options: [ { value: 1, title: 'Юридическое лицо' }, { value: 2, title: 'Физическое лицо' } ], value: '' },
-                { name: 'fio', title: 'ФИО', inputType: 'text', value: '' },
-                { name: 'phone', title: 'Номер телефона', inputType: 'text', value: '', placeholder: '+7 (000) 000-00-00' },
-                { name: 'email', title: 'Email', inputType: 'text', value: '' },
-                { name: 'password', title: 'Придумайте пароль', inputType: 'password', value: '' },
-                { name: 'confirmPassword', title: 'Подтвердите пароль', inputType: 'password', value: '' },
-                { name: 'isOfferAccepted', title: 'Я согласен на обработку персональных данных', inputType: 'checkbox', value: false },
-            ],
-        },
-        {
-            stepNum: FORMS_CONST.FORM_STEPS.QUALIFICATION,
-            headingText: 'Подтвердите свою квалификацию',
-            fields: [
-                { name: 'sertificate', title: 'Загрузите сертификат оценщика', inputType: 'file', value: '' },
-                { name: 'sertificate_number', title: 'Номер документа', inputType: 'text', value: '', placeholder: 'XX XX XX XX' },
-                { name: 'date_of_sert_issue', title: 'Когда выдан', inputType: 'date', value: '' },
-                { name: 'insurance_contract', title: 'Добавьте договор о страховании', inputType: 'file', value: '' },
-                { name: 'contract_number', title: 'Номер документа', inputType: 'text', value: '', placeholder: 'XX XX XX XX' },
-                { name: 'date_of_cont_issue', title: 'Когда выдан', inputType: 'date', value: '' },
-                { name: 'ward', title: 'Добавьте сертификат палаты', inputType: 'file', value: '' },
-                { name: 'ward_number', title: 'Номер документа', inputType: 'text', value: '', placeholder: 'XX XX XX XX' },
-                { name: 'date_of_ward_issue', title: 'Когда выдан', inputType: 'date', value: '' },
-                { name: 'work_experience', title: 'Стаж работы', inputType: 'number', value: '' },
-            ],
-        },
-        {
-            stepNum: FORMS_CONST.FORM_STEPS.AUTHORIZATION,
-            headingText: 'Подтвердите свою личность\nчерез ЭЦП ключ',
-            fields: [],
-        },
-        {
-            stepNum: FORMS_CONST.FORM_STEPS.LOGIN,
-            headingText: '',
-            fields: [
-                { name: 'email', title: 'Email', inputType: 'text', value: '' },
-                { name: 'password', title: 'Пароль', inputType: 'password', value: '' },
-                { name: 'rememberMe', title: 'Запомнить меня', inputType: 'checkbox', value: false },
-            ]
-        },
-        {
-            stepNum: FORMS_CONST.FORM_STEPS.RESET_PASSWORD,
-            headingText: '',
-            fields: [
-                { name: 'email', title: 'Введите email указанный во время регистрации', inputType: 'text', value: '' },
-                { name: 'password', title: 'Придумайте новый пароль', inputType: 'password', value: '' },
-                { name: 'confirmPassword', title: 'Подтвердите пароль', inputType: 'password', value: '' },
-            ]
-        },
-        {
-            stepNum: FORMS_CONST.FORM_STEPS.PROFILE_EDIT,
-            headingText: '',
-            fields: [
-                { name: 'fio', title: 'ФИО', inputType: 'text', value: '', placeholder: '' },
-                { name: 'phone', title: 'Номер телефона', inputType: 'text', value: '', placeholder: '+7 (000) 000-00-00' },
-                { name: 'email', title: 'Email', inputType: 'text', value: '' },
-                { name: 'password', title: 'Новый пароль', inputType: 'password', value: '' },
-                { name: 'passwordRepeat', title: 'Повторить пароль', inputType: 'password', value: '' },
-            ]
+
+    useEffect(() => {
+        if (localStorage) {
+            setForms([
+                {
+                    stepNum: FORMS_CONST.FORM_STEPS.REGISTRATION,
+                    headingText: 'Заполните все необходимые поля для регистрации',
+                    fields: [
+                        { name: 'role_id', title: 'Выберите роль', inputType: 'checkbox', options: [ { value: 1, title: 'Заказчик' }, { value: 2, title: 'Исполнитель' } ], value: '' },
+                        { name: 'status_id', title: 'Выберите статус', inputType: 'radio', options: [ { value: 1, title: 'Юридическое лицо' }, { value: 2, title: 'Физическое лицо' } ], value: '' },
+                        { name: 'fio', title: 'ФИО', inputType: 'text', value: '' },
+                        { name: 'phone', title: 'Номер телефона', inputType: 'text', value: '', placeholder: '+7 (000) 000-00-00' },
+                        { name: 'email', title: 'Email', inputType: 'text', value: '' },
+                        { name: 'password', title: 'Придумайте пароль', inputType: 'password', value: '' },
+                        { name: 'confirmPassword', title: 'Подтвердите пароль', inputType: 'password', value: '' },
+                        { name: 'isOfferAccepted', title: 'Я согласен на обработку персональных данных', inputType: 'checkbox', value: false },
+                    ],
+                },
+                {
+                    stepNum: FORMS_CONST.FORM_STEPS.QUALIFICATION,
+                    headingText: 'Подтвердите свою квалификацию',
+                    fields: [
+                        { name: 'sertificate', title: 'Загрузите сертификат оценщика', inputType: 'file', value: '' },
+                        { name: 'sertificate_number', title: 'Номер документа', inputType: 'text', value: '', placeholder: 'XX XX XX XX' },
+                        { name: 'date_of_sert_issue', title: 'Когда выдан', inputType: 'date', value: '' },
+                        { name: 'insurance_contract', title: 'Добавьте договор о страховании', inputType: 'file', value: '' },
+                        { name: 'contract_number', title: 'Номер документа', inputType: 'text', value: '', placeholder: 'XX XX XX XX' },
+                        { name: 'date_of_cont_issue', title: 'Когда выдан', inputType: 'date', value: '' },
+                        { name: 'ward', title: 'Добавьте сертификат палаты', inputType: 'file', value: '' },
+                        { name: 'ward_number', title: 'Номер документа', inputType: 'text', value: '', placeholder: 'XX XX XX XX' },
+                        { name: 'date_of_ward_issue', title: 'Когда выдан', inputType: 'date', value: '' },
+                        { name: 'work_experience', title: 'Стаж работы', inputType: 'number', value: '' },
+                    ],
+                },
+                {
+                    stepNum: FORMS_CONST.FORM_STEPS.AUTHORIZATION,
+                    headingText: 'Подтвердите свою личность\nчерез ЭЦП ключ',
+                    fields: [],
+                },
+                {
+                    stepNum: FORMS_CONST.FORM_STEPS.LOGIN,
+                    headingText: '',
+                    fields: [
+                        { name: 'email', title: 'Email', inputType: 'text', value: '' },
+                        { name: 'password', title: 'Пароль', inputType: 'password', value: '' },
+                        { name: 'rememberMe', title: 'Запомнить меня', inputType: 'checkbox', value: false },
+                    ]
+                },
+                {
+                    stepNum: FORMS_CONST.FORM_STEPS.RESET_PASSWORD,
+                    headingText: '',
+                    fields: [
+                        { name: 'email', title: 'Введите email указанный во время регистрации', inputType: 'text', value: '' },
+                        { name: 'password', title: 'Придумайте новый пароль', inputType: 'password', value: '' },
+                        { name: 'confirmPassword', title: 'Подтвердите пароль', inputType: 'password', value: '' },
+                    ]
+                },
+                {
+                    stepNum: FORMS_CONST.FORM_STEPS.PROFILE_EDIT,
+                    headingText: '',
+                    fields: [
+                        { name: 'fio', title: 'ФИО', inputType: 'text', value: getCurrentUser()?.fio, placeholder: '' },
+                        { name: 'phone', title: 'Номер телефона', inputType: 'text', value: getCurrentUser()?.phone, placeholder: '+7 (000) 000-00-00' },
+                        { name: 'email', title: 'Email', inputType: 'text', value: getCurrentUser()?.email },
+                        { name: 'password', title: 'Новый пароль', inputType: 'password', value: '' },
+                        { name: 'passwordRepeat', title: 'Повторить пароль', inputType: 'password', value: '' },
+                    ]
+                }
+            ])
         }
-    ]);
+    }, [])
+
+    const [forms, setForms] = useState();
 
     const [currentStepNum, setCurrentStepNum] = useState(stepNum || 1);
 
@@ -178,12 +185,12 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
 
         const { fio: currentUserFullName, id } = getCurrentUser();
         payload.personId = id;
-        payload.fio = currentUserFullName;
 
         axios
         .post(process.env.NEXT_PUBLIC_API_URL + 'editPersonData', payload)
         .then(({ data }) => {
             if (data.success) {
+                resetCurrentSession();
                 router.push("/login");
             }
         })
@@ -288,12 +295,17 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                 )
             }
 
-            <FormBody
-                styles={styles}
-                formInfo={forms.find(form => form.stepNum === currentStepNum)}
-                handleInputChange={handleInputChange}
-                currentStepNum={currentStepNum}
-            />
+            {
+                forms && (
+                    <FormBody
+                        styles={styles}
+                        formInfo={forms.find(form => form.stepNum === currentStepNum)}
+                        handleInputChange={handleInputChange}
+                        currentStepNum={currentStepNum}
+                    />
+                )
+            }
+            
 
             <div className={styles.next_button_block}>
                 <Button

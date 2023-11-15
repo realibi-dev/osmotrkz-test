@@ -11,7 +11,7 @@ export default function Admin(){
     const fetchUsers = async () => {
         const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'getAllUsers', { headers: { 'ngrok-skip-browser-warning': 'true'  } });
         const data = await response.data;
-        setNewAccounts(data.rows.filter(user => !user.is_active));
+        setNewAccounts(data.rows);
     }
 
     useEffect(() => {

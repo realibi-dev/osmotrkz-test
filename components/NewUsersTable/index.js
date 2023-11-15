@@ -36,14 +36,18 @@ export default function NewUsersTable({ users, fetchUsers, activateAccount }) {
                         <td>{ROLE_NAMES[user.role_id]}</td>
                         <td>{STATUS_NAMES[user.status_id]}</td>
                         <td className={ index === users.length-1 && styles.border_bottom_right }>
-                            <Button
-                                additionalStyles={{
-                                    fontSize: 12,
-                                }}
-                                type={'text'}
-                                text={'Принять'}
-                                onClick={() => activateAccount(user.id)}
-                            />
+                            {
+                                !user.is_active && (
+                                    <Button
+                                        additionalStyles={{
+                                            fontSize: 12,
+                                        }}
+                                        type={'text'}
+                                        text={'Принять'}
+                                        onClick={() => activateAccount(user.id)}
+                                    />
+                                )
+                            }
                         </td>
                     </tr>
                 ))}

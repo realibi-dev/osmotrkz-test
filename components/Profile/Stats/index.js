@@ -1,13 +1,24 @@
 import styles from './style.module.css'
 import Button from '../../../components/common/Button'
 import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { getCurrentUser } from '../../../helpers/user';
 
 export default function Stats({ userData, createApplicationHandler }) {
+    const [avatarUrl, setAvatarUrl] = useState('/profile.png');
+
+    useEffect(() => {
+        const currentUser = getCurrentUser();
+        if (currentUser.avatar) {
+            setAvatarUrl(process.env.NEXT_PUBLIC_API_URL + 'file/' + currentUser.avatar);
+        }
+    }, []);
+
     return (
         <div className={styles.stats}>
             <div className={styles.profile_data}>
                 <div className={styles.image_fullname}>
-                    <div className={styles.image} style={{ backgroundImage: 'url(/profile.png)' }}></div>
+                    <div className={styles.image} style={{ backgroundImage: `url(${avatarUrl})` }}></div>
                     <div className={styles.fullname}>
                         {userData?.fio} {!userData?.is_active && <span>(не активен)</span>}
                     </div>
