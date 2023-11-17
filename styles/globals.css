@@ -12,6 +12,13 @@
   font-weight: normal;
 }
 
+@font-face {
+  font-family: "Nunito_Sans_Bold"; 
+  src: url("../public/fonts/Nunito_Sans/static/NunitoSans_10pt-Bold.ttf") format("truetype"); 
+  font-style: normal; 
+  font-weight: normal;
+}
+
 html,
 body {
   padding: 0;

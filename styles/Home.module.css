@@ -26,6 +26,9 @@
 
 .heading_text {
   margin: 0;
+  font-family: 'Nunito_Sans_Bold';
+  line-height: 38px;
+  font-weight: 600;
 }
 
 .subtitle {
