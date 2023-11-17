@@ -77,7 +77,11 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
             <>
                 <div className={styles.input_item}>
                     <span>{fields.sertificate?.title}</span>
+                    <label class={styles.custom_file_input}>
                     <input type={fields.sertificate?.inputType} onChange={e => handleInputChange(currentStepNum, fields.sertificate?.name, e.target.files[0])} />
+                        <img src='/download.png' width={20} height={20} />
+                        Добавить файл
+                    </label>
                 </div>
                 <div  style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
                     <div className={styles.input_item}>

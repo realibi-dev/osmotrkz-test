@@ -90,15 +90,34 @@
 
 .input_item > span {
     font-weight: 500;
-    color: rgb(103, 103, 103);
+    color: #3F444A;
 }
 
-.input_item > input {
+.input_item > input, .custom_file_input {
     border: 1.5px solid rgb(198, 198, 198);
     border-radius: 8px;
     padding: 6px 10px;
     font-size: 18px;
-    color: rgb(88, 88, 88);
+    color: #515255;
+    cursor: pointer;
+    font-family: 'Nunito_Sans_Light';
+}
+
+.input_item > input::placeholder {
+    color: #94A3B8;
+    font-family: 'Nunito_Sans_Light';
+}
+
+.custom_file_input {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    color: #94A3B8;
+}
+
+.input_item input[type="file"] {
+    display: none;
 }
 
 .input_item > input:focus {

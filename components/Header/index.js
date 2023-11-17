@@ -10,6 +10,7 @@ export default function Header() {
     const router = useRouter();
     const [currentUser, setCurrentUser] = useState(null);
     const [userNameExpanded, setUserNameExpanded] = useState(false);
+    const [balanceExpanded, setBalanceExpanded] = useState(false);
 
     useEffect(() => {
         setCurrentUser(getCurrentUser());
@@ -22,6 +23,14 @@ export default function Header() {
 
     const handleProfileClick = () => {
         router.push("/profile");
+    }
+
+    const handleBalanceChargeClick = () => {
+
+    }
+
+    const handleBalanceWithdrawClick = () => {
+
     }
 
     return (
@@ -41,16 +50,24 @@ export default function Header() {
             <div>
                 {currentUser && (
                     <div className={styles.userData}>
-                        <div className={styles.balance}>
+                        <div className={styles.balance} onClick={() => setBalanceExpanded(prevValue => !prevValue)}>
                             <img src={'/wallet.png'} height={26} />
                             <span>{currentUser.balance || 0}</span>
+                            <div className={clsx(styles.dropdown, balanceExpanded ? styles.show : styles.hide)}>
+                                <div className={styles.dropdown_item} onClick={handleBalanceChargeClick}>
+                                    Пополнить баланс
+                                </div>
+                                <div className={styles.dropdown_item} onClick={handleBalanceWithdrawClick}>
+                                    Вывод средств
+                                </div>
+                            </div>
                         </div>
                         <div className={styles.userName} onClick={() => setUserNameExpanded(prevValue => !prevValue)}>
                             <img src={'/user.png'} height={26} />
                             <span>{currentUser.fio}</span>
                             <div className={clsx(styles.dropdown, userNameExpanded ? styles.show : styles.hide)}>
                                 <div className={styles.dropdown_item} onClick={handleProfileClick}>
-                                    Профиль
+                                    Личный кабинет
                                 </div>
                                 <div className={styles.dropdown_item} onClick={handleLogout}>
                                     Выход
