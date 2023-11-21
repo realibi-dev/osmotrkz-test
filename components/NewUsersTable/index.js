@@ -33,7 +33,7 @@ export default function NewUsersTable({ users, fetchUsers, activateAccount }) {
                         <td>{user.email}</td>
                         <td>{user.email_from_ecp}</td>
                         <td>{user.phone}</td>
-                        <td>{ROLE_NAMES[user.role_id]}</td>
+                        <td>{JSON.parse(user.role_id).map(roleId => ROLE_NAMES[roleId])}</td>
                         <td>{STATUS_NAMES[user.status_id]}</td>
                         <td className={ index === users.length-1 && styles.border_bottom_right }>
                             {
