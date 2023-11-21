@@ -78,8 +78,21 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                     <span>{fields.sertificate?.title}</span>
                     <label class={styles.custom_file_input}>
                     <input type={fields.sertificate?.inputType} onChange={e => handleInputChange(currentStepNum, fields.sertificate?.name, e.target.files[0])} />
-                        <img src='/download.png' width={20} height={20} />
-                        Добавить файл
+                        {
+                            fields.sertificate?.value && (
+                                <>
+                                    Файл загружен
+                                </>
+                            )
+                        }
+                        {
+                            !fields.sertificate?.value && (
+                                <>
+                                    <img src='/download.png' width={20} height={20} />
+                                    Добавить файл
+                                </>
+                            )
+                        }
                     </label>
                 </div>
                 <div  style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
@@ -97,8 +110,21 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                     <span>{fields.insurance_contract?.title}</span>
                     <label class={styles.custom_file_input}>
                     <input type={fields.insurance_contract?.inputType} onChange={e => handleInputChange(currentStepNum, fields.insurance_contract?.name, e.target.files[0])} />
-                        <img src='/download.png' width={20} height={20} />
-                        Добавить файл
+                        {
+                            fields.sertificate?.value && (
+                                <>
+                                    Файл загружен
+                                </>
+                            )
+                        }
+                        {
+                            !fields.sertificate?.value && (
+                                <>
+                                    <img src='/download.png' width={20} height={20} />
+                                    Добавить файл
+                                </>
+                            )
+                        }
                     </label>
                 </div>
                 <div  style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
@@ -116,8 +142,21 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                     <span>{fields.ward?.title}</span>
                     <label class={styles.custom_file_input}>
                     <input type={fields.ward?.inputType} onChange={e => handleInputChange(currentStepNum, fields.ward?.name, e.target.files[0])} />
-                        <img src='/download.png' width={20} height={20} />
-                        Добавить файл
+                        {
+                            fields.sertificate?.value && (
+                                <>
+                                    Файл загружен
+                                </>
+                            )
+                        }
+                        {
+                            !fields.sertificate?.value && (
+                                <>
+                                    <img src='/download.png' width={20} height={20} />
+                                    Добавить файл
+                                </>
+                            )
+                        }
                     </label>
                 </div>
                 <div  style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
