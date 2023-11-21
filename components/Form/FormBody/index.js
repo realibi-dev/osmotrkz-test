@@ -28,7 +28,7 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                     <div className={styles.checkbox_inputs}>
                         <div className={styles.heading_text} style={{ fontSize: 16 }}>{fields.role_id?.title}</div>
                         {fields.role_id?.options?.map(option => (
-                            <div style={{ display: 'flex', gap: 10, marginTop: 10 }}> <input className={styles.checkbox_item} type={fields.role_id?.inputType} name={fields.role_id?.name} onChange={e => handleInputChange(currentStepNum, fields.role_id?.name, option.value)} /> {option.title} </div>
+                            <div style={{ display: 'flex', gap: 10, marginTop: 10 }}> <input className={styles.checkbox_item} checked={option.value === fields.role_id.value} type={fields.role_id?.inputType} name={fields.role_id?.name} onChange={e => handleInputChange(currentStepNum, fields.role_id?.name, option.value)} /> {option.title} </div>
                         ))}
                     </div>
                     <div className={styles.checkbox_inputs}>

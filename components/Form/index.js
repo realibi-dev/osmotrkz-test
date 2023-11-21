@@ -92,17 +92,6 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
             if (form.stepNum === stepNum) {
                 form.fields = form.fields.map(field => {
                     if (field.name === fieldName) {
-                        if (fieldName === "role_id") {
-                            if (field.value.includes(fieldValue)) {
-                                const idx = field.value.indexOf(fieldValue);
-                                field.value.splice(idx, 1);
-                            } else {
-                                field?.value?.push(fieldValue);
-                            }
-    
-                            return field;
-                        }
-
                         return {
                             ...field,
                             value: fieldValue,
@@ -119,7 +108,7 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
 
     const handleButtonClick = async () => {
         if (currentStepNum === FORMS_CONST.FORM_STEPS.REGISTRATION) {
-            if (forms?.find(form => form.stepNum === FORMS_CONST.FORM_STEPS.REGISTRATION)?.fields?.find(field => field.name === 'role_id')?.value.includes(1)) {
+            if (forms?.find(form => form.stepNum === FORMS_CONST.FORM_STEPS.REGISTRATION)?.fields?.find(field => field.name === 'role_id')?.value == 1) {
                 registrationShort();
                 return;
             }
@@ -257,7 +246,7 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
 
     const getFormHeader = () => {
         if (formType === 'registrationAuthorization') {
-            if (forms?.find(form => form.stepNum === FORMS_CONST.FORM_STEPS.REGISTRATION)?.fields?.find(field => field.name === 'role_id')?.value.includes(1)) {
+            if (forms?.find(form => form.stepNum === FORMS_CONST.FORM_STEPS.REGISTRATION)?.fields?.find(field => field.name === 'role_id')?.value == 1) {
                 return (
                     <>
                         <div
