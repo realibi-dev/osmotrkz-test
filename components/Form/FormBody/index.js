@@ -111,14 +111,14 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                     <label class={styles.custom_file_input}>
                     <input type={fields.insurance_contract?.inputType} onChange={e => handleInputChange(currentStepNum, fields.insurance_contract?.name, e.target.files[0])} />
                         {
-                            fields.sertificate?.value && (
+                            fields.insurance_contract?.value && (
                                 <>
                                     Файл загружен
                                 </>
                             )
                         }
                         {
-                            !fields.sertificate?.value && (
+                            !fields.insurance_contract?.value && (
                                 <>
                                     <img src='/download.png' width={20} height={20} />
                                     Добавить файл
@@ -143,14 +143,14 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                     <label class={styles.custom_file_input}>
                     <input type={fields.ward?.inputType} onChange={e => handleInputChange(currentStepNum, fields.ward?.name, e.target.files[0])} />
                         {
-                            fields.sertificate?.value && (
+                            fields.ward?.value && (
                                 <>
                                     Файл загружен
                                 </>
                             )
                         }
                         {
-                            !fields.sertificate?.value && (
+                            !fields.ward?.value && (
                                 <>
                                     <img src='/download.png' width={20} height={20} />
                                     Добавить файл
