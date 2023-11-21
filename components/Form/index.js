@@ -19,7 +19,7 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                     stepNum: FORMS_CONST.FORM_STEPS.REGISTRATION,
                     headingText: 'Заполните все необходимые поля для регистрации',
                     fields: [
-                        { name: 'role_id', title: 'Выберите роль', inputType: 'checkbox', options: [ { value: 1, title: 'Заказчик' }, { value: 2, title: 'Исполнитель' } ], value: '' },
+                        { name: 'role_id', title: 'Выберите роль', inputType: 'checkbox', options: [ { value: 1, title: 'Заказчик' }, { value: 2, title: 'Исполнитель' } ], value: [] },
                         { name: 'status_id', title: 'Выберите статус', inputType: 'radio', options: [ { value: 1, title: 'Юридическое лицо' }, { value: 2, title: 'Физическое лицо' } ], value: '' },
                         { name: 'fio', title: 'ФИО', inputType: 'text', value: '' },
                         { name: 'phone', title: 'Номер телефона', inputType: 'text', value: '', placeholder: '+7 (000) 000-00-00' },
@@ -92,6 +92,17 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
             if (form.stepNum === stepNum) {
                 form.fields = form.fields.map(field => {
                     if (field.name === fieldName) {
+                        if (fieldName === "role_id") {
+                            if (field.value.includes(fieldValue)) {
+                                const idx = field.value.indexOf(fieldValue);
+                                field.value.splice(idx, 1);
+                            } else {
+                                field?.value?.push(fieldValue);
+                            }
+    
+                            return field;
+                        }
+
                         return {
                             ...field,
                             value: fieldValue,
@@ -103,9 +114,16 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
             }
             return form;
         }))
+        console.log(forms)
     }
 
     const handleButtonClick = async () => {
+        if (currentStepNum === FORMS_CONST.FORM_STEPS.REGISTRATION) {
+            if (forms?.find(form => form.stepNum === FORMS_CONST.FORM_STEPS.REGISTRATION)?.fields?.find(field => field.name === 'role_id')?.value.includes(1)) {
+                registrationShort();
+                return;
+            }
+        }
         if (currentStepNum === FORMS_CONST.FORM_STEPS.AUTHORIZATION){
             registration();
             return;
@@ -151,6 +169,21 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
         .catch(data => alert(data.message))
     }
 
+    const registrationShort = () => {
+        const registrationFields = forms.find(form => form.stepNum === FORMS_CONST.FORM_STEPS.REGISTRATION).fields;
+        const payload = registrationFields.reduce((acc, field) => {
+            return {
+                ...acc,
+                [field.name]: field.value,
+                ...(field.name === 'role_id' && { [field.name]: JSON.stringify(field.value) })
+            }
+        }, {});
+        axios
+        .post(process.env.NEXT_PUBLIC_API_URL + 'registerSimple', payload)
+        .then(() => router.push('/registration/success'))
+        .catch(data => alert(data.message))
+    }
+
     const login = () => {
         const authorizationFields = forms.find(form => form.stepNum === FORMS_CONST.FORM_STEPS.LOGIN).fields;
         const payload = authorizationFields.reduce((acc, field) => {
@@ -170,7 +203,7 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
             }
         })
         .catch(data => {
-            alert(data.message);
+            alert(data.response?.data?.message || "Произошла ошибка!");
         })
     }
 
@@ -224,6 +257,19 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
 
     const getFormHeader = () => {
         if (formType === 'registrationAuthorization') {
+            if (forms?.find(form => form.stepNum === FORMS_CONST.FORM_STEPS.REGISTRATION)?.fields?.find(field => field.name === 'role_id')?.value.includes(1)) {
+                return (
+                    <>
+                        <div
+                            className={clsx(styles.header_item, styles.header_item_full, styles.active_header)}
+                            onClick={() => setCurrentStepNum(FORMS_CONST.FORM_STEPS.REGISTRATION)}
+                        >
+                            Регистрация
+                        </div>
+                    </>
+                )
+            }
+
             return (
                 <>
                     <div
@@ -245,7 +291,7 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                         onClick={() => setCurrentStepNum(FORMS_CONST.FORM_STEPS.AUTHORIZATION)}
                     >
                         <div className={styles.number_tag}>3</div>
-                        Авторизация
+                        Подтверждение
                     </div>
                 </>
             );

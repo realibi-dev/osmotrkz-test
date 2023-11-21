@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import FORMS_CONST from '../../../helpers/constants';
 
 export default function FormBody({ styles, formInfo, handleInputChange, currentStepNum }) {
     const [fields, setFields] = useState({});
 
     useEffect(() => {
-        // comment
         const computedFields = formInfo.fields.reduce((acc, field) => {
             return {
                 ...acc,
@@ -29,13 +28,13 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                     <div className={styles.checkbox_inputs}>
                         <div className={styles.heading_text} style={{ fontSize: 16 }}>{fields.role_id?.title}</div>
                         {fields.role_id?.options?.map(option => (
-                            <div> <input type={fields.role_id?.inputType} name={fields.roleId?.name} onChange={e => handleInputChange(currentStepNum, fields.role_id?.name, option.value)} /> {option.title} </div>
+                            <div style={{ display: 'flex', gap: 10, marginTop: 10 }}> <input className={styles.checkbox_item} type={fields.role_id?.inputType} name={fields.role_id?.name} onChange={e => handleInputChange(currentStepNum, fields.role_id?.name, option.value)} /> {option.title} </div>
                         ))}
                     </div>
                     <div className={styles.checkbox_inputs}>
                         <div className={styles.heading_text} style={{ fontSize: 16 }}>{fields.status_id?.title}</div>
                         {fields.status_id?.options?.map(option => (
-                            <div> <input checked={option.value === fields.status_id.value} type={fields.status_id?.inputType} name={fields.statusId?.name} onChange={e => handleInputChange(currentStepNum, fields.status_id?.name, option.value)} /> {option.title} </div>
+                            <div style={{ display: 'flex', gap: 14, marginTop: 10 }}> <input className={option.value === fields.status_id.value ? styles.radio_item_checked : styles.radio_item} checked={option.value === fields.status_id.value} type={fields.status_id?.inputType} name={fields.statusId?.name} onChange={e => handleInputChange(currentStepNum, fields.status_id?.name, option.value)} /> {option.title} </div>
                         ))}
                     </div>
                 </div>
@@ -96,7 +95,11 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
 
                 <div className={styles.input_item}>
                     <span>{fields.insurance_contract?.title}</span>
+                    <label class={styles.custom_file_input}>
                     <input type={fields.insurance_contract?.inputType} onChange={e => handleInputChange(currentStepNum, fields.insurance_contract?.name, e.target.files[0])} />
+                        <img src='/download.png' width={20} height={20} />
+                        Добавить файл
+                    </label>
                 </div>
                 <div  style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
                     <div className={styles.input_item}>
@@ -111,7 +114,11 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
 
                 <div className={styles.input_item}>
                     <span>{fields.ward?.title}</span>
+                    <label class={styles.custom_file_input}>
                     <input type={fields.ward?.inputType} onChange={e => handleInputChange(currentStepNum, fields.ward?.name, e.target.files[0])} />
+                        <img src='/download.png' width={20} height={20} />
+                        Добавить файл
+                    </label>
                 </div>
                 <div  style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
                     <div className={styles.input_item}>
