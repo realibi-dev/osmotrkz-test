@@ -47,7 +47,7 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
 
                 <div className={styles.input_item}>
                     <span>{fields.phone?.title}</span>
-                    <InputMask placeholder={fields.phone?.placeholder} value={fields.phone?.value} type={fields.phone?.inputType} onChange={e => handleInputChange(currentStepNum, fields.phone?.name, e.target.value)} mask="+9(999)999-99-99" maskChar="_" />
+                    <InputMask placeholder={fields.phone?.placeholder} value={fields.phone?.value} type={fields.phone?.inputType} onChange={e => handleInputChange(currentStepNum, fields.phone?.name, e.target.value)} mask="+7(999)999-99-99" maskChar="_" />
                     {/* <input placeholder={fields.phone?.placeholder} value={fields.phone?.value} type={fields.phone?.inputType} onChange={e => handleInputChange(currentStepNum, fields.phone?.name, e.target.value)} /> */}
                 </div>
                 
@@ -241,7 +241,7 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                 </div>
                 <div className={styles.input_item}>
                     <span>{fields.phone?.title}</span>
-                    <InputMask value={fields.phone?.value} type={fields.phone?.inputType} onChange={e => handleInputChange(currentStepNum, fields.phone?.name, e.target.value)} mask="+9(999)999-99-99" maskChar="_" />
+                    <InputMask value={fields.phone?.value} type={fields.phone?.inputType} onChange={e => handleInputChange(currentStepNum, fields.phone?.name, e.target.value)} mask="+7(999)999-99-99" maskChar="_" />
                 </div>
                 <div className={styles.input_item}>
                     <span>{fields.email?.title}</span>
