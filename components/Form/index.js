@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import FormBody from './FormBody';
 import FORMS_CONST from '../../helpers/constants';
 import axios from "axios";
-import { getCurrentUser, setCurrentUser, setToken, resetCurrentSession } from "../../helpers/user"
+import { getCurrentUser, setCurrentUser, setToken } from "../../helpers/user"
 import { useRouter } from 'next/router'
 import Button from '../common/Button';
 import { getUserInfoFromSertificate } from '../../helpers/ncaLayer';
@@ -212,8 +212,10 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
         .post(process.env.NEXT_PUBLIC_API_URL + 'editPersonData', payload)
         .then(({ data }) => {
             if (data.success) {
-                resetCurrentSession();
-                router.push("/login");
+                setCurrentUser(data.user);
+                alert("Данные успешно обновлены!");
+            } else {
+                alert("Что-то пошло нетак!");
             }
         })
         .catch(data => {

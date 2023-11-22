@@ -247,7 +247,7 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                 </div>
                 <div className={styles.input_item}>
                     <span>{fields.password?.title}</span>
-                    <input value={fields.password?.value} type={fields.password?.inputType} onChange={e => handleInputChange(currentStepNum, fields.password?.name, e.target.value)} />
+                    <input type={fields.password?.inputType} onChange={e => handleInputChange(currentStepNum, fields.password?.name, e.target.value)} />
                 </div>
                 <div className={styles.input_item}>
                     <span>{fields.passwordRepeat?.title}</span>

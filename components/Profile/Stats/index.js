@@ -20,7 +20,7 @@ export default function Stats({ userData, createApplicationHandler }) {
                 <div className={styles.image_fullname}>
                     <div className={styles.image} style={{ backgroundImage: `url(${avatarUrl})` }}></div>
                     <div className={styles.fullname}>
-                        {userData?.fio} {!userData?.is_active && <span>(не активен)</span>}
+                        {userData?.fio}
                     </div>
                 </div>
                 <div className={styles.info}>
