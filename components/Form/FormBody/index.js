@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import FORMS_CONST from '../../../helpers/constants';
+import InputMask from 'react-input-mask';
 
 export default function FormBody({ styles, formInfo, handleInputChange, currentStepNum }) {
     const [fields, setFields] = useState({});
@@ -46,7 +47,8 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
 
                 <div className={styles.input_item}>
                     <span>{fields.phone?.title}</span>
-                    <input placeholder={fields.phone?.placeholder} value={fields.phone?.value} type={fields.phone?.inputType} onChange={e => handleInputChange(currentStepNum, fields.phone?.name, e.target.value)} />
+                    <InputMask placeholder={fields.phone?.placeholder} value={fields.phone?.value} type={fields.phone?.inputType} onChange={e => handleInputChange(currentStepNum, fields.phone?.name, e.target.value)} mask="+9(999)999-99-99" maskChar="_" />
+                    {/* <input placeholder={fields.phone?.placeholder} value={fields.phone?.value} type={fields.phone?.inputType} onChange={e => handleInputChange(currentStepNum, fields.phone?.name, e.target.value)} /> */}
                 </div>
                 
                 <div className={styles.input_item}>
@@ -239,7 +241,7 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                 </div>
                 <div className={styles.input_item}>
                     <span>{fields.phone?.title}</span>
-                    <input value={fields.phone?.value} type={fields.phone?.inputType} onChange={e => handleInputChange(currentStepNum, fields.phone?.name, e.target.value)} />
+                    <InputMask value={fields.phone?.value} type={fields.phone?.inputType} onChange={e => handleInputChange(currentStepNum, fields.phone?.name, e.target.value)} mask="+9(999)999-99-99" maskChar="_" />
                 </div>
                 <div className={styles.input_item}>
                     <span>{fields.email?.title}</span>
