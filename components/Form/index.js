@@ -205,7 +205,12 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
             }
         }, {});
 
-        const { fio: currentUserFullName, id } = getCurrentUser();
+        if (!payload.password) {
+            delete payload.password;
+            delete payload.passwordRepeat;
+        }
+
+        const { id } = getCurrentUser();
         payload.personId = id;
 
         axios
