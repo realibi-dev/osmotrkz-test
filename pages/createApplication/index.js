@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import styles from './style.module.css'
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import Link from 'next/link';
+import { YMaps } from '@pbe/react-yandex-maps';
 import clsx from 'clsx';
 import Button from '../../components/common/Button';
 import axios from 'axios';
 import { useRouter } from 'next/router'
 import { getCurrentUser } from '../../helpers/user';
+import CustomMap from '../../components/common/CustomMap';
 
 export default function CreateApplication() {
     const router = useRouter();
@@ -37,6 +38,8 @@ export default function CreateApplication() {
     ]);
     const [file, setFile] = useState();
     const [kadNumber, setKadNumber] = useState('');
+    const [latitude, setLatitude] = useState(0);
+    const [longitude, setLongitude] = useState(0);
 
     useEffect(() => {
         if (!getCurrentUser()?.id) {
@@ -89,6 +92,9 @@ export default function CreateApplication() {
                 count: item.quantity,
                 unit: item.unit,
             })),
+            status_id: 1,
+            latitude: latitude,
+            longitude: longitude,
         }
 
         axios
@@ -101,6 +107,11 @@ export default function CreateApplication() {
             }
         })
         .catch(data => alert(data.message))
+    }
+
+    const saveCoordinates = (latitude, longitude) => {
+        setLatitude(latitude);
+        setLongitude(longitude);
     }
 
     return (
@@ -212,6 +223,12 @@ export default function CreateApplication() {
                             value={address}
                         >
                         </textarea>
+                    </div>
+
+                    <div style={{ marginBottom: 25 }}>
+                        <YMaps>
+                            <CustomMap width={'100%'} height={320} handleClick={saveCoordinates} />
+                        </YMaps>
                     </div>
 
                     {

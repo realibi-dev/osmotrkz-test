@@ -4,10 +4,16 @@ import clsx from 'clsx';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import moment from 'moment';
+import { getCurrentUser } from './../../../helpers/user';
 
-function TableRow({ data }) {
+function TableRow({ data, favourites }) {
     const router = useRouter();
-    const [isFavourite, setIsFavourite] = useState(data?.favourite);
+    const [isFavourite, setIsFavourite] = useState(false);
+    
+    useEffect(() => {
+        setIsFavourite(favourites.find(item => item.request_id === data.id));
+    }, [])
+
     const types = {
         1: 'Квартира',
         2: 'Дом',
@@ -17,24 +23,24 @@ function TableRow({ data }) {
     }
 
     return (
-        <tr className={styles.tableRow} onClick={() => router.push('/publishedApplications/' + data.id)}>
-            <td className={styles.tableRowCell}>
+        <tr className={styles.tableRow}>
+            <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
                 {data.kad_number}
             </td>
-            <td className={styles.tableRowCell}>
+            <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
                 {data.description}
             </td>
-            <td className={styles.tableRowCell}>
+            <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
                 {types[data.object_type_id]}
             </td>
-            <td className={styles.tableRowCell}>
+            <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
                 {data.address}
             </td>
-            <td className={styles.tableRowCell}>
+            <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
                 {moment(data.order_deadline).format('DD.MM.YYYY')} <br/> (с {data.review_time.split(':').slice(0, 2).join(':')})
             </td>
-            <td className={styles.tableRowCell}>
-                {parseFloat(data.price)}т
+            <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
+                {data.price}т
             </td>
             <td className={clsx(styles.tableRowCell, styles.center)}>
                 <div
@@ -47,7 +53,25 @@ function TableRow({ data }) {
                         backgroundSize: 'contain',
                         backgroundPosition: 'center',
                     }}
-                    onClick={() => setIsFavourite(!isFavourite)}
+                    onClick={() => {
+                        if (isFavourite) {
+                            axios
+                            .delete(process.env.NEXT_PUBLIC_API_URL + `removeFromFavorites/${getCurrentUser().id}/${data.id}`)
+                            .then(response => {
+                                console.log(response.data);
+                            })
+
+                            setIsFavourite(false);
+                        } else {
+                            axios
+                            .post(process.env.NEXT_PUBLIC_API_URL + 'addToFavorites', { person_id: getCurrentUser().id, request_id: data.id })
+                            .then(response => {
+                                console.log(response.data);
+                            })
+
+                            setIsFavourite(true);
+                        }
+                    }}
                 >
                 </div>
             </td>
@@ -63,6 +87,18 @@ export default function PublishedApplicationsTable({}) {
     const [sortingMethod, setSortingMethod] = useState(0);
     const [filterCity, setFilterCity] = useState(0);
     const [filterType, setFilterType] = useState(0);
+
+    const [favourites, setFavourites] = useState([]);
+
+    useEffect(() => {
+        axios
+        .get(process.env.NEXT_PUBLIC_API_URL + 'getFavorites/' + getCurrentUser().id, { headers: { 'ngrok-skip-browser-warning': 'true'  } })
+        .then(response => {
+            if(response.data.success) {
+                setFavourites(response.data.favorites);
+            }
+        })
+    }, []);
 
     useEffect(() => {
         axios
@@ -168,7 +204,7 @@ export default function PublishedApplicationsTable({}) {
                                 <th>Избранное</th>
                             </tr>
                             {
-                                tableRows.map(row => (<TableRow data={row} />))
+                                tableRows.map(row => (<TableRow favourites={favourites} data={row} />))
                             }
                         </tbody>
                     </table>

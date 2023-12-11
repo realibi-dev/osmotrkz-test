@@ -1,18 +1,20 @@
 import styles from './style.module.css'
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import { YMaps, Map } from 'react-yandex-maps';
 import Button from '../../components/common/Button';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import Link from 'next/link';
+import { getCurrentUser } from '../../helpers/user';
+import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 
 export default function PublishedApplication() {
     const router = useRouter()
     const applicationId = router.query.id;
     const [applicationInfo, setApplicationInfo] = useState();
+    const [isFavourite, setIsFavourite] = useState(false);
 
     const types = {
         1: 'Квартира',
@@ -21,6 +23,17 @@ export default function PublishedApplication() {
         4: 'Коттедж',
         5: 'Дача',
     }
+
+    useEffect(() => {
+        axios
+        .get(process.env.NEXT_PUBLIC_API_URL + 'getFavorites/' + getCurrentUser().id, { headers: { 'ngrok-skip-browser-warning': 'true'  } })
+        .then(response => {
+            if(response.data.success) {
+                const favourites = response.data.favorites;
+                setIsFavourite(favourites.find(item => item.request_id == applicationId));
+            }
+        })
+    }, []);
 
     useEffect(() => {
         axios
@@ -112,17 +125,36 @@ export default function PublishedApplication() {
                                     <div
                                         className={styles.userAvatar}
                                         style={{
-                                            backgroundImage: `url(/application_profile.png)`,
+                                            backgroundImage: `url(${applicationInfo.owner?.avatar || '/application_profile.png'})`,
                                         }}
                                     >
                                     </div>
                                     <div className={styles.userName}>
-                                        Сектор А
+                                        {applicationInfo.owner?.fio}
                                     </div>
                                 </div>
                                 <div
                                     className={styles.favouriteButton}
-                                    style={{ backgroundImage: `url(/heart-non-clicked.png)` }}
+                                    style={{ backgroundImage: `url(${isFavourite ? '/heart-clicked.png' : '/heart-non-clicked.png'})` }}
+                                    onClick={() => {
+                                        if (isFavourite) {
+                                            axios
+                                            .delete(process.env.NEXT_PUBLIC_API_URL + `removeFromFavorites/${getCurrentUser().id}/${applicationInfo.id}`)
+                                            .then(response => {
+                                                console.log(response.data);
+                                            })
+                
+                                            setIsFavourite(false);
+                                        } else {
+                                            axios
+                                            .post(process.env.NEXT_PUBLIC_API_URL + 'addToFavorites', { person_id: getCurrentUser().id, request_id: applicationInfo.id })
+                                            .then(response => {
+                                                console.log(response.data);
+                                            })
+                
+                                            setIsFavourite(true);
+                                        }
+                                    }}
                                 >
 
                                 </div>
@@ -217,9 +249,17 @@ export default function PublishedApplication() {
                             </div>
 
                             <YMaps>
-                                <div>
-                                    <Map width={'100%'} defaultState={{ center: [51.169392, 71.449074], zoom: 12 }} />
-                                </div>
+                                <Map
+                                width={'100%'}
+                                    defaultState={{
+                                        center: applicationInfo.latitude ? [applicationInfo.latitude, applicationInfo.longitude] : [51.1801, 71.446],
+                                        zoom: applicationInfo.latitude ? 17 : 10,
+                                        controls: ['zoomControl'],
+                                    }}
+                                    modules={['control.ZoomControl']}
+                                >
+                                    {applicationInfo.latitude && (<Placemark defaultGeometry={[applicationInfo.latitude, applicationInfo.longitude]} />)}
+                                </Map>
                             </YMaps>
 
                             <div style={{ textAlign: 'right', marginTop: 40 }}>
