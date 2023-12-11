@@ -22,7 +22,7 @@
 
 .heading {
     margin: 0;
-    max-width: 450px;
+    max-width: 500px;
     color: var(--black, #3F444A);
     text-align: center;
     font-size: 32px;
@@ -34,7 +34,7 @@
 
 .text {
     margin: 0;
-    max-width: 310px;
+    max-width: 370px;
     color: var(--black, #3F444A);
     text-align: center;
     font-size: 18px;

@@ -43,7 +43,11 @@ export default function Header() {
             </div>
             <ul className={styles.menu}>
                 <li className={styles.menu_item}>О нас</li>
-                <li className={styles.menu_item}>Опубликованные заявки</li>
+                <li className={styles.menu_item}>
+                    <Link href={'/publishedApplications'}>
+                        Опубликованные заявки
+                    </Link>
+                </li>
                 <li className={styles.menu_item}>Скачать приложение</li>
                 <li className={styles.menu_item}>Контакты</li>
             </ul>

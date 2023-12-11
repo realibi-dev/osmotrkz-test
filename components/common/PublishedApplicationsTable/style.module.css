@@ -1,17 +1,21 @@
 .container {
     border-radius: 20px;
-    box-shadow: 0px 4px 19px 0px rgba(117, 117, 117, 0.16);
-    padding: 25px;
+    padding: 0 25px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: 30px;
 }
 
+.dropdowns > * {
+    width: 25%;
+}
+
 .table {
     width: 100%;
     border-radius: 20px;
     border-collapse: collapse;
+    box-shadow: 0px 4px 19px 0px rgba(117, 117, 117, 0.16);
 }
 
 .table th {
@@ -31,30 +35,33 @@
     padding: 12px 0;
 }
 
-.tabs {
-    display: flex;
-}
-
-.tabs > * {
-    flex-grow: 1;
-    text-align: center;
-    border-bottom: 2px solid #94A3B8;
-    padding-bottom: 20px;
-    box-sizing: border-box;
-    cursor: pointer;
-    font-size: 20px;
-    font-weight: 500;
-}
-
-.activeTab {
-    border-bottom: 2px solid #00CF91;
-}
-
 .select {
-    width: 170px;
-    padding: 12px;
-    border-radius: 50px;
-    border: 1px solid #3F444A;
+    font-size: 16px;
+    border: 1px solid transparent;
+}
+
+.select:focus {
+    outline: none;
+}
+
+.button {
+    background-color: #03cf91;
+    height: 50px;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    padding: 0 26px;
+    font-family: 'Nunito_Sans';
+    font-size: 16px;
+}
+
+.dropdowns > * {
+    width: 24%;
+}
+
+.tableHeadRow > th {
+    text-align: left;
+    padding: 14px 20px;
 }
 
 .tableRow {
@@ -72,4 +79,8 @@
     font-family: 'Nunito_Sans';
     font-weight: 400;
     color: #3F444A;
+}
+
+.center {
+    text-align: center;
 }

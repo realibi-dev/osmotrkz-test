@@ -111,7 +111,7 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                 <div className={styles.input_item}>
                     <span>{fields.insurance_contract?.title}</span>
                     <label class={styles.custom_file_input}>
-                    <input type={fields.insurance_contract?.inputType} onChange={e => handleInputChange(currentStepNum, fields.insurance_contract?.name, e.target.files[0])} />
+                        <input type={fields.insurance_contract?.inputType} onChange={e => handleInputChange(currentStepNum, fields.insurance_contract?.name, e.target.files[0])} />
                         {
                             fields.insurance_contract?.value && (
                                 <>
