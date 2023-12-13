@@ -1,4 +1,4 @@
-export default function Button({type, text, onClick, additionalStyles}) {
+export default function Button({type, text, onClick, additionalStyles, disabled=false}) {
     const filledStyles = {
         backgroundColor: '#04cf91',
         color: '#fff',
@@ -25,6 +25,7 @@ export default function Button({type, text, onClick, additionalStyles}) {
                 ...additionalStyles,
             }}
             onClick={onClick}
+            disabled={disabled}
         >
             {text}
         </button>

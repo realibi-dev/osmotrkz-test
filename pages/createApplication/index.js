@@ -40,12 +40,22 @@ export default function CreateApplication() {
     const [kadNumber, setKadNumber] = useState('');
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
+    const [cityId, setCityId] = useState();
+    const [citiesList, setCitiesList] = useState([]);
 
     useEffect(() => {
         if (!getCurrentUser()?.id) {
             router.push('/login');
         }
     });
+
+    useEffect(() => {
+        axios
+        .get(process.env.NEXT_PUBLIC_API_URL + 'getAllCities', { headers: { 'ngrok-skip-browser-warning': 'true'  } })
+        .then(response => {
+            setCitiesList(response.data.rows);
+        })
+    }, []);
 
     const changeMovableProperty = (idx, fieldName, value) => {
         setMovablePropertyItems(prev => prev.map((item, index) => {
@@ -87,14 +97,11 @@ export default function CreateApplication() {
             is_moving: haveMovableProperty,
             doc_photo: file,
             kad_number: kadNumber,
-            movableProperty: movablePropertyItems.map(item => ({
-                title: item.name,
-                count: item.quantity,
-                unit: item.unit,
-            })),
+            movableProperty: haveMovableProperty ? movablePropertyItems.map(item => ({ title: item.name,count: item.quantity,unit: item.unit })) : [],
             status_id: 1,
             latitude: latitude,
             longitude: longitude,
+            city_id: cityId,
         }
 
         axios
@@ -223,6 +230,19 @@ export default function CreateApplication() {
                             value={address}
                         >
                         </textarea>
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25 }}>
+                        <label>Город</label>
+                        <div className={styles.customSelectWrapper}>
+                            <select className={clsx(styles.textArea, styles.customSelect)} onChange={e => setCityId(e.target.value)} value={cityId}>
+                                {
+                                    citiesList.map(city => (
+                                        <option value={city.id}>{city.name}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
                     </div>
 
                     <div style={{ marginBottom: 25 }}>
@@ -391,6 +411,7 @@ export default function CreateApplication() {
                                             className={styles.textArea}
                                             value={movableProperty.name}
                                             onChange={e => changeMovableProperty(idx, 'name', e.target.value)}
+                                            disabled={!haveMovableProperty}
                                         >
                                         </textarea>
                                     </div>
@@ -404,6 +425,7 @@ export default function CreateApplication() {
                                                 className={styles.textArea}
                                                 value={movableProperty.quantity}
                                                 onChange={e => changeMovableProperty(idx, 'quantity', e.target.value)}
+                                                disabled={!haveMovableProperty}
                                             >
                                             </textarea>
                                         </div>
@@ -415,6 +437,7 @@ export default function CreateApplication() {
                                                     className={clsx(styles.textArea, styles.customSelect)}
                                                     value={movableProperty.unit}
                                                     onChange={e => changeMovableProperty(idx, 'unit', e.target.value)}
+                                                    disabled={!haveMovableProperty}
                                                 >
                                                     <option value={'Штук'}>Штук</option>
                                                 </select>
@@ -438,6 +461,7 @@ export default function CreateApplication() {
                         text={'Добавить еще позиции'}
                         onClick={() => addMovableProperty()}
                         additionalStyles={{}}
+                        disabled={!haveMovableProperty}
                     />
                 </div>
 

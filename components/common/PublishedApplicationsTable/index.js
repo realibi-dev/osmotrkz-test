@@ -87,7 +87,7 @@ export default function PublishedApplicationsTable({}) {
     const [sortingMethod, setSortingMethod] = useState(0);
     const [filterCity, setFilterCity] = useState(0);
     const [filterType, setFilterType] = useState(0);
-
+    const [citiesList, setCitiesList] = useState([]);
     const [favourites, setFavourites] = useState([]);
 
     useEffect(() => {
@@ -97,6 +97,14 @@ export default function PublishedApplicationsTable({}) {
             if(response.data.success) {
                 setFavourites(response.data.favorites);
             }
+        })
+    }, []);
+
+    useEffect(() => {
+        axios
+        .get(process.env.NEXT_PUBLIC_API_URL + 'getAllCities', { headers: { 'ngrok-skip-browser-warning': 'true'  } })
+        .then(response => {
+            setCitiesList(response.data.rows);
         })
     }, []);
 
@@ -127,7 +135,7 @@ export default function PublishedApplicationsTable({}) {
         }
 
         if (filterCity != 0) {
-            items = items.filter(item => item.address?.toLowerCase().includes(filterCity.toLowerCase()));
+            items = items.filter(item => item.city_id == filterCity);
         }
 
         if (filterType != 0) {
@@ -165,10 +173,9 @@ export default function PublishedApplicationsTable({}) {
                 }}>
                     <select className={styles.select} style={{ width: '100%' }} onChange={e => setFilterCity(e.target.value)}>
                         <option value={0}>Все города</option>
-                        <option value={'Астана'}>Астана</option>
-                        <option value={'Алматы'}>Алматы</option>
-                        <option value={'Караганда'}>Караганда</option>
-                        <option value={'Шымкент'}>Шымкент</option>
+                        {
+                            citiesList.map(city => (<option value={city.id}>{city.name}</option>))
+                        }
                     </select>
                 </div>
 
