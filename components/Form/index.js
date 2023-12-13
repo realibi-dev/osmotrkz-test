@@ -20,7 +20,7 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                     headingText: 'Заполните все необходимые поля для регистрации',
                     fields: [
                         { name: 'role_id', title: 'Выберите роль', inputType: 'checkbox', options: [ { value: 1, title: 'Заказчик' }, { value: 2, title: 'Исполнитель' } ], value: [] },
-                        { name: 'status_id', title: 'Выберите статус', inputType: 'radio', options: [ { value: 1, title: 'Юридическое лицо' }, { value: 2, title: 'Физическое лицо' } ], value: '' },
+                        { name: 'status_id', title: 'Выберите статус', inputType: 'radio', options: [ { value: 1, title: 'Юридическое лицо' }, { value: 2, title: 'Физическое лицо' } ], value: 1 },
                         { name: 'fio', title: 'ФИО', inputType: 'text', value: '' },
                         { name: 'phone', title: 'Номер телефона', inputType: 'text', value: '', placeholder: '+7 (000) 000-00-00' },
                         { name: 'email', title: 'Email', inputType: 'text', value: '' },
