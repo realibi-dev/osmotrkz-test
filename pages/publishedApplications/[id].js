@@ -25,14 +25,16 @@ export default function PublishedApplication() {
     }
 
     useEffect(() => {
-        axios
-        .get(process.env.NEXT_PUBLIC_API_URL + 'getFavorites/' + getCurrentUser().id, { headers: { 'ngrok-skip-browser-warning': 'true'  } })
-        .then(response => {
-            if(response.data.success) {
-                const favourites = response.data.favorites;
-                setIsFavourite(favourites.find(item => item.request_id == applicationId));
-            }
-        })
+        if (getCurrentUser()?.id) {
+            axios
+            .get(process.env.NEXT_PUBLIC_API_URL + 'getFavorites/' + getCurrentUser().id, { headers: { 'ngrok-skip-browser-warning': 'true'  } })
+            .then(response => {
+                if(response.data.success) {
+                    const favourites = response.data.favorites;
+                    setIsFavourite(favourites.find(item => item.request_id == applicationId));
+                }
+            })
+        }
     }, []);
 
     useEffect(() => {
@@ -52,7 +54,7 @@ export default function PublishedApplication() {
             api_key: '8590a7d1-cfb1-41bf-9619-1c333a14f960',
             amount: 10,
             currency: "KZT",
-            order_id: "18",
+            order_id: "19",
             description: "description",
             payment_type: "pay",
             payment_method: "ecom",
@@ -278,11 +280,11 @@ export default function PublishedApplication() {
                 }
                 
 
-                {/* <Button
+                <Button
                     type={'text'}
                     text={'Создать'}
                     onClick={() => { openPaymentWidgetHandler() }}
-                /> */}
+                />
 
                 <Footer />
             </div>

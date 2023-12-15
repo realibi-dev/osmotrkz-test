@@ -91,13 +91,15 @@ export default function PublishedApplicationsTable({}) {
     const [favourites, setFavourites] = useState([]);
 
     useEffect(() => {
-        axios
-        .get(process.env.NEXT_PUBLIC_API_URL + 'getFavorites/' + getCurrentUser().id, { headers: { 'ngrok-skip-browser-warning': 'true'  } })
-        .then(response => {
-            if(response.data.success) {
-                setFavourites(response.data.favorites);
-            }
-        })
+        if (getCurrentUser()?.id) {
+            axios
+            .get(process.env.NEXT_PUBLIC_API_URL + 'getFavorites/' + getCurrentUser()?.id, { headers: { 'ngrok-skip-browser-warning': 'true'  } })
+            .then(response => {
+                if(response.data.success) {
+                    setFavourites(response.data.favorites);
+                }
+            })
+        }
     }, []);
 
     useEffect(() => {

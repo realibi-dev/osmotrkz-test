@@ -205,8 +205,8 @@
     border: 0.5px solid #94A3B8;
     border-radius: 50%;
     background-color: #fff;
-    left: 0px;
-    bottom: 0px;
+    left: -1px;
+    bottom: -3px;
     cursor: pointer;
 }
 
