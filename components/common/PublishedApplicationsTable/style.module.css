@@ -7,6 +7,39 @@
     gap: 30px;
 }
 
+.textArea {
+    border-radius: 50px;
+    padding: 15px;
+    width: 100%;
+    resize: none;
+    font-size: 16px;
+    font-family: 'Nunito_Sans';
+    border: 1px solid #263238;
+}
+
+.customSelect {
+    appearance: none; 
+}
+
+.customSelectWrapper {
+    position: relative;
+    width: 100%;
+}
+
+.customSelectWrapper::after {
+    content: '';
+    width: 14px;
+    height: 14px;
+    background-image: url('/select_arrow.png');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: block;
+    position: absolute;
+    right: 16px;
+    top: 20px;
+}
+
 .dropdowns > * {
     width: 25%;
 }

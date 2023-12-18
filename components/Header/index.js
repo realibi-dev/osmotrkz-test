@@ -34,26 +34,27 @@ export default function Header() {
     }
 
     return (
-        <div className={styles.container}>
-            <Head>
-                <title>OSMOTR.KZ</title>
-            </Head>
-            <div className={styles.logo}>
-                <Link href={'/'}>ОСМОТР.KZ</Link>
-            </div>
-            <ul className={styles.menu}>
-                <li className={styles.menu_item}>О нас</li>
-                <li className={styles.menu_item}>
-                    <Link href={'/publishedApplications'}>
-                        Опубликованные заявки
-                    </Link>
-                </li>
-                <li className={styles.menu_item}>Скачать приложение</li>
-                <li className={styles.menu_item}>Контакты</li>
-            </ul>
-            <div>
-                {currentUser && (
-                    <div className={styles.userData}>
+        currentUser ? (
+            <>
+                <Head>
+                    <title>OSMOTR.KZ</title>
+                </Head>
+                <div className={styles.container}>
+                    <div className={styles.logo}>
+                        <Link href={'/'}>ОСМОТР.KZ</Link>
+                    </div>
+                    <div>
+                        <ul className={styles.menu}>
+                            <li className={styles.menu_item}>
+                                <Link href={'/publishedApplications'}>
+                                    Опубликованные заявки
+                                </Link>
+                            </li>
+                            <li className={styles.menu_item}>О нас</li>
+                            <li className={styles.menu_item}>Правила</li>
+                        </ul>
+                    </div>
+                    <div className={styles.userData} style={{ marginLeft: 60 }}>
                         <div className={styles.balance} onClick={() => setBalanceExpanded(prevValue => !prevValue)}>
                             <img src={'/wallet.png'} height={26} />
                             <span>{currentUser.balance || 0}</span>
@@ -79,13 +80,36 @@ export default function Header() {
                             </div>
                         </div>
                     </div>
-                )}
-                {!currentUser && (
+                </div>
+            </>
+        )
+        :
+        (
+            <>
+                <Head>
+                    <title>OSMOTR.KZ</title>
+                </Head>
+                <div className={styles.container}>
+                    <div className={styles.logo}>
+                        <Link href={'/'}>ОСМОТР.KZ</Link>
+                    </div>
+                    <div>
+                        <ul className={styles.menu}>
+                            <li className={styles.menu_item}>О нас</li>
+                            <li className={styles.menu_item}>
+                                <Link href={'/publishedApplications'}>
+                                    Опубликованные заявки
+                                </Link>
+                            </li>
+                            <li className={styles.menu_item}>Скачать приложение</li>
+                            <li className={styles.menu_item}>Контакты</li>
+                        </ul>
+                    </div>
                     <div className={styles.login_button}>
                         <a href={'/login'}>Вход</a>
                     </div>
-                )}
-            </div>
-        </div>
+                </div>
+            </>
+        )
     )
 }

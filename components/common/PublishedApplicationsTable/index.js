@@ -156,24 +156,17 @@ export default function PublishedApplicationsTable({}) {
                     justifyContent: 'space-between',
                 }}
             >
-                <div style={{
-                    padding: '12px',
-                    borderRadius: 50,
-                    border: '1px solid #3F444A',
-                }}>
-                    <select className={styles.select} style={{ width: '100%' }} onChange={e => setSortingMethod(e.target.value)}>
+
+                <div className={styles.customSelectWrapper}>
+                    <select className={clsx(styles.textArea, styles.customSelect)} style={{ width: '100%' }} onChange={e => setSortingMethod(e.target.value)}>
                         <option value={0}>Сортировка</option>
                         <option value={'date'}>По дате</option>
                         <option value={'budget'}>По бюджету</option>
                     </select>
                 </div>
 
-                <div style={{
-                    padding: '12px',
-                    borderRadius: 50,
-                    border: '1px solid #3F444A',
-                }}>
-                    <select className={styles.select} style={{ width: '100%' }} onChange={e => setFilterCity(e.target.value)}>
+                <div className={styles.customSelectWrapper}>
+                    <select className={clsx(styles.textArea, styles.customSelect)} style={{ width: '100%' }} onChange={e => setFilterCity(e.target.value)}>
                         <option value={0}>Все города</option>
                         {
                             citiesList.map(city => (<option value={city.id}>{city.name}</option>))
@@ -181,12 +174,8 @@ export default function PublishedApplicationsTable({}) {
                     </select>
                 </div>
 
-                <div style={{
-                    padding: '12px',
-                    borderRadius: 50,
-                    border: '1px solid #3F444A',
-                }}>
-                    <select className={styles.select} style={{ width: '100%' }} onChange={e => setFilterType(e.target.value)}>
+                <div className={styles.customSelectWrapper}>
+                    <select className={clsx(styles.textArea, styles.customSelect)} style={{ width: '100%' }} onChange={e => setFilterType(e.target.value)}>
                         <option value={0}>Тип объекта</option>
                         <option value={1}>Квартира</option>
                         <option value={2}>Дом</option>

@@ -12,7 +12,10 @@ import { getUserInfoFromSertificate } from '../../helpers/ncaLayer';
 export default function Form({ formType, stepNum, isNeedBackgroundImages=true, isNeedHeader=true, removeOutline=false }) {
     const router = useRouter();
 
-    useEffect(() => {
+    const init = async () => {
+        const res = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'getAllCities', { headers: { 'ngrok-skip-browser-warning': 'true'  } });
+        const cities = await res.data.rows;
+        console.log('cities', cities);
         if (localStorage) {
             setForms([
                 {
@@ -24,6 +27,7 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                         { name: 'fio', title: 'ФИО', inputType: 'text', value: '' },
                         { name: 'phone', title: 'Номер телефона', inputType: 'text', value: '', placeholder: '+7 (000) 000-00-00' },
                         { name: 'email', title: 'Email', inputType: 'text', value: '' },
+                        { name: 'city_id', title: 'Город', inputType: 'select', options: cities, value: cities[0].id },
                         { name: 'password', title: 'Придумайте пароль', inputType: 'password', value: '' },
                         { name: 'confirmPassword', title: 'Подтвердите пароль', inputType: 'password', value: '' },
                         { name: 'isOfferAccepted', title: 'Я согласен на обработку персональных данных', inputType: 'checkbox', value: false },
@@ -81,6 +85,10 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                 }
             ])
         }
+    }
+
+    useEffect(() => {
+        init();
     }, [])
 
     const [forms, setForms] = useState();

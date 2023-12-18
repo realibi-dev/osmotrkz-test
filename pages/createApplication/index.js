@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router'
 import { getCurrentUser } from '../../helpers/user';
 import CustomMap from '../../components/common/CustomMap';
+import InputMask from 'react-input-mask';
 
 export default function CreateApplication() {
     const router = useRouter();
@@ -124,7 +125,7 @@ export default function CreateApplication() {
     return (
         <div className={styles.container}>
             <Header />
-            <div style={{ padding: '0 15%', boxSizing: 'border-box' }}>
+            <div style={{ padding: '0 10%', boxSizing: 'border-box' }}>
                 <h1 className={styles.heading}>Разместите вашу заявку</h1>
 
                 <div className={styles.formsContainer}>
@@ -350,14 +351,16 @@ export default function CreateApplication() {
 
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25, width: '48%' }}>
                                         <label>Контакные данные<br/>собственника объекта</label>
-                                        <textarea
-                                            rows={1}
-                                            placeholder='+7 (___) ___ __ __'
-                                            className={styles.textArea}
-                                            onChange={e => setPhone(e.target.value)}
+                                        <InputMask
+                                            placeholder='+7(___)___-__-__'
                                             value={phone}
-                                        >
-                                        </textarea>
+                                            className={styles.textArea}
+                                            type={'text'}
+                                            onChange={e => setPhone(e.target.value)}
+                                            mask="+7(999)999-99-99"
+                                            maskChar="_"
+                                            style={{ padding: 17 }}
+                                        />
                                     </div>
                                 </div>
                             </>
@@ -380,7 +383,7 @@ export default function CreateApplication() {
                     <br />
 
                     {
-                        movablePropertyItems.map((movableProperty, idx) => {
+                        haveMovableProperty && movablePropertyItems.map((movableProperty, idx) => {
                             return (
                                 <>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25 }}>
@@ -411,7 +414,6 @@ export default function CreateApplication() {
                                             className={styles.textArea}
                                             value={movableProperty.name}
                                             onChange={e => changeMovableProperty(idx, 'name', e.target.value)}
-                                            disabled={!haveMovableProperty}
                                         >
                                         </textarea>
                                     </div>
@@ -425,7 +427,6 @@ export default function CreateApplication() {
                                                 className={styles.textArea}
                                                 value={movableProperty.quantity}
                                                 onChange={e => changeMovableProperty(idx, 'quantity', e.target.value)}
-                                                disabled={!haveMovableProperty}
                                             >
                                             </textarea>
                                         </div>
@@ -437,7 +438,6 @@ export default function CreateApplication() {
                                                     className={clsx(styles.textArea, styles.customSelect)}
                                                     value={movableProperty.unit}
                                                     onChange={e => changeMovableProperty(idx, 'unit', e.target.value)}
-                                                    disabled={!haveMovableProperty}
                                                 >
                                                     <option value={'Штук'}>Штук</option>
                                                 </select>
@@ -451,18 +451,18 @@ export default function CreateApplication() {
                                             <br />
                                         </>
                                     ) }
+
+                                    <Button
+                                        type={'text'}
+                                        text={'Добавить еще позиции'}
+                                        onClick={() => addMovableProperty()}
+                                        additionalStyles={{}}
+                                        disabled={!haveMovableProperty}
+                                    />
                                 </>
                             )
                         })
                     }
-
-                    <Button
-                        type={'text'}
-                        text={'Добавить еще позиции'}
-                        onClick={() => addMovableProperty()}
-                        additionalStyles={{}}
-                        disabled={!haveMovableProperty}
-                    />
                 </div>
 
                 <div className={styles.formsContainer}>

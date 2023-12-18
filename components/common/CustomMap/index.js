@@ -11,7 +11,7 @@ const CustomMap = ({ width=320, height=240, handleClick, placemarkCoordinates })
         }
   
         mapRef.current = new ymaps.Map(mapRef.current, {
-            center: [55.76, 37.64],
+            center: [43.238949, 76.889709],
             zoom: 10
         })
 
