@@ -108,11 +108,7 @@ export default function CreateApplication() {
         axios
         .post(process.env.NEXT_PUBLIC_API_URL + 'addRequest', payload, { headers: { "Content-Type": "multipart/form-data" } })
         .then(() => {
-            if (applicationType === APPLICATION_TYPES.PUBLIC) {
-                router.push('/createApplication/public/success');
-            } else {
-                router.push('/createApplication/private/success');
-            }
+            openPaymentWidgetHandler();
         })
         .catch(data => alert(data.message))
     }
@@ -122,8 +118,52 @@ export default function CreateApplication() {
         setLongitude(longitude);
     }
 
+    function openPaymentWidgetHandler() {
+        openPaymentWidget({
+            api_key: '8590a7d1-cfb1-41bf-9619-1c333a14f960',
+            amount: 1500,
+            currency: "KZT",
+            order_id: Math.round(Math.random() * 100000).toString(),
+            description: "description",
+            payment_type: "pay",
+            payment_method: "ecom",
+            items: [{
+                merchant_id: "f523e618-baf9-46a5-b841-3a7d3451aa46",
+                service_id: "b6549f27-2a36-4166-bc94-46f29e026f81",
+                merchant_name: "Merchant name",
+                name: "Example",
+                quantity: 1,
+                amount_one_pcs: 1500,
+                amount_sum: 1500,
+            }],
+            user_id: getCurrentUser().id,
+            email: getCurrentUser().email,
+            phone: getCurrentUser().phone,
+            success_url: "https://osmotrkz.vercel.app/createApplication/success",
+            failure_url: "https://osmotrkz.vercel.app/createApplication/success",
+            callback_url: "https://osmotrkz.vercel.app/createApplication/success",
+            payment_lifetime: 600,
+            create_recurrent_profile: false,
+            recurrent_profile_lifetime: 0,
+            lang: "ru",
+            extra_params: {},
+            payment_gateway_host: "https://api.onevisionpay.com",
+            payment_widget_host: "https://widget.onevisionpay.com",
+            test_mode: 1,
+        }, 
+        (success) => {
+            if (applicationType === APPLICATION_TYPES.PUBLIC) {
+                router.push('/createApplication/public/success');
+            } else {
+                router.push('/createApplication/private/success');
+            }
+        },
+        (error) => { alert(error) });
+    }
+
     return (
         <div className={styles.container}>
+            <script src='https://widget.onevisionpay.com' defer></ script>
             <Header />
             <div style={{ padding: '0 10%', boxSizing: 'border-box' }}>
                 <h1 className={styles.heading}>Разместите вашу заявку</h1>
