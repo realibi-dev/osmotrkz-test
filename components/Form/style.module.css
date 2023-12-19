@@ -93,7 +93,7 @@
     color: #3F444A;
 }
 
-.input_item > input, .custom_file_input {
+.input_item > input, .input_item .customSelectWrapper > select, .custom_file_input {
     border: 1.5px solid rgb(198, 198, 198);
     border-radius: 8px;
     padding: 6px 10px;
@@ -101,6 +101,28 @@
     color: #515255;
     cursor: pointer;
     font-family: 'Nunito_Sans_Light';
+    width: 100%;
+}
+
+.input_item .customSelectWrapper > select {
+    appearance: none; 
+}
+.customSelectWrapper {
+    position: relative;
+}
+
+.customSelectWrapper::after {
+    content: '';
+    width: 14px;
+    height: 14px;
+    background-image: url('/select_arrow.png');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: block;
+    position: absolute;
+    right: 16px;
+    top: 12px;
 }
 
 .input_item > input::placeholder {

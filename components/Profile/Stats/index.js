@@ -3,16 +3,26 @@ import Button from '../../../components/common/Button'
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { getCurrentUser } from '../../../helpers/user';
+import axios from 'axios';
 
 export default function Stats({ userData, createApplicationHandler }) {
     const [avatarUrl, setAvatarUrl] = useState('/profile.png');
+    const [city, setCity] = useState('Не указан');
 
     useEffect(() => {
         const currentUser = getCurrentUser();
         if (currentUser.avatar) {
             setAvatarUrl(process.env.NEXT_PUBLIC_API_URL + 'file/' + currentUser.avatar);
         }
-    }, []);
+
+        axios
+        .get(process.env.NEXT_PUBLIC_API_URL + 'getAllCities', { headers: { 'ngrok-skip-browser-warning': 'true'  } })
+        .then(data => {
+            if (data.status === 200) {
+                setCity(data.data.rows.find(item => item.id == userData?.city_id)?.name);
+            }
+        })
+    }, [userData]);
 
     return (
         <div className={styles.stats}>
@@ -30,7 +40,7 @@ export default function Stats({ userData, createApplicationHandler }) {
                     </div>
                     <div className={styles.info_row}>
                         <span>Город: </span>
-                        <span>Нур-Султан</span>
+                        <span>{city}</span>
                     </div>
                 </div>
                 <div>
