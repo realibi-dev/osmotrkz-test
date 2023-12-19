@@ -53,7 +53,7 @@ export default function PublishedApplication() {
     function openPaymentWidgetHandler() {
         openPaymentWidget({
             api_key: '8590a7d1-cfb1-41bf-9619-1c333a14f960',
-            amount: 10,
+            amount: 1000,
             currency: "KZT",
             order_id: Math.round(Math.random() * 100000).toString(),
             description: "description",

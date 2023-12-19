@@ -77,13 +77,25 @@
     font-family: 'Nunito_Sans_Bold';
 }
 
+.popupBack {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: rgba(63, 68, 74, 0.8);
+    backdrop-filter: blur(5px);
+    overflow: hidden;
+}
+
 .popup {
     position: absolute;
-    width: 400px;
-    height: 200px;
-    background-color: black;
-    top: calc(50% - 100px);
-    right: calc(50% - 200px);
-    backdrop-filter: blur(5px);
-    background: rgba(255, 255, 255, 0.2);
+    width: 660px;
+    height: 280px;
+    top: calc(50% - 140px);
+    right: calc(50% - 330px);
+    background: rgba(255, 255, 255);
+    border-radius: 20px;
+    padding: 40px;
+    box-sizing: border-box;
 }
