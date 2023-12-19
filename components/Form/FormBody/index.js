@@ -259,6 +259,17 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                     <span>{fields.email?.title}</span>
                     <input value={fields.email?.value} type={fields.email?.inputType} onChange={e => handleInputChange(currentStepNum, fields.email?.name, e.target.value)} />
                 </div>
+                <div className={clsx(styles.input_item)}>
+                    <span>{fields.city_id?.title}</span>
+                    {/* <input value={fields.email?.value} type={fields.email?.inputType} onChange={e => handleInputChange(currentStepNum, fields.email?.name, e.target.value)} /> */}
+                    <div className={styles.customSelectWrapper}>
+                        <select value={fields.city_id?.value} onChange={e => handleInputChange(currentStepNum, fields.city_id?.name, e.target.value)}>
+                            {fields.city_id?.options?.map(city => (
+                                <option value={city.id}>{city.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
                 <div className={styles.input_item}>
                     <span>{fields.password?.title}</span>
                     <input type={fields.password?.inputType} onChange={e => handleInputChange(currentStepNum, fields.password?.name, e.target.value)} />

@@ -4,7 +4,6 @@ import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import Form from '../../../components/Form';
 import FORMS_CONST from '../../../helpers/constants';
-import Button from '../../../components/common/Button';
 import { getCurrentUser, setCurrentUser } from '../../../helpers/user';
 import axios from 'axios';
 

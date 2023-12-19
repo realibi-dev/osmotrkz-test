@@ -79,6 +79,7 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                         { name: 'fio', title: 'ФИО', inputType: 'text', value: getCurrentUser()?.fio, placeholder: '' },
                         { name: 'phone', title: 'Номер телефона', inputType: 'text', value: getCurrentUser()?.phone, placeholder: '+7 (000) 000-00-00' },
                         { name: 'email', title: 'Email', inputType: 'text', value: getCurrentUser()?.email },
+                        { name: 'city_id', title: 'Город', inputType: 'select', options: cities, value: getCurrentUser()?.city_id },
                         { name: 'password', title: 'Новый пароль', inputType: 'password', value: '' },
                         { name: 'passwordRepeat', title: 'Повторить пароль', inputType: 'password', value: '' },
                     ]
