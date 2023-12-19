@@ -15,6 +15,7 @@ export default function PublishedApplication() {
     const applicationId = router.query.id;
     const [applicationInfo, setApplicationInfo] = useState();
     const [isFavourite, setIsFavourite] = useState(false);
+    const [isResponding, setIsResponding] = useState(false);
 
     const types = {
         1: 'Квартира',
@@ -54,7 +55,7 @@ export default function PublishedApplication() {
             api_key: '8590a7d1-cfb1-41bf-9619-1c333a14f960',
             amount: 10,
             currency: "KZT",
-            order_id: "19",
+            order_id: Math.round(Math.random() * 100000).toString(),
             description: "description",
             payment_type: "pay",
             payment_method: "ecom",
@@ -85,8 +86,12 @@ export default function PublishedApplication() {
         (error) => {alert("oshibka")});
     }
 
+    const respondToApplication = () => {
+        setIsResponding(true);
+    }
+
     return (
-        <div className={styles.container}>
+        <div className={styles.container} style={{ background: isResponding ? 'rgba(255, 255, 255, 0.2)' : '' }}>
             {/* <Head>
                 <meta httpEquiv="Content-Security-Policy" content={'frame-ancestors https://api.onevisionpay.com'} /> 
             </Head> */}
@@ -268,7 +273,8 @@ export default function PublishedApplication() {
                                 <Button
                                     type={'filled'}
                                     text={'Отликнуться'}
-                                    onClick={() => {}}
+                                    // onClick={() => respondToApplication()}
+                                    onClick={() => openPaymentWidgetHandler()}
                                     additionalStyles={{
                                         width: 340,
                                         height: 50,
@@ -295,6 +301,14 @@ export default function PublishedApplication() {
             }}>
                 <Footer />
             </div>
+
+            {isResponding && (
+                <>
+                    <div className={styles.popup}>
+
+                    </div>
+                </>
+            )}
         </div>
     );
 }
