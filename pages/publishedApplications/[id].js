@@ -280,12 +280,19 @@ export default function PublishedApplication() {
                 }
                 
 
-                <Button
+                {/* <Button
                     type={'text'}
                     text={'Создать'}
                     onClick={() => { openPaymentWidgetHandler() }}
                 />
 
+                <Footer /> */}
+            </div>
+
+            <div style={{
+                padding: '0 15%',
+                marginTop: 60,
+            }}>
                 <Footer />
             </div>
         </div>

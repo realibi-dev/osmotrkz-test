@@ -55,6 +55,15 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                     <span>{fields.email?.title}</span>
                     <input value={fields.email?.value} type={fields.email?.inputType} onChange={e => handleInputChange(currentStepNum, fields.email?.name, e.target.value)} />
                 </div>
+                <div className={styles.input_item}>
+                    <span>{fields.email?.title}</span>
+                    <input value={fields.email?.value} type={fields.email?.inputType} onChange={e => handleInputChange(currentStepNum, fields.email?.name, e.target.value)} />
+                    <select>
+                        {fields.city_id?.options?.map(city => (
+                            <option value={city.id}>{city.name}</option>
+                        ))}
+                    </select>
+                </div>
 
                 <div className={styles.input_item}>
                     <span>{fields.password?.title}</span>
