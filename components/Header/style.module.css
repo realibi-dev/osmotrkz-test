@@ -78,7 +78,7 @@
 
 .dropdown {
     position: absolute;
-    width: 100%;
+    width: 180px;
     top: 42px;
     box-sizing: border-box;
     background-color: #fff;
