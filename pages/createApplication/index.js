@@ -107,9 +107,7 @@ export default function CreateApplication() {
 
         axios
         .post(process.env.NEXT_PUBLIC_API_URL + 'addRequest', payload, { headers: { "Content-Type": "multipart/form-data" } })
-        .then(() => {
-            openPaymentWidgetHandler();
-        })
+        .then(() => {})
         .catch(data => alert(data.message))
     }
 
@@ -152,11 +150,7 @@ export default function CreateApplication() {
             test_mode: 1,
         }, 
         (success) => {
-            if (applicationType === APPLICATION_TYPES.PUBLIC) {
-                router.push('/createApplication/public/success');
-            } else {
-                router.push('/createApplication/private/success');
-            }
+            createApplicationHandler();
         },
         (error) => { alert(error) });
     }
@@ -549,7 +543,7 @@ export default function CreateApplication() {
                 <Button
                     type={'filled'}
                     text={'Опубликовать'}
-                    onClick={() => createApplicationHandler()}
+                    onClick={() => openPaymentWidgetHandler()}
                     additionalStyles={{
                         width: '20%',
                         textAlign: 'center',
