@@ -80,7 +80,8 @@ export default function PublishedApplication() {
             lang: "ru",
             extra_params: {},
             payment_gateway_host: "https://api.onevisionpay.com",
-            payment_widget_host: "https://widget.onevisionpay.com"
+            payment_widget_host: "https://widget.onevisionpay.com",
+            test_mode: 1,
         }, 
         (success) => {alert("uspeh")},
         (error) => {alert("oshibka")});
@@ -303,11 +304,11 @@ export default function PublishedApplication() {
             </div>
 
             {isResponding && (
-                <>
-                    <div className={styles.popup}>
-
+                <div className={styles.popupBack}>
+                    <div className={styles.popup} style={{ color: '#3F444A' }}>
+                        <div style={{ textAlign: 'center', fontSize: 22 }}>{applicationInfo.description}</div>
                     </div>
-                </>
+                </div>
             )}
         </div>
     );
