@@ -107,7 +107,13 @@ export default function CreateApplication() {
 
         axios
         .post(process.env.NEXT_PUBLIC_API_URL + 'addRequest', payload, { headers: { "Content-Type": "multipart/form-data" } })
-        .then(() => {})
+        .then(() => {
+            if (applicationType === APPLICATION_TYPES.PUBLIC) {
+                router.push('/createApplication/public/success');
+            } else {
+                router.push('/createApplication/private/success');
+            }
+        })
         .catch(data => alert(data.message))
     }
 
@@ -138,9 +144,9 @@ export default function CreateApplication() {
                 user_id: getCurrentUser().id.toString(),
                 email: getCurrentUser().email,
                 phone: getCurrentUser().phone,
-                success_url: "https://osmotrkz.vercel.app/createApplication/success",
-                failure_url: "https://osmotrkz.vercel.app/createApplication/success",
-                callback_url: "https://osmotrkz.vercel.app/createApplication/success",
+                success_url: "https://osmotrkz.vercel.app/createApplication/public/success",
+                failure_url: "https://osmotrkz.vercel.app/createApplication/public/success",
+                callback_url: "https://osmotrkz.vercel.app/createApplication/public/success",
                 payment_lifetime: 600,
                 create_recurrent_profile: false,
                 recurrent_profile_lifetime: 0,
