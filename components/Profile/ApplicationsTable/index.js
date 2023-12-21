@@ -7,6 +7,80 @@ import axios from 'axios';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 
+function MyResponds() {
+    const router = useRouter();
+    const [tableRows, setTableRows] = useState();
+
+    useEffect(() => {
+        if (getCurrentUser()) {
+            axios
+            .get(process.env.NEXT_PUBLIC_API_URL + 'getUserResponses/' + getCurrentUser().id, { headers: { 'ngrok-skip-browser-warning': 'true'  } })
+            .then(response => {
+                console.log(response);
+                if (response.data?.success) {
+                    setTableRows(response.data.userRequests);
+                }
+            })
+            .catch(error => alert("Ошибка при загрузке заявок"))
+        }
+    }, []);
+
+    const statuses = {
+        "created": 'Отклик отправлен',
+        "started": 'В работе',
+        "finished": 'Завершен',
+        "rejected": 'Подтвержден',
+    }
+
+    const openApplication = (id, statusId) => {
+        console.log(statusId);
+        let url = '';
+        switch(statusId) {
+            case "created":
+                url = `/myResponds/${id}`;
+                break;
+            case "started":
+                url = `/myResponds/active/${id}`;
+                break;
+            case "finished":
+                url = `/myResponds/finished/${id}`;
+                break;
+            case "rejected":
+                url = `/myResponds/${id}`;
+                break;
+        }
+        router.push(url);
+    }
+
+    return(
+        <>
+            {tableRows && (
+                <tbody>
+                    <tr>
+                        <th>№</th>
+                        <th>Заказ</th>
+                        <th>Адрес</th>
+                        <th>Сроки (до)</th>
+                        <th>Бюджет</th>
+                        <th>Статус</th>
+                    </tr>
+
+                    {tableRows.map(row => (
+                        <tr className={styles.tableRow} onClick={() => openApplication(row.id, row.work_status)}>
+                            <td className={styles.tableRowCell}>{row.kad_number}</td>
+                            <td className={styles.tableRowCell}>{row.description}</td>
+                            <td className={styles.tableRowCell}>{row.address}</td>
+                            <td className={styles.tableRowCell}>{moment(row.order_deadline).format('DD.MM.YYYY')} <br/> (с {row.review_time?.split(':')?.slice(0, 2)?.join(':')})</td>
+                            <td className={styles.tableRowCell}>{parseFloat(row.price)}т</td>
+                            <td className={styles.tableRowCell}>{statuses[row.work_status]}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            )}
+        </>
+    );
+}
+
 function MyApplications() {
     const router = useRouter();
     const [tableRows, setTableRows] = useState([]);
@@ -22,6 +96,32 @@ function MyApplications() {
         .catch(error => alert("Ошибка при загрузке заявок"))
     }, []);
 
+    const statuses = {
+        1: 'Опубликован',
+        2: 'В работе',
+        3: 'Завершен',
+        4: 'Самостоятельный осмотр',
+    }
+
+    const openApplication = (id, statusId) => {
+        let url = '';
+        switch(statusId) {
+            case 1:
+                url = `/myResponds/${id}`;
+                break;
+            case 2:
+                url = `/myResponds/active/${id}`;
+                break;
+            case 3:
+                url = `/myResponds/finished/${id}`;
+                break;
+            case 4:
+                url = `/myResponds/${id}`;
+                break;
+        }
+        router.push(url);
+    }
+
     return(
         <>
             {tableRows.length && (
@@ -36,13 +136,13 @@ function MyApplications() {
                     </tr>
 
                     {tableRows.map(row => (
-                        <tr className={styles.tableRow} onClick={() => router.push('/publishedApplications/' + row.id)}>
+                        <tr className={styles.tableRow} onClick={() => openApplication(row.id, row.status_id)}>
                             <td className={styles.tableRowCell}>{row.kad_number}</td>
                             <td className={styles.tableRowCell}>{row.description}</td>
                             <td className={styles.tableRowCell}>{row.address}</td>
-                            <td className={styles.tableRowCell}>{moment(row.order_deadline).format('DD.MM.YYYY')} <br/> (с {row.review_time.split(':').slice(0, 2).join(':')})</td>
+                            <td className={styles.tableRowCell}>{moment(row.order_deadline).format('DD.MM.YYYY')} <br/> (с {row.review_time?.split(':')?.slice(0, 2)?.join(':')})</td>
                             <td className={styles.tableRowCell}>{parseFloat(row.price)}т</td>
-                            <td className={styles.tableRowCell}>Опубликован</td>
+                            <td className={styles.tableRowCell}>{statuses[row.status_id]}</td>
                         </tr>
                     ))}
                 </tbody>
@@ -83,7 +183,7 @@ function MyFavourites() {
                             <td className={styles.tableRowCell}>{row.kad_number}</td>
                             <td className={styles.tableRowCell}>{row.description}</td>
                             <td className={styles.tableRowCell}>{row.address}</td>
-                            <td className={styles.tableRowCell}>{moment(row.order_deadline).format('DD.MM.YYYY')} <br/> (с {row.review_time.split(':').slice(0, 2).join(':')})</td>
+                            <td className={styles.tableRowCell}>{moment(row.order_deadline).format('DD.MM.YYYY')} <br/> (с {row.review_time?.split(':')?.slice(0, 2)?.join(':')})</td>
                             <td className={styles.tableRowCell}>{parseFloat(row.price)}т</td>
                         </tr>
                     ))}
@@ -123,6 +223,7 @@ export default function ApplicationsTable({ userInfo }) {
             </select>
 
             <table className={styles.table}>
+                {activeTabId === 1 && <MyResponds />}
                 {activeTabId === 2 && <MyApplications />}
                 {activeTabId === 3 && <MyFavourites />}
             </table>

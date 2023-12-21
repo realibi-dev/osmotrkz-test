@@ -1,14 +1,16 @@
 import styles from './style.module.css'
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-import Button from '../../components/common/Button';
+import Header from '../../../../components/Header';
+import Footer from '../../../../components/Footer';
+import Button from '../../../../components/common/Button';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import Link from 'next/link';
-import { getCurrentUser } from '../../helpers/user';
+import { getCurrentUser } from '../../../../helpers/user';
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
+import clsx from 'clsx';
+import ClickAwayListener from 'react-click-away-listener';
 
 export default function PublishedApplication() {
     const router = useRouter()
@@ -16,6 +18,8 @@ export default function PublishedApplication() {
     const [applicationInfo, setApplicationInfo] = useState();
     const [isFavourite, setIsFavourite] = useState(false);
     const [isResponding, setIsResponding] = useState(false);
+    const [reviewDate, setReviewDate] = useState('');
+    const [reviewTime, setReviewTime] = useState('');
 
     const types = {
         1: 'Квартира',
@@ -36,7 +40,7 @@ export default function PublishedApplication() {
                 }
             })
         }
-    }, []);
+    }, [applicationId]);
 
     useEffect(() => {
         axios
@@ -44,11 +48,15 @@ export default function PublishedApplication() {
         .then(response => {
             if (response.data?.success) {
                 const applications = response.data.requests;
-                setApplicationInfo(applications.find(app => app.id === +applicationId));
+                const application = applications.find(app => app.id === +applicationId)
+                setApplicationInfo(application);
+                setReviewDate(moment(application?.review_date).format("DD.MM.YYYY"))
+                setReviewTime(application?.review_time)
+                console.log(moment(application?.review_date).format("DD.MM.YYYY"));
             }
         })
         .catch(error => alert("Ошибка при загрузке заявок"))
-    }, []);
+    }, [applicationId]);
 
     const respondToApplication = () => {
         setIsResponding(true);
@@ -86,6 +94,10 @@ export default function PublishedApplication() {
                         <img src={'/arrow-right.png'} width={7} height={10} />
                     </span>
                     <span>Заказ № {applicationId}</span>
+                    <span>
+                        <img src={'/arrow-right.png'} width={7} height={10} />
+                    </span>
+                    <span>В работе</span>
                 </div>
 
                 {
@@ -96,7 +108,7 @@ export default function PublishedApplication() {
                                     <div
                                         className={styles.userAvatar}
                                         style={{
-                                            backgroundImage: `url(${applicationInfo.owner?.avatar || '/application_profile.png'})`,
+                                            backgroundImage: `url(${applicationInfo?.owner?.avatar || '/application_profile.png'})`,
                                         }}
                                     >
                                     </div>
@@ -104,72 +116,9 @@ export default function PublishedApplication() {
                                         {applicationInfo.owner?.fio}
                                     </div>
                                 </div>
-                                <div
-                                    className={styles.favouriteButton}
-                                    style={{ backgroundImage: `url(${isFavourite ? '/heart-clicked.png' : '/heart-non-clicked.png'})` }}
-                                    onClick={() => {
-                                        if (isFavourite) {
-                                            axios
-                                            .delete(process.env.NEXT_PUBLIC_API_URL + `removeFromFavorites/${getCurrentUser().id}/${applicationInfo.id}`)
-                                            .then(response => {
-                                                console.log(response.data);
-                                            })
-                
-                                            setIsFavourite(false);
-                                        } else {
-                                            axios
-                                            .post(process.env.NEXT_PUBLIC_API_URL + 'addToFavorites', { person_id: getCurrentUser().id, request_id: applicationInfo.id })
-                                            .then(response => {
-                                                console.log(response.data);
-                                            })
-                
-                                            setIsFavourite(true);
-                                        }
-                                    }}
-                                >
-
-                                </div>
-                            </div>
-                            
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    marginBottom: 40,
-                                }}
-                            >
-                                <div
-                                    style={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        gap: 10,
-                                        width: '60%',
-                                    }}
-                                >
-                                    <span className={styles.title}>{applicationInfo.description}</span>
-                                    <span style={{ color: '#3F444A' }}>{applicationInfo.tz}</span>
-                                </div>
-
-                                <div
-                                    style={{
-                                        display: 'flex',
-                                        padding: '12px 15px',
-                                        borderRadius: 16,
-                                        border: '1px solid #92E3A9',
-                                        flexDirection: 'column',
-                                        width: '24%',
-                                        color: '#3F444A',
-                                    }}
-                                >
-                                    <span style={{ fontWeight: 600 }}>Бюджет</span>
-                                    <span style={{ color: '#50575E' }}>{parseFloat(applicationInfo.price)} т</span>
-                                    <br />
-                                    <span style={{ fontWeight: 600 }}>Срок исполнения</span>
-                                    <span style={{ color: '#50575E' }}>{moment(applicationInfo.order_deadline).format('DD.MM.YYYY')}</span>
-                                </div>
                             </div>
 
-                            <div style={{ display: 'flex', gap: 100, marginBottom: 46 }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 34, marginBottom: 46 }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                                     <span
                                         style={{
@@ -189,6 +138,11 @@ export default function PublishedApplication() {
                                             <span style={{ color: '#3F444A', fontSize: 14, fontWeight: 400, lineHeight: '14px' }}>Площадь объекта</span>
                                             <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>{applicationInfo.square} м<sup>2</sup></span>
                                         </div>
+
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <span style={{ color: '#3F444A', fontSize: 14, fontWeight: 400, lineHeight: '14px' }}>Контакты собственников объекта</span>
+                                            <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>{applicationInfo.phone}</span>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -203,13 +157,27 @@ export default function PublishedApplication() {
                                     </span>
                                     <div style={{ display: 'flex', gap: 36 }}>
                                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                            <span style={{ color: '#3F444A', fontSize: 14, fontWeight: 400, lineHeight: '14px' }}>Дата проведения<br/>осмотра</span>
-                                            <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>{moment(applicationInfo.review_date).format('DD.MM.YYYY')}<sup></sup></span>
+                                            <span style={{ color: '#3F444A', fontSize: 14, fontWeight: 400, lineHeight: '14px' }}>Дата проведения осмотра</span>
+                                            <div className={styles.customDateInputWrapper}>
+                                                <input
+                                                    type='date'
+                                                    className={clsx(styles.textArea, styles.customDateInput)}
+                                                    onChange={e => setReviewDate(e.target.value)}
+                                                    value={reviewDate}
+                                                />
+                                            </div>
                                         </div>
 
                                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                            <span style={{ color: '#3F444A', fontSize: 14, fontWeight: 400, lineHeight: '14px' }}>Время проведения<br/>осмотра</span>
-                                            <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>{applicationInfo.review_time.split(':').slice(0,2).join(':')}<sup></sup></span>
+                                            <span style={{ color: '#3F444A', fontSize: 14, fontWeight: 400, lineHeight: '14px' }}>Время проведения осмотра</span>
+                                            <div className={styles.customTimeInputWrapper}>
+                                                <input
+                                                    type='time'
+                                                    className={clsx(styles.textArea, styles.customDateInput)}
+                                                    onChange={e => setReviewTime(e.target.value)}
+                                                    value={reviewTime}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -221,7 +189,7 @@ export default function PublishedApplication() {
 
                             <YMaps>
                                 <Map
-                                width={'100%'}
+                                    width={'100%'}
                                     defaultState={{
                                         center: applicationInfo.latitude ? [applicationInfo.latitude, applicationInfo.longitude] : [51.1801, 71.446],
                                         zoom: applicationInfo.latitude ? 17 : 10,
@@ -233,17 +201,15 @@ export default function PublishedApplication() {
                                 </Map>
                             </YMaps>
 
-                            <div style={{ textAlign: 'right', marginTop: 40 }}>
-                                <Button
-                                    type={'filled'}
-                                    text={'Отликнуться'}
-                                    // onClick={() => respondToApplication()}
-                                    onClick={() => {}}
-                                    additionalStyles={{
-                                        width: 340,
-                                        height: 50,
-                                    }}
-                                />
+                            <div style={{
+                                textAlign: 'center',
+                                marginTop: 24,
+                                color: '#09C18A',
+                                fontWeight: 400,
+                                fontSize: 14,
+                            }}>
+                                Скачайте приложение для отслеживания <br />
+                                работы исполнителя →
                             </div>
                         </div>
                     )
@@ -268,9 +234,34 @@ export default function PublishedApplication() {
 
             {isResponding && (
                 <div className={styles.popupBack}>
-                    <div className={styles.popup} style={{ color: '#3F444A' }}>
-                        <div style={{ textAlign: 'center', fontSize: 22 }}>{applicationInfo.description}</div>
-                    </div>
+                    <ClickAwayListener onClickAway={() => setIsResponding(false)}>
+                        <div className={styles.popup} style={{ color: '#3F444A', textAlign: 'center' }}>
+                            <div style={{ textAlign: 'center', fontSize: 22 }}>{applicationInfo?.description}</div>
+                            <div style={{
+                                width: '40%',
+                                margin: '25px auto',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 10,
+                            }}>
+                                <div>Срок исполнения</div>
+                                <div className={styles.customDateInputWrapper}>
+                                    <input
+                                        type='date'
+                                        className={clsx(styles.textArea, styles.customDateInput)}
+                                        onChange={e => setRespondFinishDate(e.target.value)}
+                                        value={respondFinishDate}
+                                    />
+                                </div>
+                            </div>
+
+                            <Button
+                                text={'Откликнуться'}
+                                type={'filled'}
+                                additionalStyles={{ width: 300 }}
+                            />
+                        </div>
+                    </ClickAwayListener>
                 </div>
             )}
         </div>

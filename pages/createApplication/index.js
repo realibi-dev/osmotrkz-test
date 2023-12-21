@@ -10,6 +10,7 @@ import { useRouter } from 'next/router'
 import { getCurrentUser } from '../../helpers/user';
 import CustomMap from '../../components/common/CustomMap';
 import InputMask from 'react-input-mask';
+import { BeatLoader } from 'react-spinners';
 
 export default function CreateApplication() {
     const router = useRouter();
@@ -82,31 +83,34 @@ export default function CreateApplication() {
     }
 
     const createApplicationHandler = async () => {
-        const payload = {
-            owner_id: getCurrentUser()?.id,
-            type_id: applicationType,
-            description: workDescription,
-            tz: tz,
-            address: address,
-            price: price,
-            object_type_id: objectTypeId,
-            square: square,
-            review_date: reviewDate,
-            review_time: reviewTime,
-            order_deadline: orderDeadline,
-            phone: phone,
-            is_moving: haveMovableProperty,
-            doc_photo: file,
-            kad_number: kadNumber,
-            movableProperty: haveMovableProperty ? movablePropertyItems.map(item => ({ title: item.name,count: item.quantity,unit: item.unit })) : [],
-            status_id: 1,
-            latitude: latitude,
-            longitude: longitude,
-            city_id: cityId,
+
+        const formData = new FormData();
+        formData.append("owner_id", getCurrentUser()?.id);
+        formData.append("type_id", applicationType);
+        formData.append("description", workDescription);
+        formData.append("tz", tz);
+        formData.append("address", address);
+        formData.append("object_type_id", objectTypeId);
+        formData.append("square", square);
+        formData.append("phone", phone);
+        formData.append("is_moving", haveMovableProperty);
+        formData.append("doc_photo", file);
+        formData.append("kad_number", kadNumber);
+        formData.append("movableProperty", haveMovableProperty ? movablePropertyItems.map(item => ({ title: item.name,count: item.quantity,unit: item.unit })) : []);
+        formData.append("status_id", applicationType === APPLICATION_TYPES.PUBLIC ? 1 : 4);
+        formData.append("latitude", latitude);
+        formData.append("longitude", longitude);
+        formData.append("city_id", cityId);
+
+        if (applicationType === APPLICATION_TYPES.PUBLIC) {
+            formData.append("review_date", reviewDate);
+            formData.append("review_time", reviewTime);
+            formData.append("price", price);
+            formData.append("order_deadline", orderDeadline);
         }
 
         axios
-        .post(process.env.NEXT_PUBLIC_API_URL + 'addRequest', payload, { headers: { "Content-Type": "multipart/form-data" } })
+        .post(process.env.NEXT_PUBLIC_API_URL + 'addRequest', formData, { headers: { "Content-Type": "multipart/form-data" } })
         .then(() => {
             if (applicationType === APPLICATION_TYPES.PUBLIC) {
                 router.push('/createApplication/public/success');
@@ -123,46 +127,47 @@ export default function CreateApplication() {
     }
 
     function openPaymentWidgetHandler() {
-        if (getCurrentUser().id) {
-            openPaymentWidget({
-                api_key: '8590a7d1-cfb1-41bf-9619-1c333a14f960',
-                amount: 1500,
-                currency: "KZT",
-                order_id: Math.round(Math.random() * 100000).toString(),
-                description: "description",
-                payment_type: "pay",
-                payment_method: "ecom",
-                items: [{
-                    merchant_id: "f523e618-baf9-46a5-b841-3a7d3451aa46",
-                    service_id: "b6549f27-2a36-4166-bc94-46f29e026f81",
-                    merchant_name: "Merchant name",
-                    name: "Example",
-                    quantity: 1,
-                    amount_one_pcs: 1500,
-                    amount_sum: 1500,
-                }],
-                user_id: getCurrentUser().id.toString(),
-                email: getCurrentUser().email,
-                phone: getCurrentUser().phone,
-                success_url: "https://osmotrkz.vercel.app/createApplication/public/success",
-                failure_url: "https://osmotrkz.vercel.app/createApplication/public/success",
-                callback_url: "https://osmotrkz.vercel.app/createApplication/public/success",
-                payment_lifetime: 600,
-                create_recurrent_profile: false,
-                recurrent_profile_lifetime: 0,
-                lang: "ru",
-                extra_params: {},
-                payment_gateway_host: "https://api.onevisionpay.com",
-                payment_widget_host: "https://widget.onevisionpay.com",
-                test_mode: 1,
-            }, 
-            (success) => {
-                createApplicationHandler();
-            },
-            (error) => { alert(error) });
-        } else {
-            router.push('/login');
-        }
+        // if (getCurrentUser().id && latitude !== 0 && longitude !== 0) {
+        //     openPaymentWidget({
+        //         api_key: '8590a7d1-cfb1-41bf-9619-1c333a14f960',
+        //         amount: 1500,
+        //         currency: "KZT",
+        //         order_id: Math.round(Math.random() * 100000).toString(),
+        //         description: "description",
+        //         payment_type: "pay",
+        //         payment_method: "ecom",
+        //         items: [{
+        //             merchant_id: "f523e618-baf9-46a5-b841-3a7d3451aa46",
+        //             service_id: "b6549f27-2a36-4166-bc94-46f29e026f81",
+        //             merchant_name: "Merchant name",
+        //             name: "Example",
+        //             quantity: 1,
+        //             amount_one_pcs: 1500,
+        //             amount_sum: 1500,
+        //         }],
+        //         user_id: getCurrentUser().id.toString(),
+        //         email: getCurrentUser().email,
+        //         phone: getCurrentUser().phone,
+        //         success_url: "https://osmotrkz.vercel.app/createApplication/public/success",
+        //         failure_url: "https://osmotrkz.vercel.app/createApplication/public/success",
+        //         callback_url: "https://osmotrkz.vercel.app/createApplication/public/success",
+        //         payment_lifetime: 600,
+        //         create_recurrent_profile: false,
+        //         recurrent_profile_lifetime: 0,
+        //         lang: "ru",
+        //         extra_params: {},
+        //         payment_gateway_host: "https://api.onevisionpay.com",
+        //         payment_widget_host: "https://widget.onevisionpay.com",
+        //         test_mode: 1,
+        //     }, 
+        //     (success) => {
+        //         createApplicationHandler();
+        //     },
+        //     (error) => { alert(error) });
+        // } else {
+        //     alert("Возможно, вы не авторизованы, или не указали координаты на карте")
+        // }
+        createApplicationHandler();
     }
 
     return (

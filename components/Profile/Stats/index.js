@@ -19,7 +19,7 @@ export default function Stats({ userData, createApplicationHandler }) {
         .get(process.env.NEXT_PUBLIC_API_URL + 'getAllCities', { headers: { 'ngrok-skip-browser-warning': 'true'  } })
         .then(data => {
             if (data.status === 200) {
-                setCity(data.data.rows.find(item => item.id == userData?.city_id)?.name);
+                setCity(data.data.rows.find(item => item.id == currentUser?.city_id)?.name);
             }
         })
     }, [userData]);
