@@ -130,7 +130,7 @@ export default function CreateApplication() {
         if (getCurrentUser().id && latitude !== 0 && longitude !== 0) {
             openPaymentWidget({
                 api_key: '8590a7d1-cfb1-41bf-9619-1c333a14f960',
-                amount: 1500,
+                amount: price,
                 currency: "KZT",
                 order_id: Math.round(Math.random() * 100000).toString(),
                 description: "description",
@@ -148,8 +148,6 @@ export default function CreateApplication() {
                 user_id: getCurrentUser().id.toString(),
                 email: getCurrentUser().email,
                 phone: getCurrentUser().phone,
-                success_url: "https://osmotrkz.vercel.app/createApplication/public/success",
-                failure_url: "https://osmotrkz.vercel.app/createApplication/public/success",
                 callback_url: "https://osmotrkz.vercel.app/createApplication/public/success",
                 payment_lifetime: 600,
                 create_recurrent_profile: false,

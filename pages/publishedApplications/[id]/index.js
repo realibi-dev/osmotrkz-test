@@ -244,18 +244,41 @@ export default function PublishedApplication() {
                                     </Map>
                                 </YMaps>
 
-                                <div style={{ textAlign: 'right', marginTop: 40 }}>
-                                    <Button
-                                        type={'filled'}
-                                        text={'Отликнуться'}
-                                        // onClick={() => respondToApplication()}
-                                        onClick={() => {setIsResponding(true)}}
-                                        additionalStyles={{
-                                            width: 340,
-                                            height: 50,
-                                        }}
-                                    />
-                                </div>
+                                {getCurrentUser()?.id ? (
+                                    <div style={{ textAlign: 'right', marginTop: 40 }}>
+                                        <Button
+                                            type={'filled'}
+                                            text={'Отликнуться'}
+                                            // onClick={() => respondToApplication()}
+                                            onClick={() => {
+                                                axios.post(process.env.NEXT_PUBLIC_API_URL + 'addNewResponse', {
+                                                    user_id: getCurrentUser().id,
+                                                    order_id: applicationInfo.id,
+                                                    finish_date: new Date(),
+                                                })
+                                                .then(() => {
+                                                    router.push('/success/respond');
+                                                })
+                                                .catch(() => {
+                                                    alert("Ошибка при отправке отклика");
+                                                });
+                                            }}
+                                            additionalStyles={{
+                                                width: 340,
+                                                height: 50,
+                                            }}
+                                        />
+                                    </div>
+                                ) : (
+                                    <div style={{
+                                        paddingTop: 40,
+                                        textAlign: 'center',
+                                        fontSize: 18,
+                                        color: 'green',
+                                    }}>
+                                        Авторизуйтесь, чтобы откликнуться
+                                    </div>
+                                )}
                             </div>
                         )
                     }
@@ -298,25 +321,6 @@ export default function PublishedApplication() {
                                     />
                                 </div>
                             </div>
-
-                            <Button
-                                text={'Откликнуться'}
-                                type={'filled'}
-                                additionalStyles={{ width: 300 }}
-                                onClick={() => {
-                                    axios.post(process.env.NEXT_PUBLIC_API_URL + 'addNewResponse', {
-                                        user_id: getCurrentUser().id,
-                                        order_id: applicationInfo.id,
-                                        finish_date: respondFinishDate,
-                                    })
-                                    .then(() => {
-                                        router.push('/success/respond');
-                                    })
-                                    .catch(() => {
-                                        alert("Ошибка при отправке отклика");
-                                    });
-                                }}
-                            />
                         </div>
                     </ClickAwayListener>
                 )}
