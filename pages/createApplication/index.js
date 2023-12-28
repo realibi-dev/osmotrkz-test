@@ -557,7 +557,7 @@ export default function CreateApplication() {
                 <Button
                     type={'filled'}
                     text={'Опубликовать'}
-                    onClick={() => openPaymentWidgetHandler(price)}
+                    onClick={() => openPaymentWidgetHandler(+price)}
                     additionalStyles={{
                         width: '20%',
                         textAlign: 'center',
