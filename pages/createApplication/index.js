@@ -130,7 +130,7 @@ export default function CreateApplication() {
         if (getCurrentUser().id && latitude !== 0 && longitude !== 0) {
             openPaymentWidget({
                 api_key: '8590a7d1-cfb1-41bf-9619-1c333a14f960',
-                amount: price,
+                amount: 1500,
                 currency: "KZT",
                 order_id: Math.round(Math.random() * 100000).toString(),
                 description: "description",
@@ -142,8 +142,8 @@ export default function CreateApplication() {
                     merchant_name: "Merchant name",
                     name: "Example",
                     quantity: 1,
-                    amount_one_pcs: price.toString(),
-                    amount_sum: price.toString(),
+                    amount_one_pcs: 1500,
+                    amount_sum: 1500,
                 }],
                 user_id: getCurrentUser().id.toString(),
                 email: getCurrentUser().email,
