@@ -126,11 +126,11 @@ export default function CreateApplication() {
         setLongitude(longitude);
     }
 
-    function openPaymentWidgetHandler() {
+    function openPaymentWidgetHandler(priceToPay) {
         if (getCurrentUser().id && latitude !== 0 && longitude !== 0) {
             openPaymentWidget({
                 api_key: '8590a7d1-cfb1-41bf-9619-1c333a14f960',
-                amount: 1500,
+                amount: priceToPay,
                 currency: "KZT",
                 order_id: Math.round(Math.random() * 100000).toString(),
                 description: "description",
@@ -142,8 +142,8 @@ export default function CreateApplication() {
                     merchant_name: "Merchant name",
                     name: "Example",
                     quantity: 1,
-                    amount_one_pcs: 1500,
-                    amount_sum: 1500,
+                    amount_one_pcs: priceToPay,
+                    amount_sum: priceToPay,
                 }],
                 user_id: getCurrentUser().id.toString(),
                 email: getCurrentUser().email,
@@ -557,7 +557,7 @@ export default function CreateApplication() {
                 <Button
                     type={'filled'}
                     text={'Опубликовать'}
-                    onClick={() => openPaymentWidgetHandler()}
+                    onClick={() => openPaymentWidgetHandler(price)}
                     additionalStyles={{
                         width: '20%',
                         textAlign: 'center',
