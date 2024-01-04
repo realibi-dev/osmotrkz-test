@@ -108,7 +108,7 @@ export default function Home() {
       </div>
 
       <div className={styles.body} style={{ paddingBottom: 80 }}>
-        <h2 className={styles.section_heading}>Почему выбирают нас?</h2>
+        <h2 className={styles.section_heading}>Как это работает?</h2>
 
         <div style={{ display: 'flex', justifyContent: 'center', gap: 40 }}>
           <div className={styles.line_left_side}>
