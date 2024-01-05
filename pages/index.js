@@ -164,7 +164,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div style={{ width: 380, marginTop: 218 }}>
+            <div style={{ width: 380, marginTop: 330 }}>
               <div
                 style={{
                   fontSize: 32,
@@ -198,8 +198,7 @@ export default function Home() {
             <div className={styles.line_number} style={{ top: 356 }}>3</div>
             <div className={styles.line_number} style={{ top: 573 }}>4</div>
             <div className={styles.line_number} style={{ top: 777 }}>5</div>
-            <div className={styles.line_number} style={{ top: 940 }}>6</div>
-            <div className={styles.line_number} style={{ top: 1150 }}>7</div>
+            <div className={styles.line_number} style={{ top: 1050 }}>6</div>
           </div>
 
           <div className={styles.line_left_side}>
@@ -257,34 +256,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div style={{ width: 380, marginTop: 228 }}>
-              <div
-                style={{
-                  fontSize: 32,
-                  fontWeight: 600,
-                  lineHeight: '100%', /* 32px */
-                  letterSpacing: '0.64px',
-                  marginBottom: 12,
-                  fontFamily: 'Nunito_Sans_Bold',
-                }}
-              >
-                Выбор исполнителя
-              </div>
-              <div
-                style={{
-                  fontSize: 18,
-                  fontWeight: 400,
-                  color: '#3F444A',
-                  lineHeight: '135%',
-                }}
-              >
-                Для начала работы выберите одного исполнителя 
-                соответствующего вашим требованиям, либо
-                выполните осмотр недвижимости самостоятельно. 
-              </div>
-            </div>
-
-            <div style={{ width: 380, marginTop: 228 }}>
+            <div style={{ width: 380, marginTop: 226 }}>
               <div
                 style={{
                   fontSize: 32,
