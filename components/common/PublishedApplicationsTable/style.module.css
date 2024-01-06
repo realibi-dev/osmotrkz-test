@@ -117,3 +117,14 @@
 .center {
     text-align: center;
 }
+
+@media screen and (max-width: 760px) {
+    .dropdowns > * {
+        width: 100%;
+    }
+
+    .table {
+        overflow: scroll;
+        display: block;
+    }
+}

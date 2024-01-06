@@ -100,3 +100,25 @@
 .dropdown_item:hover {
     color: #00CF91;
 }
+
+.mobileContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 6%;
+    box-sizing: border-box;
+    background-color: #fff;
+    z-index: 100;
+}
+
+.mobileLogo {
+    font-weight: 700;
+    font-size: 30px;
+}
+
+.menu_item_mobile {
+    color: rgb(103, 103, 103);
+    font-weight: 500;
+    font-size: 20px;
+    cursor: pointer;
+}

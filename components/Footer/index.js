@@ -1,9 +1,12 @@
-import styles from './style.module.css'
+import styles from './style.module.css';
+import { useMediaQuery } from 'react-responsive';
 
 export default function Footer() {
+    const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+
     return (
         <div className={styles.container}>
-            <div style={{ width: '25%' }} className={styles.column}>
+            <div style={{ width: isMobile ? '100%' : '25%' }} className={styles.column}>
                 <div className={styles.logo}>
                     ОСМОТР.KZ
                 </div>
@@ -19,11 +22,11 @@ export default function Footer() {
                 <div className={styles.text}>
                     Написать в службу поддержки
                 </div>
-                <div style={{ marginTop: 20 }} className={styles.text}>
+                <div style={{ marginTop: isMobile ? 0 : 20 }} className={styles.text}>
                     2023 Осмотр.kz
                 </div>
             </div>
-            <div style={{ width: '30%' }} className={styles.column}>
+            <div style={{ width: isMobile ? '100%' : '30%', marginTop: isMobile ? 40 : 0, }} className={styles.column}>
                 <div className={styles.text}>
                     Наши соц. сети
                 </div>
@@ -39,7 +42,7 @@ export default function Footer() {
                     </a>
                 </div>
             </div>
-            <div style={{ width: '15%' }} className={styles.column}>
+            <div style={{ width: isMobile ? '100%' : '15%', marginTop: isMobile ? 40 : 0, marginBottom: isMobile ? 40 : 0 }} className={styles.column}>
                 <div className={styles.text}>
                     Контакты <br/>
                     +7 700 000 00 00

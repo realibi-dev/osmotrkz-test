@@ -73,3 +73,20 @@
     font-weight: 400;
     color: #3F444A;
 }
+
+@media screen and (max-width: 760px) {
+    .table {
+        max-width: 100%;
+        overflow: scroll;
+        display: block;
+    }
+
+    .tabs {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .tabs > * {
+        margin-top: 20px;
+    }
+}

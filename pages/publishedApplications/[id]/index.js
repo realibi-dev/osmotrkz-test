@@ -11,8 +11,10 @@ import { getCurrentUser } from '../../../helpers/user';
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 import clsx from 'clsx';
 import ClickAwayListener from 'react-click-away-listener';
+import { useMediaQuery } from 'react-responsive';
 
 export default function PublishedApplication() {
+    const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const router = useRouter()
     const applicationId = router.query.id;
     const [applicationInfo, setApplicationInfo] = useState();
@@ -75,7 +77,7 @@ export default function PublishedApplication() {
 
                 <div
                     style={{
-                        padding: '0 15%',
+                        padding: isMobile ? '0 8%' : '0 15%',
                         boxSizing: 'border-box',
                         marginTop: 50,
                     }}
@@ -88,6 +90,7 @@ export default function PublishedApplication() {
                             color: '#3F444A',
                             fontFamily: 'Nunito_Sans',
                             marginBottom: 30,
+                            flexWrap: isMobile ? 'wrap' : 'nowrap',
                         }}
                     >
                         <span>
@@ -147,6 +150,7 @@ export default function PublishedApplication() {
                                         display: 'flex',
                                         justifyContent: 'space-between',
                                         marginBottom: 40,
+                                        flexDirection: isMobile ? 'column' : 'row',
                                     }}
                                 >
                                     <div
@@ -154,7 +158,7 @@ export default function PublishedApplication() {
                                             display: 'flex',
                                             flexDirection: 'column',
                                             gap: 10,
-                                            width: '60%',
+                                            width: isMobile ? '100%' : '60%',
                                         }}
                                     >
                                         <span className={styles.title}>{applicationInfo.description}</span>
@@ -168,8 +172,9 @@ export default function PublishedApplication() {
                                             borderRadius: 16,
                                             border: '1px solid #92E3A9',
                                             flexDirection: 'column',
-                                            width: '24%',
+                                            width: isMobile ? '100%' : '24%',
                                             color: '#3F444A',
+                                            marginTop: isMobile ? 40 : 0,
                                         }}
                                     >
                                         <span style={{ fontWeight: 600 }}>Бюджет</span>
@@ -180,7 +185,7 @@ export default function PublishedApplication() {
                                     </div>
                                 </div>
 
-                                <div style={{ display: 'flex', gap: 100, marginBottom: 46 }}>
+                                <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 40 : 100, marginBottom: 46 }}>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                                         <span
                                             style={{
@@ -264,7 +269,7 @@ export default function PublishedApplication() {
                                                 });
                                             }}
                                             additionalStyles={{
-                                                width: 340,
+                                                width: isMobile ? '100%' : 340,
                                                 height: 50,
                                             }}
                                         />

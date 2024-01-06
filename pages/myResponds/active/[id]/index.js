@@ -11,8 +11,10 @@ import { getCurrentUser } from '../../../../helpers/user';
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 import clsx from 'clsx';
 import ClickAwayListener from 'react-click-away-listener';
+import { useMediaQuery } from 'react-responsive';
 
 export default function PublishedApplication() {
+    const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const router = useRouter()
     const applicationId = router.query.id;
     const [applicationInfo, setApplicationInfo] = useState();
@@ -72,7 +74,7 @@ export default function PublishedApplication() {
 
             <div
                 style={{
-                    padding: '0 15%',
+                    padding: isMobile ? '0 8%' : '0 15%',
                     boxSizing: 'border-box',
                     marginTop: 50,
                 }}
@@ -85,6 +87,7 @@ export default function PublishedApplication() {
                         color: '#3F444A',
                         fontFamily: 'Nunito_Sans',
                         marginBottom: 30,
+                        flexWrap: 'wrap',
                     }}
                 >
                     <span>
@@ -128,7 +131,7 @@ export default function PublishedApplication() {
                                     >
                                         Информация об объекте
                                     </span>
-                                    <div style={{ display: 'flex', gap: 36 }}>
+                                    <div style={{ display: 'flex', gap: 36, flexDirection: isMobile ? 'column' : 'row' }}>
                                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                                             <span style={{ color: '#3F444A', fontSize: 14, fontWeight: 400, lineHeight: '14px' }}>Тип объекта</span>
                                             <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>{types[applicationInfo.object_type_id]}<sup></sup></span>
@@ -155,7 +158,7 @@ export default function PublishedApplication() {
                                     >
                                         Сроки осмотра
                                     </span>
-                                    <div style={{ display: 'flex', gap: 36 }}>
+                                    <div style={{ display: 'flex', gap: 36, flexDirection: isMobile ? 'column' : 'row' }}>
                                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                                             <span style={{ color: '#3F444A', fontSize: 14, fontWeight: 400, lineHeight: '14px' }}>Дата проведения осмотра</span>
                                             <div className={styles.customDateInputWrapper}>

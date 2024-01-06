@@ -133,3 +133,9 @@
     border: 1px solid #94A3B8;
     color: #94A3B8;
 }
+
+@media screen and (max-width: 760px) {
+    .info_container {
+        padding: 36px 10%;
+    }
+}

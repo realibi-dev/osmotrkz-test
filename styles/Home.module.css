@@ -61,7 +61,6 @@
 .card {
   display: flex;
   padding: 0 80px;
-  height: 250px;
   border: 1px solid transparent;
   box-shadow: 0px 4px 19px 0px rgba(117, 117, 117, 0.16);
   border-radius: 10px;
@@ -110,4 +109,31 @@
   align-items: center;
   position: absolute;
   left: -21px;
+}
+
+@media screen and (max-width: 460px) {
+  .right_side {
+    display: none;
+  }
+  
+  .hideOnMobile {
+    display: none;
+  }
+
+  .card {
+    padding: 0 10%;
+  }
+
+  .card_heading {
+    font-size: 22px;
+  }
+
+  .heading_text {
+    font-size: 34px;
+  }
+
+  .section_heading {
+    font-size: 34px;
+    margin: 40px 0;
+  }
 }

@@ -6,8 +6,10 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { useRouter } from 'next/router';
+import { useMediaQuery } from 'react-responsive';
 
 function MyResponds() {
+    const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const router = useRouter();
     const [tableRows, setTableRows] = useState();
 

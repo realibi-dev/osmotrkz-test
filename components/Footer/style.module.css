@@ -23,3 +23,14 @@
 .link_icon {
     margin-right: 22px;
 }
+
+@media screen and (max-width: 760px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .column {
+        display: flex;
+        flex-direction: column;
+    }
+}

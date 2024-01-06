@@ -10,9 +10,10 @@ import { useRouter } from 'next/router'
 import { getCurrentUser } from '../../helpers/user';
 import CustomMap from '../../components/common/CustomMap';
 import InputMask from 'react-input-mask';
-import { BeatLoader } from 'react-spinners';
+import { useMediaQuery } from 'react-responsive';
 
 export default function CreateApplication() {
+    const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const router = useRouter();
     const APPLICATION_TYPES = {
         PUBLIC: 1,
@@ -182,7 +183,7 @@ export default function CreateApplication() {
                     </div>
 
                     <div className={styles.flex}>
-                        <div style={{ width: '48%', display: 'flex', alignItems: 'flex-start', gap: 10, borderRight: '1px solid #DCE7FE' }}>
+                        <div style={{ width: isMobile ? '100%' : '48%', display: 'flex', alignItems: 'flex-start', gap: 10, borderRight: isMobile ? 'none' : '1px solid #DCE7FE' }}>
                             {/* <input type='radio' id='applicationType' /> */}
                             <input className={applicationType === APPLICATION_TYPES.PUBLIC ? styles.radio_item_checked : styles.radio_item} checked={applicationType === APPLICATION_TYPES.PUBLIC} type={'radio'} onClick={() => setApplicationType(APPLICATION_TYPES.PUBLIC)} />
                             <label for='applicationType' className={styles.label} style={{ display: 'block' }}>
@@ -195,7 +196,7 @@ export default function CreateApplication() {
                         </div>
 
                         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                        <input className={applicationType === APPLICATION_TYPES.SELF ? styles.radio_item_checked : styles.radio_item} checked={applicationType === APPLICATION_TYPES.SELF} type={'radio'} onClick={() => setApplicationType(APPLICATION_TYPES.SELF)} />
+                            <input className={applicationType === APPLICATION_TYPES.SELF ? styles.radio_item_checked : styles.radio_item} checked={applicationType === APPLICATION_TYPES.SELF} type={'radio'} onClick={() => setApplicationType(APPLICATION_TYPES.SELF)} />
                             <label for='applicationType' className={styles.label} style={{ display: 'block' }}>
                                 Самостоятельный осмотр <br/>
                                 <span className={styles.labelSub}>
@@ -320,7 +321,7 @@ export default function CreateApplication() {
                    
 
                     <div className={styles.flex}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25, width: '48%' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25, width: isMobile ? '100%' : '48%' }}>
                             <label>Тип объекта<sup></sup></label>
 
                             <div className={styles.customSelectWrapper}>
@@ -334,7 +335,7 @@ export default function CreateApplication() {
                             </div>
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25, width: '48%' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25, width: isMobile ? '100%' : '48%' }}>
                             <label>Площадь объекта, м<sup>2</sup></label>
                             <textarea
                                 rows={1}
@@ -351,7 +352,7 @@ export default function CreateApplication() {
                         applicationType === APPLICATION_TYPES.PUBLIC && (
                             <>
                                 <div className={styles.flex}>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25, width: '48%' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25, width: isMobile ? '100%' : '48%' }}>
                                         <label>Дата проведения осмотра</label>
                                         {/* <textarea
                                             rows={1}
@@ -370,7 +371,7 @@ export default function CreateApplication() {
                                         </div>
                                     </div>
 
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25, width: '48%' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25, width: isMobile ? '100%' : '48%' }}>
                                         <label>Время проведения осмотра</label>
                                         <input
                                             type='time'
@@ -382,7 +383,7 @@ export default function CreateApplication() {
                                 </div>
 
                                 <div className={styles.flex}>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25, width: '48%' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25, width: isMobile ? '100%' : '48%' }}>
                                         <label>
                                             Срок исполнения осмотра <br/>
                                             <span className={styles.labelSubSmall}>(до какого числа исполнитель должен сдать работу)</span>
@@ -397,7 +398,7 @@ export default function CreateApplication() {
                                         </div>
                                     </div>
 
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25, width: '48%' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25, width: isMobile ? '100%' : '48%' }}>
                                         <label>Контакные данные<br/>собственника объекта</label>
                                         <InputMask
                                             placeholder='+7(___)___-__-__'
@@ -559,7 +560,7 @@ export default function CreateApplication() {
                     text={'Опубликовать'}
                     onClick={() => openPaymentWidgetHandler(+price)}
                     additionalStyles={{
-                        width: '20%',
+                        width: isMobile ? '100%' : '20%',
                         textAlign: 'center',
                         display: 'block',
                         margin: '0 auto',

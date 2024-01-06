@@ -1,8 +1,11 @@
 import styles from './style.module.css'
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
+import { useMediaQuery } from 'react-responsive';
 
 export default function SuccessFullyFinished() {
+    const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+    
     return (
         <div className={styles.container}>
             <Header />
@@ -55,6 +58,7 @@ export default function SuccessFullyFinished() {
                 .div {
                     margin-top: 40px;
                     padding: 0 20px;
+                    width: 100%;
                 }
                 }
                 .div-2 {

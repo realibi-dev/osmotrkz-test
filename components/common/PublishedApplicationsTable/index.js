@@ -5,8 +5,10 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import moment from 'moment';
 import { getCurrentUser } from './../../../helpers/user';
+import { useMediaQuery } from 'react-responsive';
 
 function TableRow({ data, favourites }) {
+    const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const router = useRouter();
     const [isFavourite, setIsFavourite] = useState(false);
     
@@ -81,6 +83,7 @@ function TableRow({ data, favourites }) {
 }
 
 export default function PublishedApplicationsTable({}) {
+    const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const [allApplications, setAllApplications] = useState();
     const [tableRows, setTableRows] = useState([]);
     const [activeTabId, setActiveTabId] = useState(1);
@@ -154,6 +157,8 @@ export default function PublishedApplicationsTable({}) {
                 style={{
                     display: 'flex',
                     justifyContent: 'space-between',
+                    gap: isMobile ? 20 : 0,
+                    flexDirection: isMobile ? 'column' : 'gap',
                 }}
             >
 

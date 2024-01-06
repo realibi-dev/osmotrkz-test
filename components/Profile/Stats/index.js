@@ -4,8 +4,10 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { getCurrentUser } from '../../../helpers/user';
 import axios from 'axios';
+import { useMediaQuery } from 'react-responsive';
 
 export default function Stats({ userData, createApplicationHandler }) {
+    const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const [avatarUrl, setAvatarUrl] = useState('/profile.png');
     const [city, setCity] = useState('Не указан');
 
@@ -38,12 +40,12 @@ export default function Stats({ userData, createApplicationHandler }) {
                         <span>Дата регистрации: </span>
                         <span>{moment(userData?.reg_date).format('DD.MM.YYYY')}</span>
                     </div>
-                    <div className={styles.info_row}>
+                    <div className={styles.info_row} style={{ marginTop: isMobile ? 20 : 0 }}>
                         <span>Город: </span>
                         <span>{city}</span>
                     </div>
                 </div>
-                <div>
+                <div style={{ marginTop: isMobile ? 20 : 0 }}>
                     <a className={styles.profile_edit_link} href='/profile/edit'>Редактировать профиль</a>
                 </div>
             </div>

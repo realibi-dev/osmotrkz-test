@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import FORMS_CONST from '../../../helpers/constants';
 import InputMask from 'react-input-mask';
 import clsx from 'clsx';
+import { useMediaQuery } from 'react-responsive';
 
 export default function FormBody({ styles, formInfo, handleInputChange, currentStepNum }) {
+    const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const [fields, setFields] = useState({});
 
     useEffect(() => {
@@ -26,11 +28,11 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
     const renderRegistrationForm = () => {
         return (
             <>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 20 : 0, justifyContent: 'space-between' }}>
                     <div className={styles.checkbox_inputs}>
                         <div className={styles.heading_text} style={{ fontSize: 16 }}>{fields.role_id?.title}</div>
                         {fields.role_id?.options?.map(option => (
-                            <div style={{ display: 'flex', gap: 10, marginTop: 10 }}> <input className={styles.checkbox_item} checked={option.value === fields.role_id.value} type={fields.role_id?.inputType} name={fields.role_id?.name} onChange={e => handleInputChange(currentStepNum, fields.role_id?.name, option.value)} /> {option.title} </div>
+                            <div style={{ display: 'flex', gap: 14, marginTop: 10 }}> <input className={styles.checkbox_item} checked={option.value === fields.role_id.value} type={fields.role_id?.inputType} name={fields.role_id?.name} onChange={e => handleInputChange(currentStepNum, fields.role_id?.name, option.value)} /> {option.title} </div>
                         ))}
                     </div>
                     <div className={styles.checkbox_inputs}>
@@ -109,7 +111,7 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                         }
                     </label>
                 </div>
-                <div  style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
+                <div  style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', gap: 10 }}>
                     <div className={styles.input_item}>
                         <span>{fields.sertificate_number?.title}</span>
                         <input placeholder={fields.sertificate_number?.placeholder} value={fields.sertificate_number?.value} type={fields.sertificate_number?.inputType} onChange={e => handleInputChange(currentStepNum, fields.sertificate_number?.name, e.target.value)} />
@@ -141,7 +143,7 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                         }
                     </label>
                 </div>
-                <div  style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
+                <div  style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', gap: 10 }}>
                     <div className={styles.input_item}>
                         <span>{fields.contract_number?.title}</span>
                         <input placeholder={fields.contract_number?.placeholder} value={fields.contract_number?.value} type={fields.contract_number?.inputType} onChange={e => handleInputChange(currentStepNum, fields.contract_number?.name, e.target.value)} />
@@ -173,7 +175,7 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                         }
                     </label>
                 </div>
-                <div  style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
+                <div  style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', gap: 10 }}>
                     <div className={styles.input_item}>
                         <span>{fields.ward_number?.title}</span>
                         <input placeholder={fields.ward_number?.placeholder} value={fields.ward_number?.value} type={fields.ward_number?.inputType} onChange={e => handleInputChange(currentStepNum, fields.ward_number?.name, e.target.value)} />
@@ -184,8 +186,8 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                     </div>
                 </div>
 
-                <div  style={{ display: 'flex', justifyContent: 'space-between', gap: 10 }}>
-                    <div className={styles.input_item}>
+                <div  style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div className={styles.input_item} style={{width: isMobile ? '100%' : 'auto'}}>
                         <span>{fields.work_experience?.title}</span>
                         <input value={fields.work_experience?.value} type={fields.work_experience?.inputType} onChange={e => handleInputChange(currentStepNum, fields.work_experience?.name, e.target.value)} />
                     </div>

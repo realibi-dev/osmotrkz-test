@@ -5,9 +5,10 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Link from 'next/link';
 import PublishedApplicationsTable from '../../components/common/PublishedApplicationsTable';
+import { useMediaQuery } from 'react-responsive';
 
 export default function PublishedApplications() {
-
+    const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     return (
         <div className={styles.container}>
             <Header />
@@ -23,9 +24,7 @@ export default function PublishedApplications() {
 
             <h1 className={styles.heading}>Опубликованные заявки</h1>
 
-            
-
-            <div style={{ padding: '0 15%', boxSizing: 'border-box' }}>
+            <div style={{ padding: isMobile ? '0 8%' : '0 15%', boxSizing: 'border-box' }}>
                 <PublishedApplicationsTable />
                 <br/>
                 <br/>

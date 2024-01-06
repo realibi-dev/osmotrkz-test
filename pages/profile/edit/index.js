@@ -6,8 +6,10 @@ import Form from '../../../components/Form';
 import FORMS_CONST from '../../../helpers/constants';
 import { getCurrentUser, setCurrentUser } from '../../../helpers/user';
 import axios from 'axios';
+import { useMediaQuery } from 'react-responsive';
 
 export default function ProfileEdit() {
+    const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const [userData, setUserData] = useState();
     const [avatarUrl, setAvatarUrl] = useState('/profile.png');
 

@@ -3,3 +3,9 @@
     box-sizing: border-box;
     color: #3F444A;
 }
+
+@media screen and (max-width: 760px) {
+    .body {
+        padding: 50px 10%;
+    }
+}

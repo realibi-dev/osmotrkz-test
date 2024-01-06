@@ -173,3 +173,13 @@
     right: 10px;
     top: 10px;
 }
+
+@media screen and (max-width: 760px) {
+    .customDateInputWrapper, .customTimeInputWrapper {
+        width: 100%;
+    }
+
+    .info_container {
+        padding: 36px 10%;
+    }
+}

@@ -8,14 +8,15 @@ import { getCurrentUser, setCurrentUser, setToken } from "../../helpers/user"
 import { useRouter } from 'next/router'
 import Button from '../common/Button';
 import { getUserInfoFromSertificate } from '../../helpers/ncaLayer';
+import { useMediaQuery } from 'react-responsive';
 
 export default function Form({ formType, stepNum, isNeedBackgroundImages=true, isNeedHeader=true, removeOutline=false }) {
+    const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const router = useRouter();
 
     const init = async () => {
         const res = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'getAllCities', { headers: { 'ngrok-skip-browser-warning': 'true'  } });
         const cities = await res.data.rows;
-        console.log('cities', cities);
         if (localStorage) {
             setForms([
                 {
@@ -363,7 +364,7 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                     type={'filled'}
                     onClick={handleButtonClick}
                     text={currentStepNum === 3 ? "Войти" : "Далее"}
-                    additionalStyles={{ width: '40%' }}
+                    additionalStyles={{ width: isMobile ? '90%' : '40%' }}
                 />
             </div>         
         </div>

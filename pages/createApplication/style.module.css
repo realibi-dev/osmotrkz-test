@@ -65,8 +65,8 @@
 .number_tag {
     background-color: #fff;
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
     color: rgb(51, 51, 51);
     display: flex;
     justify-content: center;
@@ -214,4 +214,31 @@
     justify-content: center;
     padding-top: 50px;
     padding-bottom: 50px;
+}
+
+@media screen and (max-width: 760px) {
+    .flex {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .heading {
+        font-size: 34px;
+    }
+
+    .formsContainer {
+        width: 100%;
+    }
+
+    .formHeading {
+        font-size: 22px;
+        height: auto;
+        padding: 10px 20px;
+        text-align: center;
+    }
+
+    .checkbox_item::before {
+        left: -7px;
+        top: 2px;
+    }
 }
