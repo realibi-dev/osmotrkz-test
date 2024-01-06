@@ -281,6 +281,7 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                     <div
                         className={clsx(styles.header_item, currentStepNum === FORMS_CONST.FORM_STEPS.REGISTRATION && styles.active_header)}
                         onClick={() => setCurrentStepNum(FORMS_CONST.FORM_STEPS.REGISTRATION)}
+                        style={{ borderTopLeftRadius: isMobile ? 0 : 20 }}
                     >
                         <div className={styles.number_tag}>1</div>
                         Регистрация
@@ -295,6 +296,7 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                     <div
                         className={clsx(styles.header_item, currentStepNum === FORMS_CONST.FORM_STEPS.AUTHORIZATION && styles.active_header)}
                         onClick={() => setCurrentStepNum(FORMS_CONST.FORM_STEPS.AUTHORIZATION)}
+                        style={{ borderTopRightRadius: isMobile ? 0 : 20 }}
                     >
                         <div className={styles.number_tag}>3</div>
                         Подтверждение

@@ -246,6 +246,7 @@
     
     .container {
         width: 90%;
+        box-shadow: none;
     }
 
     .header_item {
@@ -280,10 +281,10 @@
     }
 
     .header_item:nth-child(1) {
-        border-top-left-radius: 0;
+        border-top-left-radius: 20;
     }
     
     .header_item:nth-child(3) {
-        border-top-right-radius: 0;
+        border-top-right-radius: 20;
     }
 }
