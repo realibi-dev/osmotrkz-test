@@ -196,9 +196,13 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
         .post(process.env.NEXT_PUBLIC_API_URL + 'auth', payload)
         .then(({ data }) => {
             if (data.success) {
-                setToken(data.token);
-                setCurrentUser(data.user);
-                router.push("/");
+                if (data.user.is_active) {
+                    setToken(data.token);
+                    setCurrentUser(data.user);
+                    router.push("/");
+                } else {
+                    alert("Администрация еще не верифицировала ваш акаунт");
+                }
             }
         })
         .catch(data => {
