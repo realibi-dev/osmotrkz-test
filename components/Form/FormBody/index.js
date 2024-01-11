@@ -37,16 +37,31 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                     </div>
                     <div className={styles.checkbox_inputs}>
                         <div className={styles.heading_text} style={{ fontSize: 16 }}>{fields.status_id?.title}</div>
-                        {fields.status_id?.options?.map(option => (
-                            <div style={{ display: 'flex', gap: 14, marginTop: 10 }}> <input className={option.value === fields.status_id.value ? styles.radio_item_checked : styles.radio_item} checked={option.value === fields.status_id.value} type={fields.status_id?.inputType} name={fields.statusId?.name} onChange={e => handleInputChange(currentStepNum, fields.status_id?.name, option.value)} /> {option.title} </div>
-                        ))}
+                        {
+                            fields.role_id?.value === 2 && (
+                                <div style={{ display: 'flex', gap: 14, marginTop: 10 }}> <input className={fields.status_id?.options[0]?.value === fields.status_id.value ? styles.radio_item_checked : styles.radio_item} checked={fields.status_id?.options[0]?.value === fields.status_id.value} type={fields.status_id?.inputType} name={fields.statusId?.name} onChange={e => handleInputChange(currentStepNum, fields.status_id?.name, fields.status_id?.options[0]?.value)} /> {fields.status_id?.options[0]?.title} </div>
+                            )
+                        }
+
+                        {
+                            fields.role_id?.value === 1 && fields.status_id?.options?.map(option => (
+                                <div style={{ display: 'flex', gap: 14, marginTop: 10 }}> <input className={option.value === fields.status_id.value ? styles.radio_item_checked : styles.radio_item} checked={option.value === fields.status_id.value} type={fields.status_id?.inputType} name={fields.statusId?.name} onChange={e => handleInputChange(currentStepNum, fields.status_id?.name, option.value)} /> {option.title} </div>
+                            ))
+                        }
                     </div>
                 </div>
 
-                <div className={styles.input_item}>
-                    <span>{fields.fio?.title}</span>
-                    <input value={fields.fio?.value} type={fields.fio?.inputType} onChange={e => handleInputChange(currentStepNum, fields.fio?.name, e.target.value)} />
-                </div>
+                {fields.role_id?.value === 2 ? (
+                    <div className={styles.input_item}>
+                        <span>Название юр. лица</span>
+                        <input value={fields.fio?.value} type={fields.fio?.inputType} onChange={e => handleInputChange(currentStepNum, fields.fio?.name, e.target.value)} />
+                    </div>
+                ) : (
+                    <div className={styles.input_item}>
+                        <span>{fields.fio?.title}</span>
+                        <input value={fields.fio?.value} type={fields.fio?.inputType} onChange={e => handleInputChange(currentStepNum, fields.fio?.name, e.target.value)} />
+                    </div>
+                )}
 
                 <div className={styles.input_item}>
                     <span>{fields.phone?.title}</span>
@@ -58,6 +73,43 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                     <span>{fields.email?.title}</span>
                     <input value={fields.email?.value} type={fields.email?.inputType} onChange={e => handleInputChange(currentStepNum, fields.email?.name, e.target.value)} />
                 </div>
+
+                {
+                    fields.role_id?.value === 1 && fields.status_id?.value === 1 && (
+                        <>
+                            <div className={styles.input_item}>
+                                <span>{fields.companyName?.title}</span>
+                                <input value={fields.companyName?.value} type={fields.companyName?.inputType} onChange={e => handleInputChange(currentStepNum, fields.companyName?.name, e.target.value)} />
+                            </div>
+
+                            <div className={styles.input_item}>
+                                <span>{fields.bin?.title}</span>
+                                <input value={fields.bin?.value} type={fields.bin?.inputType} onChange={e => handleInputChange(currentStepNum, fields.bin?.name, e.target.value)} />
+                            </div>
+
+                            <div className={styles.input_item}>
+                                <span>{fields.accountNumber?.title}</span>
+                                <input value={fields.accountNumber?.value} type={fields.accountNumber?.inputType} onChange={e => handleInputChange(currentStepNum, fields.accountNumber?.name, e.target.value)} />
+                            </div>
+
+                            <div className={styles.input_item}>
+                                <span>{fields.legalAddress?.title}</span>
+                                <input value={fields.legalAddress?.value} type={fields.legalAddress?.inputType} onChange={e => handleInputChange(currentStepNum, fields.legalAddress?.name, e.target.value)} />
+                            </div>
+
+                            <div className={styles.input_item}>
+                                <span>{fields.bik?.title}</span>
+                                <input value={fields.bik?.value} type={fields.bik?.inputType} onChange={e => handleInputChange(currentStepNum, fields.bik?.name, e.target.value)} />
+                            </div>
+
+                            <div className={styles.input_item}>
+                                <span>{fields.directorFio?.title}</span>
+                                <input value={fields.directorFio?.value} type={fields.directorFio?.inputType} onChange={e => handleInputChange(currentStepNum, fields.directorFio?.name, e.target.value)} />
+                            </div>
+                        </>
+                    )
+                }
+
                 <div className={clsx(styles.input_item)}>
                     <span>{fields.city_id?.title}</span>
                     {/* <input value={fields.email?.value} type={fields.email?.inputType} onChange={e => handleInputChange(currentStepNum, fields.email?.name, e.target.value)} /> */}
@@ -72,12 +124,54 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
 
                 <div className={styles.input_item}>
                     <span>{fields.password?.title}</span>
-                    <input value={fields.password?.value} type={fields.password?.inputType} onChange={e => handleInputChange(currentStepNum, fields.password?.name, e.target.value)} />
+                    <div className={styles.passwordInputWrapper}>
+                        <input value={fields.password?.value} type={fields.password?.inputType} onChange={e => handleInputChange(currentStepNum, fields.password?.name, e.target.value)} />
+                        <div
+                            onClick={() => {
+                                setFields(fields => Object.keys(fields).reduce((acc, key) => {
+                                    if (fields[key].name === 'password') {
+                                        return {
+                                            ...acc,
+                                            [key]: {
+                                                ...fields[key],
+                                                inputType: fields[key].inputType === 'text' ? 'password' : 'text',
+                                            },
+                                        }
+                                    }
+                                    return { ...acc, [key]: fields[key] }
+                                }, {}))
+                            }}
+                            className={styles.eye}
+                        >
+
+                        </div>
+                    </div>
                 </div>
 
                 <div className={styles.input_item}>
                     <span>{fields.confirmPassword?.title}</span>
-                    <input value={fields.confirmPassword?.value} type={fields.confirmPassword?.inputType} onChange={e => handleInputChange(currentStepNum, fields.confirmPassword?.name, e.target.value)} />
+                    <div className={styles.passwordInputWrapper}>
+                        <input value={fields.confirmPassword?.value} type={fields.confirmPassword?.inputType} onChange={e => handleInputChange(currentStepNum, fields.confirmPassword?.name, e.target.value)} />
+                        <div
+                            onClick={() => {
+                                setFields(fields => Object.keys(fields).reduce((acc, key) => {
+                                    if (fields[key].name === 'confirmPassword') {
+                                        return {
+                                            ...acc,
+                                            [key]: {
+                                                ...fields[key],
+                                                inputType: fields[key].inputType === 'text' ? 'password' : 'text',
+                                            },
+                                        }
+                                    }
+                                    return { ...acc, [key]: fields[key] }
+                                }, {}))
+                            }}
+                            className={styles.eye}
+                        >
+
+                        </div>
+                    </div>
                 </div>
 
                 <div className={styles.checkbox_input_item}>
@@ -92,11 +186,12 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
             <>
                 <div className={styles.input_item}>
                     <span>{fields.sertificate?.title}</span>
-                    <label class={styles.custom_file_input}>
+                    <label className={styles.custom_file_input}>
                     <input type={fields.sertificate?.inputType} onChange={e => handleInputChange(currentStepNum, fields.sertificate?.name, e.target.files[0])} />
                         {
                             fields.sertificate?.value && (
                                 <>
+                                    <img src='/tick.png' width={20} height={20} />
                                     Файл загружен
                                 </>
                             )
@@ -124,11 +219,12 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
 
                 <div className={styles.input_item}>
                     <span>{fields.insurance_contract?.title}</span>
-                    <label class={styles.custom_file_input}>
+                    <label className={styles.custom_file_input}>
                         <input type={fields.insurance_contract?.inputType} onChange={e => handleInputChange(currentStepNum, fields.insurance_contract?.name, e.target.files[0])} />
                         {
                             fields.insurance_contract?.value && (
                                 <>
+                                    <img src='/tick.png' width={20} height={20} />
                                     Файл загружен
                                 </>
                             )
@@ -156,11 +252,12 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
 
                 <div className={styles.input_item}>
                     <span>{fields.ward?.title}</span>
-                    <label class={styles.custom_file_input}>
+                    <label className={styles.custom_file_input}>
                     <input type={fields.ward?.inputType} onChange={e => handleInputChange(currentStepNum, fields.ward?.name, e.target.files[0])} />
                         {
                             fields.ward?.value && (
                                 <>
+                                    <img src='/tick.png' width={20} height={20} />
                                     Файл загружен
                                 </>
                             )
@@ -213,13 +310,36 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                     </div>
                     <input value={fields.email?.value} type={fields.email?.inputType} onChange={e => handleInputChange(currentStepNum, fields.email?.name, e.target.value)} />
                 </div>
+
                 <div className={styles.input_item}>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <span>{fields.password?.title}</span>
                         <a className={styles.link} href='/login/reset'>Забыли пароль?</a>
                     </div>
-                    <input value={fields.password?.value} type={fields.password?.inputType} onChange={e => handleInputChange(currentStepNum, fields.password?.name, e.target.value)} />
+                    <div className={styles.passwordInputWrapper}>
+                        <input value={fields.password?.value} type={fields.password?.inputType} onChange={e => handleInputChange(currentStepNum, fields.password?.name, e.target.value)} />
+                        <div
+                            onClick={() => {
+                                setFields(fields => Object.keys(fields).reduce((acc, key) => {
+                                    if (fields[key].name === 'password') {
+                                        return {
+                                            ...acc,
+                                            [key]: {
+                                                ...fields[key],
+                                                inputType: fields[key].inputType === 'text' ? 'password' : 'text',
+                                            },
+                                        }
+                                    }
+                                    return { ...acc, [key]: fields[key] }
+                                }, {}))
+                            }}
+                            className={styles.eye}
+                        >
+
+                        </div>
+                    </div>
                 </div>
+
                 <div className={styles.checkbox_input_item}>
                     <input checked={fields.rememberMe?.value} type={fields.rememberMe?.inputType} onChange={e => handleInputChange(currentStepNum, fields.rememberMe?.name, e.target.checked)} /> {fields.rememberMe?.title}
                 </div>

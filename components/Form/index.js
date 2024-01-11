@@ -23,14 +23,20 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                     stepNum: FORMS_CONST.FORM_STEPS.REGISTRATION,
                     headingText: 'Заполните все необходимые поля для регистрации',
                     fields: [
-                        { name: 'role_id', title: 'Выберите роль', inputType: 'checkbox', options: [ { value: 1, title: 'Заказчик' }, { value: 2, title: 'Исполнитель' } ], value: [] },
-                        { name: 'status_id', title: 'Выберите статус', inputType: 'radio', options: [ { value: 1, title: 'Юридическое лицо' }, { value: 2, title: 'Физическое лицо' } ], value: 1 },
+                        { name: 'role_id', title: 'Выберите роль', inputType: 'checkbox', options: [ { value: 1, title: 'Заказчик' }, { value: 2, title: 'Исполнитель' } ], value: 1 },
+                        { name: 'status_id', title: 'Выберите статус', inputType: 'radio', options: [ { value: 1, title: 'Юр. лицо / ИП' }, { value: 2, title: 'Физическое лицо' } ], value: 1 },
                         { name: 'fio', title: 'ФИО', inputType: 'text', value: '' },
                         { name: 'phone', title: 'Номер телефона', inputType: 'text', value: '', placeholder: '+7 (000) 000-00-00' },
                         { name: 'email', title: 'Email', inputType: 'text', value: '' },
                         { name: 'city_id', title: 'Город', inputType: 'select', options: cities, value: cities[0].id },
                         { name: 'password', title: 'Придумайте пароль', inputType: 'password', value: '' },
                         { name: 'confirmPassword', title: 'Подтвердите пароль', inputType: 'password', value: '' },
+                        { name: 'companyName', title: 'Наименование компании', inputType: 'text', value: '' },
+                        { name: 'bin', title: 'БИН', inputType: 'text', value: '' },
+                        { name: 'accountNumber', title: 'Номер счета', inputType: 'text', value: '' },
+                        { name: 'legalAddress', title: 'Юр. адрес', inputType: 'text', value: '' },
+                        { name: 'bik', title: 'БИК банка', inputType: 'text', value: '' },
+                        { name: 'directorFio', title: 'ФИО директора', inputType: 'text', value: '' },
                         { name: 'isOfferAccepted', title: 'Я согласен на обработку персональных данных', inputType: 'checkbox', value: false },
                     ],
                 },
@@ -97,6 +103,10 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
 
     const [currentStepNum, setCurrentStepNum] = useState(stepNum || 1);
 
+    const validatePayload = payload => {
+        return !Object.values(payload).some(value => typeof value === "string" && value.length == "");
+    }
+
     const handleInputChange = (stepNum, fieldName, fieldValue) => {
         setForms(prevValue => prevValue.map(form => {
             if (form.stepNum === stepNum) {
@@ -113,7 +123,6 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
             }
             return form;
         }))
-        console.log(forms)
     }
 
     const handleButtonClick = async () => {
@@ -162,10 +171,18 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
             }
         }, certificateInfo);
 
-        axios
-        .post(process.env.NEXT_PUBLIC_API_URL + 'register', payload, { headers: { "Content-Type": "multipart/form-data" } })
-        .then(() => router.push('/registration/success'))
-        .catch(data => alert(data.message))
+        if (validatePayload(payload)) {
+            if (payload.password === payload.confirmPassword) {
+                axios
+                .post(process.env.NEXT_PUBLIC_API_URL + 'register', payload, { headers: { "Content-Type": "multipart/form-data" } })
+                .then(() => router.push('/registration/success'))
+                .catch(data => alert(data.message))
+            } else {
+                alert("Пароли не совпадают!");
+            }
+        } else {
+            alert("Заполните, пожалуйста, все поля");
+        }
     }
 
     const registrationShort = () => {
@@ -177,10 +194,19 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                 ...(field.name === 'role_id' && { [field.name]: JSON.stringify(field.value) })
             }
         }, {});
-        axios
-        .post(process.env.NEXT_PUBLIC_API_URL + 'registerSimple', payload)
-        .then(() => router.push('/registration/success'))
-        .catch(data => alert(data.message))
+        
+        if (validatePayload(payload)) {
+            if (payload.password === payload.confirmPassword) {
+                axios
+                .post(process.env.NEXT_PUBLIC_API_URL + 'registerSimple', payload)
+                .then(() => router.push('/registration/success'))
+                .catch(data => alert(data.message))
+            } else {
+                alert("Пароли не совпадают!");
+            }
+        } else {
+            alert("Заполните, пожалуйста, все поля");
+        }        
     }
 
     const login = () => {
@@ -233,6 +259,7 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
             if (data.success) {
                 setCurrentUser(data.user);
                 alert("Данные успешно обновлены!");
+                router.push("/profile");
             } else {
                 alert("Что-то пошло нетак!");
             }

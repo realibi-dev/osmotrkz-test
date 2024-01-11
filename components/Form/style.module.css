@@ -94,7 +94,7 @@
     color: #3F444A;
 }
 
-.input_item > input, .input_item .customSelectWrapper > select, .custom_file_input {
+.input_item > input, .input_item .customSelectWrapper > select, .custom_file_input, .passwordInputWrapper > input {
     border: 1.5px solid rgb(198, 198, 198);
     border-radius: 8px;
     padding: 6px 10px;
@@ -237,6 +237,27 @@
     background-image: url(/on.png);
     background-position: center;
     background-size: cover;
+}
+
+.passwordInputWrapper {
+    position: relative;
+}
+
+.eye {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 30px;
+    border: 0.5px solid transparent;
+    background-image: url(/eye.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #fff;
+    right: 4px;
+    bottom: 5px;
+    cursor: pointer;
+    z-index: 500;
 }
 
 @media screen and (max-width: 760px) {

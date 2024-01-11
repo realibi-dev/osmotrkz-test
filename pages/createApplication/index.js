@@ -27,8 +27,9 @@ export default function CreateApplication() {
     const [price, setPrice] = useState(0);
     const [objectTypeId, setObjectTypeId] = useState(1);
     const [square, setSquare] = useState(0);
-    const [reviewDate, setReviewDate] = useState();
-    const [reviewTime, setReviewTime] = useState();
+    // const [reviewDate, setReviewDate] = useState();
+    const [reviewTimeStart, setReviewTimeStart] = useState();
+    const [reviewTimeFinish, setReviewTimeFinish] = useState();
     const [orderDeadline, setOrderDeadline] = useState();
     const [phone, setPhone] = useState();
     const [haveMovableProperty, setHaveMovableProperty] = useState(false);
@@ -39,16 +40,23 @@ export default function CreateApplication() {
             unit: 'Штук',
         }
     ]);
-    const [file, setFile] = useState();
-    const [kadNumber, setKadNumber] = useState('');
+    const [documents, setDocuments] = useState([
+        {
+            file: '',
+            kadNumber: '',
+        }
+    ]);
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
     const [cityId, setCityId] = useState();
     const [citiesList, setCitiesList] = useState([]);
+    const [isPerformer, setisPerformer] = useState(true);
 
     useEffect(() => {
         if (!getCurrentUser()?.id) {
             router.push('/login');
+        } else {
+            setisPerformer(getCurrentUser()?.role_id === 2);
         }
     });
 
@@ -81,6 +89,29 @@ export default function CreateApplication() {
         const propertyItems = [...movablePropertyItems];
         propertyItems.splice(idx, 1);
         setMovablePropertyItems(propertyItems);
+    }
+
+    const changeDocuments = (idx, fieldName, value) => {
+        setDocuments(prev => prev.map((item, index) => {
+            if (index === idx) {
+                return {
+                    ...item,
+                    [fieldName]: value,
+                }
+            }
+
+            return item;
+        }))
+    }
+
+    const addDocument = () => {
+        setDocuments(prev => [...prev, { file: '', kadNumber: '' }])
+    }
+
+    const removeDocument = idx => {
+        const documentItems = [...documents];
+        documentItems.splice(idx, 1);
+        setDocuments(documentItems);
     }
 
     const createApplicationHandler = async () => {
@@ -182,30 +213,50 @@ export default function CreateApplication() {
                         Какого типа заявку вы хотите создать?
                     </div>
 
-                    <div className={styles.flex}>
-                        <div style={{ width: isMobile ? '100%' : '48%', display: 'flex', alignItems: 'flex-start', gap: 10, borderRight: isMobile ? 'none' : '1px solid #DCE7FE' }}>
-                            {/* <input type='radio' id='applicationType' /> */}
-                            <input className={applicationType === APPLICATION_TYPES.PUBLIC ? styles.radio_item_checked : styles.radio_item} checked={applicationType === APPLICATION_TYPES.PUBLIC} type={'radio'} onClick={() => setApplicationType(APPLICATION_TYPES.PUBLIC)} />
-                            <label for='applicationType' className={styles.label} style={{ display: 'block' }}>
-                                Публичная заявка <br/>
-                                <span className={styles.labelSub}>
-                                    Вашу заявку выполнит один из <br/>
-                                    исполнителей платформы
-                                </span>
-                            </label>
-                        </div>
+                    {
+                        isPerformer ? (
+                            <div className={styles.flex}>
+                                <div style={{ width: isMobile ? '100%' : '48%', display: 'flex', alignItems: 'flex-start', gap: 10, borderRight: isMobile ? 'none' : '1px solid #DCE7FE' }}>
+                                    {/* <input type='radio' id='applicationType' /> */}
+                                    <input className={applicationType === APPLICATION_TYPES.PUBLIC ? styles.radio_item_checked : styles.radio_item} checked={applicationType === APPLICATION_TYPES.PUBLIC} type={'radio'} onClick={() => setApplicationType(APPLICATION_TYPES.PUBLIC)} />
+                                    <label for='applicationType' className={styles.label} style={{ display: 'block' }}>
+                                        Публичная заявка <br/>
+                                        <span className={styles.labelSub}>
+                                            Вашу заявку выполнит один из <br/>
+                                            исполнителей платформы
+                                        </span>
+                                    </label>
+                                </div>
 
-                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                            <input className={applicationType === APPLICATION_TYPES.SELF ? styles.radio_item_checked : styles.radio_item} checked={applicationType === APPLICATION_TYPES.SELF} type={'radio'} onClick={() => setApplicationType(APPLICATION_TYPES.SELF)} />
-                            <label for='applicationType' className={styles.label} style={{ display: 'block' }}>
-                                Самостоятельный осмотр <br/>
-                                <span className={styles.labelSub}>
-                                    Вы создадите заявку для <br/>
-                                    самостоятельного осмотра
-                                </span>
-                            </label>
-                        </div>
-                    </div>
+                                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                                    <input className={applicationType === APPLICATION_TYPES.SELF ? styles.radio_item_checked : styles.radio_item} checked={applicationType === APPLICATION_TYPES.SELF} type={'radio'} onClick={() => setApplicationType(APPLICATION_TYPES.SELF)} />
+                                    <label for='applicationType' className={styles.label} style={{ display: 'block' }}>
+                                        Самостоятельный осмотр <br/>
+                                        <span className={styles.labelSub}>
+                                            Вы создадите заявку для <br/>
+                                            самостоятельного осмотра
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className={styles.flex}>
+                                <div style={{ width: '100%', display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                                    {/* <input type='radio' id='applicationType' /> */}
+                                    <input className={applicationType === APPLICATION_TYPES.PUBLIC ? styles.radio_item_checked : styles.radio_item} checked={applicationType === APPLICATION_TYPES.PUBLIC} type={'radio'} onClick={() => setApplicationType(APPLICATION_TYPES.PUBLIC)} />
+                                    <label for='applicationType' className={styles.label} style={{ display: 'block' }}>
+                                        Публичная заявка <br/>
+                                        <span className={styles.labelSub}>
+                                            Вашу заявку выполнит один из
+                                            исполнителей платформы
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        )
+                    }
+
+                    
                 </div>
 
                 <div className={styles.formsContainer}>
@@ -331,6 +382,7 @@ export default function CreateApplication() {
                                     <option value={3}>Земельный участок</option>
                                     <option value={4}>Коттедж</option>
                                     <option value={5}>Дача</option>
+                                    <option value={6}>Коммерческое помещение</option>
                                 </select>
                             </div>
                         </div>
@@ -353,34 +405,30 @@ export default function CreateApplication() {
                             <>
                                 <div className={styles.flex}>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25, width: isMobile ? '100%' : '48%' }}>
-                                        <label>Дата проведения осмотра</label>
-                                        {/* <textarea
-                                            rows={1}
-                                            placeholder=''
-                                            className={styles.textArea}
-                                        >
-                                        </textarea> */}
-
-                                        <div className={styles.customDateInputWrapper}>
-                                            <input
-                                                type='date'
-                                                className={clsx(styles.textArea, styles.customDateInput)}
-                                                onChange={e => setReviewDate(e.target.value)}
-                                                value={reviewDate}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25, width: isMobile ? '100%' : '48%' }}>
-                                        <label>Время проведения осмотра</label>
+                                        <label>Время проведения осмотра (C)</label>
                                         <input
                                             type='time'
                                             className={clsx(styles.textArea, styles.customTimeInput)}
-                                            onChange={e => setReviewTime(e.target.value)}
-                                            value={reviewTime}
+                                            onChange={e => setReviewTimeStart(e.target.value)}
+                                            value={reviewTimeStart}
+                                            max={'16:00'}
+                                            min={'09:00'}
+                                        />
+                                    </div>
+
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25, width: isMobile ? '100%' : '48%' }}>
+                                        <label>Время проведения осмотра (До)</label>
+                                        <input
+                                            type='time'
+                                            className={clsx(styles.textArea, styles.customTimeInput)}
+                                            onChange={e => setReviewTimeFinish(e.target.value)}
+                                            value={reviewTimeFinish}
+                                            max={'16:00'}
+                                            min={'09:00'}
                                         />
                                     </div>
                                 </div>
+                                
 
                                 <div className={styles.flex}>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25, width: isMobile ? '100%' : '48%' }}>
@@ -520,39 +568,81 @@ export default function CreateApplication() {
                         <span>Документы</span>
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25 }}>
-                        <label>Документы (прикрепите фотографию первой страницы техпаспорта)</label>
-                        <label className={styles.custom_file_input}>
-                            <input type={'file'} className={clsx(styles.textArea)} onChange={e => setFile(e.target.files[0])} />
-                            {
-                                file && (
-                                    <>
-                                        Файл загружен
-                                    </>
-                                )
-                            }
-                            {
-                                !file && (
-                                    <>
-                                        <img src='/download.png' width={20} height={20} />
-                                        Добавить файл
-                                    </>
-                                )
-                            }
-                        </label>
-                    </div>
+                    {
+                        documents.map((document, idx) => (
+                            <>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25 }}>
+                                    <div
+                                        style={{
+                                            display: 'flex',
+                                            ...(movablePropertyItems.length > 1 && { justifyContent: 'space-between' })
+                                        }}
+                                    >
+                                        <label>Документы (прикрепите фотографию первой страницы техпаспорта)</label>
+                                        {
+                                            documents.length > 1 && (
+                                                <>
+                                                    <Button
+                                                        type={'text'}
+                                                        text={'Удалить'}
+                                                        onClick={() => removeDocument(idx)}
+                                                        additionalStyles={{ margin: 0, width: 'auto', height: 'auto', color: '#a50000' }}
+                                                    />
+                                                </>
+                                            )
+                                        }
+                                    </div>
+                                    <label className={styles.custom_file_input}>
+                                        <input type={'file'} className={clsx(styles.textArea)} onChange={e => changeDocuments(idx, 'file', e.target.files[0])} />
+                                        {
+                                            document.file && (
+                                                <>
+                                                    <img src='/tick.png' width={20} height={20} />
+                                                    Файл загружен
+                                                    {/* <div className={styles.file_loaded_icon}></div> */}
+                                                </>
+                                            )
+                                        }
+                                        {
+                                            !document.file && (
+                                                <>
+                                                    <img src='/download.png' width={20} height={20} />
+                                                    Добавить файл
+                                                </>
+                                            )
+                                        }
+                                    </label>
+                                </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25 }}>
-                        <label>Кадастровый номер строения</label>
-                        <textarea
-                            rows={1}
-                            placeholder='XX : XX : XXXXXX : XX'
-                            className={styles.textArea}
-                            onChange={e => setKadNumber(e.target.value)}
-                            value={kadNumber}
-                        >
-                        </textarea>
-                    </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25 }}>
+                                    <label>Кадастровый номер строения</label>
+                                    <textarea
+                                        rows={1}
+                                        placeholder='XX : XX : XXXXXX : XX'
+                                        className={styles.textArea}
+                                        onChange={e => changeDocuments(idx, 'kadNumber', e.target.value)}
+                                        value={document.kadNumber}
+                                    >
+                                    </textarea>
+                                </div>
+
+                                { documents.length && idx !== documents.length-1 && (
+                                    <>
+                                        <hr className={styles.dividerHr} />
+                                        <br />
+                                    </>
+                                ) }
+                            </>
+                        ))
+                    }
+                    
+                    <Button
+                        type={'text'}
+                        text={'Добавить еще документ'}
+                        onClick={() => addDocument()}
+                        additionalStyles={{}}
+                    />
+                   
                 </div>
 
                 <Button

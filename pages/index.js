@@ -4,9 +4,18 @@ import Footer from '../components/Footer'
 import Link from 'next/link'
 import clsx from 'clsx'
 import { useMediaQuery } from 'react-responsive';
+import { getCurrentUser } from '../helpers/user'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
   const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
+  useEffect(() => {
+    if (getCurrentUser()?.id) {
+      setIsAuthorized(true);
+    }
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -24,11 +33,17 @@ export default function Home() {
               возможность принимать больше {!isMobile && <br/>}
               заказов в любом месте
             </p>
-            <button className={styles.button} style={isMobile ? { width: '100%' } : {}}>
-              <Link href={'/registration'}>
-                Зарегистрироваться
-              </Link>
-            </button>
+
+            {
+              !isAuthorized && (
+                <button className={styles.button} style={isMobile ? { width: '100%' } : {}}>
+                  <Link href={'/registration'}>
+                    Зарегистрироваться
+                  </Link>
+                </button>
+              )
+            }
+            
           </div>
           <div className={styles.right_side}>
             <img src={'/main_image.png'} height={400}/>
@@ -309,11 +324,15 @@ export default function Home() {
               которые значительно облегчат ваши задачи 
               по осмотру недвижимости.
             </p>
-            <button className={styles.button} style={ isMobile ? { width: '100%' } : {} }>
-              <Link href={'/registration'}>
-                Зарегистрироваться
-              </Link>
-            </button>
+            {
+              !isAuthorized && (
+                <button className={styles.button} style={ isMobile ? { width: '100%' } : {} }>
+                  <Link href={'/registration'}>
+                    Зарегистрироваться
+                  </Link>
+                </button>
+              )
+            }
           </div>
           <div
             className={clsx(styles.card_right_side, styles.hideOnMobile)}

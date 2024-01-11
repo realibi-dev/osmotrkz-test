@@ -29,7 +29,7 @@ export default function Header() {
     }
 
     const handleBalanceChargeClick = () => {
-
+        router.push("/addBalance");
     }
 
     const handleBalanceWithdrawClick = () => {

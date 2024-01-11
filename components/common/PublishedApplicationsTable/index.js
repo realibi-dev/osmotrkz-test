@@ -7,7 +7,7 @@ import moment from 'moment';
 import { getCurrentUser } from './../../../helpers/user';
 import { useMediaQuery } from 'react-responsive';
 
-function TableRow({ data, favourites }) {
+function TableRow({ data, favourites, cities }) {
     const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const router = useRouter();
     const [isFavourite, setIsFavourite] = useState(false);
@@ -34,6 +34,9 @@ function TableRow({ data, favourites }) {
             </td>
             <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
                 {types[data.object_type_id]}
+            </td>
+            <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
+                {cities?.find(city => city.id === data.city_id)?.name}
             </td>
             <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
                 {data.address}
@@ -118,8 +121,8 @@ export default function PublishedApplicationsTable({}) {
         .get(process.env.NEXT_PUBLIC_API_URL + 'getAllRequests', { headers: { 'ngrok-skip-browser-warning': 'true'  } })
         .then(response => {
             if (response.data?.success) {
-                setTableRows(response.data.requests.filter(item => item.type_id == 1));
-                setAllApplications(response.data.requests.filter(item => item.type_id == 1));
+                setTableRows(response.data.requests.reverse().filter(item => item.type_id == 1));
+                setAllApplications(response.data.requests.reverse().filter(item => item.type_id == 1));
             }
         })
         .catch(error => alert("Ошибка при загрузке заявок"))
@@ -201,13 +204,14 @@ export default function PublishedApplicationsTable({}) {
                                 <th>№</th>
                                 <th>Заказ</th>
                                 <th>Тип</th>
+                                <th>Город</th>
                                 <th>Адрес</th>
                                 <th>Сроки (до)</th>
                                 <th>Бюджет</th>
                                 <th>Избранное</th>
                             </tr>
                             {
-                                tableRows.map(row => (<TableRow favourites={favourites} data={row} />))
+                                tableRows.map(row => (<TableRow favourites={favourites} data={row} cities={citiesList} />))
                             }
                         </tbody>
                     </table>

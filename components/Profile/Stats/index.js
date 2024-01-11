@@ -5,8 +5,10 @@ import { useEffect, useState } from 'react';
 import { getCurrentUser } from '../../../helpers/user';
 import axios from 'axios';
 import { useMediaQuery } from 'react-responsive';
+import { useRouter } from 'next/router';
 
 export default function Stats({ userData, createApplicationHandler }) {
+    const router = useRouter();
     const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const [avatarUrl, setAvatarUrl] = useState('/profile.png');
     const [city, setCity] = useState('Не указан');
@@ -72,7 +74,7 @@ export default function Stats({ userData, createApplicationHandler }) {
                     <div>
                         <Button
                             type={'text'}
-                            onClick={createApplicationHandler}
+                            onClick={() => router.push('/registration')}
                             text={'Стать исполнителем'}
                         />
                     </div>

@@ -145,13 +145,6 @@
     gap: 8px;
     color: #94A3B8;
     height: 52px;
-}
-
-.custom_file_input input[type="file"] {
-    display: none;
-}
-
-.custom_file_input {
     border: 1.5px solid rgb(198, 198, 198);
     border-radius: 8px;
     padding: 6px 10px;
@@ -159,6 +152,10 @@
     color: #515255;
     cursor: pointer;
     font-family: 'Nunito_Sans_Light';
+}
+
+.custom_file_input input[type="file"] {
+    display: none;
 }
 
 .radio_item, .radio_item_checked {
