@@ -18,8 +18,8 @@ export default function WithdrawBalance() {
                 currency: "KZT",
                 order_id: Math.round(Math.random() * 100000).toString(),
                 description: "description",
-                payment_type: "payout",
-                payment_method: "ecom",
+                payment_type: "transfer",
+                payment_method: "ecom_to_mc",
                 items: [{
                     merchant_id: "f523e618-baf9-46a5-b841-3a7d3451aa46",
                     service_id: "b6549f27-2a36-4166-bc94-46f29e026f81",
@@ -29,10 +29,6 @@ export default function WithdrawBalance() {
                     amount_one_pcs: priceToPay,
                     amount_sum: priceToPay,
                 }],
-                payout_data: {
-                    pan_to: cardNumber,
-                    holder: holder,
-                },
                 user_id: getCurrentUser()?.id.toString(),
                 email: getCurrentUser()?.email,
                 phone: getCurrentUser()?.phone,
