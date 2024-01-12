@@ -3,7 +3,7 @@ import Header from '../../components/Header';
 import styles from './style.module.css';
 import Button from './../../components/common/Button'
 import { useState } from 'react';
-import { getCurrentUser } from '../../helpers/user';
+import { getCurrentUser, setCurrentUser } from '../../helpers/user';
 
 export default function WithdrawBalance() {
     const [amount, setAmount] = useState('');
@@ -11,7 +11,7 @@ export default function WithdrawBalance() {
     const [holder, setHolder] = useState('');
 
     function openPaymentWidgetHandler(priceToPay, cardNumber, holder) {
-        if (getCurrentUser()?.id) {
+        if (getCurrentUser()?.id && (getCurrentUser()?.balance || 0) > priceToPay) {
             openPaymentWidget({
                 api_key: '8590a7d1-cfb1-41bf-9619-1c333a14f960',
                 amount: priceToPay,
@@ -45,11 +45,28 @@ export default function WithdrawBalance() {
                 test_mode: 1,
             }, 
             (success) => {
-                alert("Тут нужно увеличить баланс короче")
+                axios
+                .post(process.env.NEXT_PUBLIC_API_URL + 'reduceBalance', { amount: priceToPay, userId: getCurrentUser()?.id })
+                .then(({ data }) => {
+                    if (data.success) {
+                        const currentUser = getCurrentUser();
+                        setCurrentUser({
+                            ...currentUser,
+                            balance: +(currentUser.balance || 0) - +priceToPay
+                        })
+                        alert("Вывод произошел успешно!");
+                        router.push("/profile");
+                    } else {
+                        alert("Что-то пошло нетак!");
+                    }
+                })
+                .catch(data => {
+                    alert(data.message);
+                })
             },
             (error) => { alert(error) });
         } else {
-            alert("Вам нужно авторизоваться!");
+            alert("Вам нужно авторизоваться или у вас недостаточно средств на балансе!");
         }
     }
 

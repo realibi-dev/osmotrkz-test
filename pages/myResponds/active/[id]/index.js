@@ -214,6 +214,32 @@ export default function PublishedApplication() {
                                 Скачайте приложение для отслеживания <br />
                                 работы исполнителя →
                             </div>
+
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                <Button
+                                    text={'Отказаться от работы'}
+                                    additionalStyles={{
+                                        width: 200,
+                                        margin: '20px',
+                                    }}
+                                    type={'filled'}
+                                    onClick={() => {
+                                        axios
+                                        .post(process.env.NEXT_PUBLIC_API_URL + 'rejectResponse', { id: +applicationInfo.square })
+                                        .then(({ data }) => {
+                                            if (data.success) {
+                                                alert("Вы отказались от этой заявки. Заявка вернется в список опубликованных заявок.");
+                                                router.push("/publishedApplications");
+                                            } else {
+                                                alert("Что-то пошло нетак!");
+                                            }
+                                        })
+                                        .catch(data => {
+                                            alert(data.message);
+                                        })
+                                    }}
+                                />
+                            </div>
                         </div>
                     )
                 }

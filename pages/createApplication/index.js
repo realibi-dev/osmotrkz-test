@@ -136,7 +136,8 @@ export default function CreateApplication() {
 
         if (applicationType === APPLICATION_TYPES.PUBLIC) {
             formData.append("review_date", reviewDate);
-            formData.append("review_time", reviewTime);
+            formData.append("review_time_from", reviewTimeStart);
+            formData.append("review_time_to", reviewTimeFinish);
             formData.append("price", price);
             formData.append("order_deadline", orderDeadline);
         }

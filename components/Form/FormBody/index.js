@@ -89,8 +89,8 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                     (fields.role_id?.value === 1 || fields.role_id?.value === 2) && fields.status_id?.value === 1 && (
                         <>
                             <div className={styles.input_item}>
-                                <span>{fields.companyName?.title}</span>
-                                <input value={fields.companyName?.value} type={fields.companyName?.inputType} onChange={e => handleInputChange(currentStepNum, fields.companyName?.name, e.target.value)} />
+                                <span>{fields.company_title?.title}</span>
+                                <input value={fields.company_title?.value} type={fields.company_title?.inputType} onChange={e => handleInputChange(currentStepNum, fields.company_title?.name, e.target.value)} />
                             </div>
 
                             <div className={styles.input_item}>
@@ -99,23 +99,23 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                             </div>
 
                             <div className={styles.input_item}>
-                                <span>{fields.accountNumber?.title}</span>
-                                <input value={fields.accountNumber?.value} type={fields.accountNumber?.inputType} onChange={e => handleInputChange(currentStepNum, fields.accountNumber?.name, e.target.value)} />
+                                <span>{fields.bill_number?.title}</span>
+                                <input value={fields.bill_number?.value} type={fields.bill_number?.inputType} onChange={e => handleInputChange(currentStepNum, fields.bill_number?.name, e.target.value)} />
                             </div>
 
                             <div className={styles.input_item}>
-                                <span>{fields.legalAddress?.title}</span>
-                                <input value={fields.legalAddress?.value} type={fields.legalAddress?.inputType} onChange={e => handleInputChange(currentStepNum, fields.legalAddress?.name, e.target.value)} />
+                                <span>{fields.address?.title}</span>
+                                <input value={fields.address?.value} type={fields.address?.inputType} onChange={e => handleInputChange(currentStepNum, fields.address?.name, e.target.value)} />
                             </div>
 
                             <div className={styles.input_item}>
-                                <span>{fields.bik?.title}</span>
-                                <input value={fields.bik?.value} type={fields.bik?.inputType} onChange={e => handleInputChange(currentStepNum, fields.bik?.name, e.target.value)} />
+                                <span>{fields.bic?.title}</span>
+                                <input value={fields.bic?.value} type={fields.bic?.inputType} onChange={e => handleInputChange(currentStepNum, fields.bic?.name, e.target.value)} />
                             </div>
 
                             <div className={styles.input_item}>
-                                <span>{fields.directorFio?.title}</span>
-                                <input value={fields.directorFio?.value} type={fields.directorFio?.inputType} onChange={e => handleInputChange(currentStepNum, fields.directorFio?.name, e.target.value)} />
+                                <span>{fields.director_fio?.title}</span>
+                                <input value={fields.director_fio?.value} type={fields.director_fio?.inputType} onChange={e => handleInputChange(currentStepNum, fields.director_fio?.name, e.target.value)} />
                             </div>
                         </>
                     )

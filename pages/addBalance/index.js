@@ -43,7 +43,24 @@ export default function AddBalance() {
                 test_mode: 1,
             }, 
             (success) => {
-                alert("Тут нужно увеличить баланс короче")
+                axios
+                .post(process.env.NEXT_PUBLIC_API_URL + 'addBalance', { amount: priceToPay, userId: getCurrentUser()?.id })
+                .then(({ data }) => {
+                    if (data.success) {
+                        const currentUser = getCurrentUser();
+                        setCurrentUser({
+                            ...currentUser,
+                            balance: +(currentUser.balance || 0) + +priceToPay
+                        })
+                        alert("Баланс успешно пополнен!");
+                        router.push("/profile");
+                    } else {
+                        alert("Что-то пошло нетак!");
+                    }
+                })
+                .catch(data => {
+                    alert(data.message);
+                })
             },
             (error) => { alert(error) });
         } else {
