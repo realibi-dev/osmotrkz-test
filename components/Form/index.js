@@ -188,12 +188,12 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
         }
 
         if (payload.status_id === 2) {
-            delete payload.accountNumber;
-            delete payload.bik;
+            delete payload.company_title;
             delete payload.bin;
-            delete payload.companyName;
-            delete payload.directorFio;
-            delete payload.legalAddress;
+            delete payload.bill_number;
+            delete payload.address;
+            delete payload.bic;
+            delete payload.director_fio;
         }
 
         if (validatePayload(payload)) {
@@ -221,12 +221,12 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
         }, {});
 
         if (payload.status_id === 2) {
-            delete payload.accountNumber;
-            delete payload.bik;
+            delete payload.company_title;
             delete payload.bin;
-            delete payload.companyName;
-            delete payload.directorFio;
-            delete payload.legalAddress;
+            delete payload.bill_number;
+            delete payload.address;
+            delete payload.bic;
+            delete payload.director_fio;
         }
 
         if (payload.name.length || payload.surname.length) {
