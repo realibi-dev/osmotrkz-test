@@ -22,12 +22,13 @@ function TableRow({ data, favourites, cities }) {
         3: 'Земельный участок',
         4: 'Коттедж',
         5: 'Дача',
+        5: 'Коммерческое предложение',
     }
 
     return (
         <tr className={styles.tableRow}>
             <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
-                {data.kad_number}
+                {data.id}
             </td>
             <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
                 {data.description}
@@ -42,7 +43,7 @@ function TableRow({ data, favourites, cities }) {
                 {data.address}
             </td>
             <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
-                {moment(data.order_deadline).format('DD.MM.YYYY')} <br/> (с {data.review_time.split(':').slice(0, 2).join(':')})
+                {moment(data.order_deadline).format('DD.MM.YYYY')} <br/> (с {data.review_time_from.split(':').slice(0, 2).join(':')})
             </td>
             <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
                 {data.price}т
