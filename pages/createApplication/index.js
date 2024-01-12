@@ -27,7 +27,6 @@ export default function CreateApplication() {
     const [price, setPrice] = useState(0);
     const [objectTypeId, setObjectTypeId] = useState(1);
     const [square, setSquare] = useState(0);
-    // const [reviewDate, setReviewDate] = useState();
     const [reviewTimeStart, setReviewTimeStart] = useState();
     const [reviewTimeFinish, setReviewTimeFinish] = useState();
     const [orderDeadline, setOrderDeadline] = useState();
@@ -42,8 +41,8 @@ export default function CreateApplication() {
     ]);
     const [documents, setDocuments] = useState([
         {
-            file: '',
-            kadNumber: '',
+            tehpassport: '',
+            kad_number: '',
         }
     ]);
     const [latitude, setLatitude] = useState(0);
@@ -126,8 +125,7 @@ export default function CreateApplication() {
         formData.append("square", square);
         formData.append("phone", phone);
         formData.append("is_moving", haveMovableProperty);
-        formData.append("doc_photo", file);
-        formData.append("kad_number", kadNumber);
+        formData.append("tehpassports", documents);
         formData.append("movableProperty", haveMovableProperty ? movablePropertyItems.map(item => ({ title: item.name,count: item.quantity,unit: item.unit })) : []);
         formData.append("status_id", applicationType === APPLICATION_TYPES.PUBLIC ? 1 : 4);
         formData.append("latitude", latitude);
@@ -135,7 +133,6 @@ export default function CreateApplication() {
         formData.append("city_id", cityId);
 
         if (applicationType === APPLICATION_TYPES.PUBLIC) {
-            formData.append("review_date", reviewDate);
             formData.append("review_time_from", reviewTimeStart);
             formData.append("review_time_to", reviewTimeFinish);
             formData.append("price", price);
@@ -404,6 +401,10 @@ export default function CreateApplication() {
                     {
                         applicationType === APPLICATION_TYPES.PUBLIC && (
                             <>
+                                <div>
+
+                                </div>
+
                                 <div className={styles.flex}>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25, width: isMobile ? '100%' : '48%' }}>
                                         <label>Время проведения осмотра (C)</label>
@@ -594,9 +595,9 @@ export default function CreateApplication() {
                                         }
                                     </div>
                                     <label className={styles.custom_file_input}>
-                                        <input type={'file'} className={clsx(styles.textArea)} onChange={e => changeDocuments(idx, 'file', e.target.files[0])} />
+                                        <input type={'file'} className={clsx(styles.textArea)} onChange={e => changeDocuments(idx, 'tehpassport', e.target.files[0])} />
                                         {
-                                            document.file && (
+                                            document.tehpassport && (
                                                 <>
                                                     <img src='/tick.png' width={20} height={20} />
                                                     Файл загружен
@@ -605,7 +606,7 @@ export default function CreateApplication() {
                                             )
                                         }
                                         {
-                                            !document.file && (
+                                            !document.tehpassport && (
                                                 <>
                                                     <img src='/download.png' width={20} height={20} />
                                                     Добавить файл
@@ -621,8 +622,8 @@ export default function CreateApplication() {
                                         rows={1}
                                         placeholder='XX : XX : XXXXXX : XX'
                                         className={styles.textArea}
-                                        onChange={e => changeDocuments(idx, 'kadNumber', e.target.value)}
-                                        value={document.kadNumber}
+                                        onChange={e => changeDocuments(idx, 'kad_number', e.target.value)}
+                                        value={document.kad_number}
                                     >
                                     </textarea>
                                 </div>
