@@ -4,6 +4,7 @@ import styles from './style.module.css';
 import Button from './../../components/common/Button'
 import { useState } from 'react';
 import { getCurrentUser } from '../../helpers/user';
+import axios from 'axios';
 
 export default function AddBalance() {
     const [amount, setAmount] = useState('');
