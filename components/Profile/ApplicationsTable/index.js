@@ -69,10 +69,10 @@ function MyResponds() {
 
                     {tableRows.map(row => (
                         <tr className={styles.tableRow} onClick={() => openApplication(row.id, row.work_status)}>
-                            <td className={styles.tableRowCell}>{row.kad_number}</td>
+                            <td className={styles.tableRowCell}>{row.id}</td>
                             <td className={styles.tableRowCell}>{row.description}</td>
                             <td className={styles.tableRowCell}>{row.address}</td>
-                            <td className={styles.tableRowCell}>{moment(row.order_deadline).format('DD.MM.YYYY')} <br/> (с {row.review_time?.split(':')?.slice(0, 2)?.join(':')})</td>
+                            <td className={styles.tableRowCell}>{moment(row.order_deadline).format('DD.MM.YYYY')} <br/> (с {row.review_time_from?.split(':')?.slice(0, 2)?.join(':')})</td>
                             <td className={styles.tableRowCell}>{parseFloat(row.price)}т</td>
                             <td className={styles.tableRowCell}>{statuses[row.work_status]}</td>
                         </tr>
@@ -139,10 +139,10 @@ function MyApplications() {
 
                     {tableRows.map(row => (
                         <tr className={styles.tableRow} onClick={() => openApplication(row.id, row.status_id)}>
-                            <td className={styles.tableRowCell}>{row.kad_number}</td>
+                            <td className={styles.tableRowCell}>{row.id}</td>
                             <td className={styles.tableRowCell}>{row.description}</td>
                             <td className={styles.tableRowCell}>{row.address}</td>
-                            <td className={styles.tableRowCell}>{moment(row.order_deadline).format('DD.MM.YYYY')} <br/> (с {row.review_time?.split(':')?.slice(0, 2)?.join(':')})</td>
+                            <td className={styles.tableRowCell}>{moment(row.order_deadline).format('DD.MM.YYYY')} <br/> (с {row.review_time_from?.split(':')?.slice(0, 2)?.join(':')})</td>
                             <td className={styles.tableRowCell}>{parseFloat(row.price)}т</td>
                             <td className={styles.tableRowCell}>{statuses[row.status_id]}</td>
                         </tr>
@@ -182,10 +182,10 @@ function MyFavourites() {
 
                     {tableRows.map(row => (
                         <tr className={styles.tableRow} onClick={() => router.push('/publishedApplications/' + row.id)}>
-                            <td className={styles.tableRowCell}>{row.kad_number}</td>
+                            <td className={styles.tableRowCell}>{row.id}</td>
                             <td className={styles.tableRowCell}>{row.description}</td>
                             <td className={styles.tableRowCell}>{row.address}</td>
-                            <td className={styles.tableRowCell}>{moment(row.order_deadline).format('DD.MM.YYYY')} <br/> (с {row.review_time?.split(':')?.slice(0, 2)?.join(':')})</td>
+                            <td className={styles.tableRowCell}>{moment(row.order_deadline).format('DD.MM.YYYY')} <br/> (с {row.review_time_from?.split(':')?.slice(0, 2)?.join(':')})</td>
                             <td className={styles.tableRowCell}>{parseFloat(row.price)}т</td>
                         </tr>
                     ))}
