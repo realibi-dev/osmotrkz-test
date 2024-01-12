@@ -5,8 +5,10 @@ import Button from './../../components/common/Button'
 import { useState } from 'react';
 import { getCurrentUser, setCurrentUser } from '../../helpers/user';
 import axios from 'axios';
+import { useRouter } from 'next/router'
 
 export default function AddBalance() {
+    const router = useRouter();
     const [amount, setAmount] = useState('');
 
     function openPaymentWidgetHandler(priceToPay) {
