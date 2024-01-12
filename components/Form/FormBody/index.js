@@ -57,10 +57,21 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                         <input value={fields.fio?.value} type={fields.fio?.inputType} onChange={e => handleInputChange(currentStepNum, fields.fio?.name, e.target.value)} />
                     </div>
                 ) : (
-                    <div className={styles.input_item}>
-                        <span>{fields.fio?.title}</span>
-                        <input value={fields.fio?.value} type={fields.fio?.inputType} onChange={e => handleInputChange(currentStepNum, fields.fio?.name, e.target.value)} />
-                    </div>
+                    <>
+                        <div className={styles.input_item}>
+                            <span>{fields.name?.title}</span>
+                            <input value={fields.name?.value} type={fields.name?.inputType} onChange={e => handleInputChange(currentStepNum, fields.name?.name, e.target.value)} />
+                        </div>
+                        <div className={styles.input_item}>
+                            <span>{fields.surname?.title}</span>
+                            <input value={fields.surname?.value} type={fields.surname?.inputType} onChange={e => handleInputChange(currentStepNum, fields.surname?.name, e.target.value)} />
+                        </div>
+                        <div className={styles.input_item}>
+                            <span>{fields.lastName?.title}</span>
+                            <input value={fields.lastName?.value} type={fields.lastName?.inputType} onChange={e => handleInputChange(currentStepNum, fields.lastName?.name, e.target.value)} />
+                        </div>
+                    </>
+                    
                 )}
 
                 <div className={styles.input_item}>
@@ -75,7 +86,7 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                 </div>
 
                 {
-                    fields.role_id?.value === 1 && fields.status_id?.value === 1 && (
+                    (fields.role_id?.value === 1 || fields.role_id?.value === 2) && fields.status_id?.value === 1 && (
                         <>
                             <div className={styles.input_item}>
                                 <span>{fields.companyName?.title}</span>
@@ -125,7 +136,7 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                 <div className={styles.input_item}>
                     <span>{fields.password?.title}</span>
                     <div className={styles.passwordInputWrapper}>
-                        <input value={fields.password?.value} type={fields.password?.inputType} onChange={e => handleInputChange(currentStepNum, fields.password?.name, e.target.value)} />
+                        <input value={fields.password?.value} type={fields.password?.inputType} onChange={e => handleInputChange(currentStepNum, fields.password?.name, e.target.value)}/>
                         <div
                             onClick={() => {
                                 setFields(fields => Object.keys(fields).reduce((acc, key) => {
@@ -317,7 +328,11 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                         <a className={styles.link} href='/login/reset'>Забыли пароль?</a>
                     </div>
                     <div className={styles.passwordInputWrapper}>
-                        <input value={fields.password?.value} type={fields.password?.inputType} onChange={e => handleInputChange(currentStepNum, fields.password?.name, e.target.value)} />
+                        <input
+                            // value={fields.password?.value}
+                            type={fields.password?.inputType}
+                            onBlur={e => handleInputChange(currentStepNum, fields.password?.name, e.target.value)}
+                        />
                         <div
                             onClick={() => {
                                 setFields(fields => Object.keys(fields).reduce((acc, key) => {

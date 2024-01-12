@@ -26,6 +26,9 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                         { name: 'role_id', title: 'Выберите роль', inputType: 'checkbox', options: [ { value: 1, title: 'Заказчик' }, { value: 2, title: 'Исполнитель' } ], value: 1 },
                         { name: 'status_id', title: 'Выберите статус', inputType: 'radio', options: [ { value: 1, title: 'Юр. лицо / ИП' }, { value: 2, title: 'Физическое лицо' } ], value: 1 },
                         { name: 'fio', title: 'ФИО', inputType: 'text', value: '' },
+                        { name: 'name', title: 'Имя', inputType: 'text', value: '' },
+                        { name: 'surname', title: 'Фамилия', inputType: 'text', value: '' },
+                        { name: 'lastName', title: 'Отчество', inputType: 'text', value: '' },
                         { name: 'phone', title: 'Номер телефона', inputType: 'text', value: '', placeholder: '+7 (000) 000-00-00' },
                         { name: 'email', title: 'Email', inputType: 'text', value: '' },
                         { name: 'city_id', title: 'Город', inputType: 'select', options: cities, value: cities[0].id },
@@ -108,7 +111,7 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
     }
 
     const handleInputChange = (stepNum, fieldName, fieldValue) => {
-        setForms(prevValue => prevValue.map(form => {
+        const newData = forms.map(form => {
             if (form.stepNum === stepNum) {
                 form.fields = form.fields.map(field => {
                     if (field.name === fieldName) {
@@ -122,8 +125,14 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                 return form;
             }
             return form;
-        }))
+        })
+        // console.log(newData);
+        setForms(newData);
     }
+
+    useEffect(() => {
+        console.log(forms?.at(3).fields[1].value);
+    }, [forms])
 
     const handleButtonClick = async () => {
         if (currentStepNum === FORMS_CONST.FORM_STEPS.REGISTRATION) {
@@ -171,12 +180,28 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
             }
         }, certificateInfo);
 
+        if (payload.name.length || payload.surname.length) {
+            payload.fio = `${payload.name} ${payload.surname} ${payload.lastName}`;
+            delete payload.name;
+            delete payload.surname;
+            delete payload.lastName;
+        }
+
+        if (payload.status_id === 2) {
+            delete payload.accountNumber;
+            delete payload.bik;
+            delete payload.bin;
+            delete payload.companyName;
+            delete payload.directorFio;
+            delete payload.legalAddress;
+        }
+
         if (validatePayload(payload)) {
             if (payload.password === payload.confirmPassword) {
                 axios
                 .post(process.env.NEXT_PUBLIC_API_URL + 'register', payload, { headers: { "Content-Type": "multipart/form-data" } })
                 .then(() => router.push('/registration/success'))
-                .catch(data => alert(data.message))
+                .catch(data => alert(data.response.data.message))
             } else {
                 alert("Пароли не совпадают!");
             }
@@ -194,13 +219,31 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                 ...(field.name === 'role_id' && { [field.name]: JSON.stringify(field.value) })
             }
         }, {});
-        
+
+        if (payload.status_id === 2) {
+            delete payload.accountNumber;
+            delete payload.bik;
+            delete payload.bin;
+            delete payload.companyName;
+            delete payload.directorFio;
+            delete payload.legalAddress;
+        }
+
+        if (payload.name.length || payload.surname.length) {
+            payload.fio = `${payload.name} ${payload.surname} ${payload.lastName}`;
+            delete payload.name;
+            delete payload.surname;
+            delete payload.lastName;
+        }
+
+        console.log(payload);
+
         if (validatePayload(payload)) {
             if (payload.password === payload.confirmPassword) {
                 axios
                 .post(process.env.NEXT_PUBLIC_API_URL + 'registerSimple', payload)
                 .then(() => router.push('/registration/success'))
-                .catch(data => alert(data.message))
+                .catch(data => alert(data.response.data.message))
             } else {
                 alert("Пароли не совпадают!");
             }
