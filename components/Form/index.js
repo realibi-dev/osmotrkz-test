@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import Button from '../common/Button';
 import { getUserInfoFromSertificate } from '../../helpers/ncaLayer';
 import { useMediaQuery } from 'react-responsive';
+import constants from '../../helpers/constants';
 
 export default function Form({ formType, stepNum, isNeedBackgroundImages=true, isNeedHeader=true, removeOutline=false }) {
     const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
@@ -106,8 +107,38 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
 
     const [currentStepNum, setCurrentStepNum] = useState(stepNum || 1);
 
-    const validatePayload = payload => {
-        return !Object.values(payload).some(value => typeof value === "string" && value.length == "");
+    const validatePayload = (payload, stepNumber) => {
+        if (payload?.password?.length < 8) {
+            alert("Пароль должен содержать минимум 8 символов!")
+            return false;
+        }
+
+        if (payload.password && payload?.password !== payload?.confirmPassword) {
+            alert("Пароли не совпадают!")
+            return false;
+        }
+
+        if (payload?.email && !payload?.email?.includes("@")) {
+            alert("Почта не соответствует формату!")
+            return false;
+        }
+
+        const emptyFields = Object.keys(payload).filter(key => typeof payload[key] === "string" && payload[key].length == "");
+
+        if (emptyFields.length > 0) {
+            const fields = forms.find(form => form.stepNum === stepNumber)?.fields;
+            const emptyFieldNames = [];
+            for (const payloadName of emptyFields) {
+                const fieldName = fields.find(f => f.name === payloadName)?.title;
+                emptyFieldNames.push(fieldName);
+            }
+
+            alert("Заполните следующие поля: " + emptyFieldNames.toString());
+
+            return false;
+        } else {
+            return true;
+        }
     }
 
     const handleInputChange = (stepNum, fieldName, fieldValue) => {
@@ -180,12 +211,9 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
             }
         }, certificateInfo);
 
-        if (payload.name.length || payload.surname.length) {
-            payload.fio = `${payload.name} ${payload.surname} ${payload.lastName}`;
-            delete payload.name;
-            delete payload.surname;
-            delete payload.lastName;
-        }
+        delete payload.name;
+        delete payload.surname;
+        delete payload.lastName;
 
         if (payload.status_id === 2) {
             delete payload.company_title;
@@ -196,7 +224,7 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
             delete payload.director_fio;
         }
 
-        if (validatePayload(payload)) {
+        if (validatePayload(payload, constants.FORM_STEPS.REGISTRATION)) {
             if (payload.password === payload.confirmPassword) {
                 axios
                 .post(process.env.NEXT_PUBLIC_API_URL + 'register', payload, { headers: { "Content-Type": "multipart/form-data" } })
@@ -205,8 +233,6 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
             } else {
                 alert("Пароли не совпадают!");
             }
-        } else {
-            alert("Заполните, пожалуйста, все поля");
         }
     }
 
@@ -236,9 +262,7 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
             delete payload.lastName;
         }
 
-        console.log(payload);
-
-        if (validatePayload(payload)) {
+        if (validatePayload(payload, constants.FORM_STEPS.REGISTRATION)) {
             if (payload.password === payload.confirmPassword) {
                 axios
                 .post(process.env.NEXT_PUBLIC_API_URL + 'registerSimple', payload)
@@ -247,9 +271,7 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
             } else {
                 alert("Пароли не совпадают!");
             }
-        } else {
-            alert("Заполните, пожалуйста, все поля");
-        }        
+        }      
     }
 
     const login = () => {

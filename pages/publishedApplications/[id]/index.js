@@ -225,7 +225,7 @@ export default function PublishedApplication() {
 
                                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                                 <span style={{ color: '#3F444A', fontSize: 14, fontWeight: 400, lineHeight: '14px' }}>Время проведения<br/>осмотра</span>
-                                                <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>{applicationInfo.review_time.split(':').slice(0,2).join(':')}<sup></sup></span>
+                                                <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>{applicationInfo.review_time_from?.split(':').slice(0,2).join(':')}<sup></sup></span>
                                             </div>
                                         </div>
                                     </div>
@@ -253,7 +253,7 @@ export default function PublishedApplication() {
                                     <div style={{ textAlign: 'right', marginTop: 40 }}>
                                         <Button
                                             type={'filled'}
-                                            text={'Отликнуться'}
+                                            text={'Откликнуться'}
                                             // onClick={() => respondToApplication()}
                                             onClick={() => {
                                                 axios.post(process.env.NEXT_PUBLIC_API_URL + 'addNewResponse', {

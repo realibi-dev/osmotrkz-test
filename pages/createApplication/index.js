@@ -104,7 +104,7 @@ export default function CreateApplication() {
     }
 
     const addDocument = () => {
-        setDocuments(prev => [...prev, { file: '', kadNumber: '' }])
+        setDocuments(prev => [...prev, { tehpassport: '', kad_number: '' }])
     }
 
     const removeDocument = idx => {
@@ -376,11 +376,14 @@ export default function CreateApplication() {
                             <div className={styles.customSelectWrapper}>
                                 <select className={clsx(styles.textArea, styles.customSelect)} onChange={e => setObjectTypeId(e.target.value)} value={objectTypeId}>
                                     <option value={1}>Квартира</option>
-                                    <option value={2}>Дом</option>
-                                    <option value={3}>Земельный участок</option>
-                                    <option value={4}>Коттедж</option>
-                                    <option value={5}>Дача</option>
-                                    <option value={6}>Коммерческое помещение</option>
+                                    <option value={2}>Земельный участок</option>
+                                    <option value={3}>Коттедж</option>
+                                    <option value={4}>Частный дом</option>
+                                    <option value={5}>Магазин</option>
+                                    <option value={6}>СТО</option>
+                                    <option value={7}>Производственная база</option>
+                                    <option value={8}>Административно-бытовой комплекс</option>
+                                    <option value={9}>Торговый дом</option>
                                 </select>
                             </div>
                         </div>
@@ -550,18 +553,23 @@ export default function CreateApplication() {
                                             <br />
                                         </>
                                     ) }
-
-                                    <Button
-                                        type={'text'}
-                                        text={'Добавить еще позиции'}
-                                        onClick={() => addMovableProperty()}
-                                        additionalStyles={{}}
-                                        disabled={!haveMovableProperty}
-                                    />
                                 </>
                             )
                         })
                     }
+
+                    {
+                        haveMovableProperty && (
+                            <Button
+                                type={'text'}
+                                text={'Добавить еще позиции'}
+                                onClick={() => addMovableProperty()}
+                                additionalStyles={{}}
+                                disabled={!haveMovableProperty}
+                            />
+                        )
+                    }
+                    
                 </div>
 
                 <div className={styles.formsContainer}>

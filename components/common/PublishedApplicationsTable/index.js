@@ -18,11 +18,14 @@ function TableRow({ data, favourites, cities }) {
 
     const types = {
         1: 'Квартира',
-        2: 'Дом',
-        3: 'Земельный участок',
-        4: 'Коттедж',
-        5: 'Дача',
-        5: 'Коммерческое предложение',
+        2: 'Земельный участок',
+        3: 'Коттедж',
+        4: 'Частный дом',
+        5: 'Магазин',
+        6: 'СТО',
+        7: 'Производственная база',
+        8: 'Административно-бытовой комплекс',
+        9: 'Торговый дом',
     }
 
     return (
@@ -185,12 +188,15 @@ export default function PublishedApplicationsTable({}) {
 
                 <div className={styles.customSelectWrapper}>
                     <select className={clsx(styles.textArea, styles.customSelect)} style={{ width: '100%' }} onChange={e => setFilterType(e.target.value)}>
-                        <option value={0}>Тип объекта</option>
                         <option value={1}>Квартира</option>
-                        <option value={2}>Дом</option>
-                        <option value={3}>Земельный участок</option>
-                        <option value={4}>Коттедж</option>
-                        <option value={5}>Дача</option>
+                        <option value={2}>Земельный участок</option>
+                        <option value={3}>Коттедж</option>
+                        <option value={4}>Частный дом</option>
+                        <option value={5}>Магазин</option>
+                        <option value={6}>СТО</option>
+                        <option value={7}>Производственная база</option>
+                        <option value={8}>Административно-бытовой комплекс</option>
+                        <option value={9}>Торговый дом</option>
                     </select>
                 </div>
 
