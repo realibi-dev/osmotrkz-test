@@ -170,6 +170,26 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
             if (forms?.find(form => form.stepNum === FORMS_CONST.FORM_STEPS.REGISTRATION)?.fields?.find(field => field.name === 'role_id')?.value == 1) {
                 registrationShort();
                 return;
+            } else {
+                if (currentStepNum === FORMS_CONST.FORM_STEPS.REGISTRATION || currentStepNum === FORMS_CONST.FORM_STEPS.QUALIFICATION) {
+                    const fields = forms.find(form => form.stepNum === currentStepNum).fields;
+                    const payload = fields.reduce((acc, field) => {
+                        return {
+                            ...acc,
+                            [field.name]: field.value,
+                        }
+                    });
+
+                    delete payload.name;
+                    delete payload.surname;
+                    delete payload.lastName;
+        
+                    if (validatePayload(payload, currentStepNum)) {
+                        setCurrentStepNum(currentStepNum + 1);
+                    } else return;
+                } else {
+                    setCurrentStepNum(currentStepNum + 1);
+                }
             }
         }
         if (currentStepNum === FORMS_CONST.FORM_STEPS.AUTHORIZATION){
@@ -188,8 +208,26 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
             resetPassword();
             return;
         }
-        setCurrentStepNum(currentStepNum + 1);
-        console.log(forms);
+
+        if (currentStepNum === FORMS_CONST.FORM_STEPS.QUALIFICATION) {
+            const fields = forms.find(form => form.stepNum === currentStepNum).fields;
+            const payload = fields.reduce((acc, field) => {
+                return {
+                    ...acc,
+                    [field.name]: field.value,
+                }
+            });
+
+            delete payload.name;
+            delete payload.surname;
+            delete payload.lastName;
+
+            if (validatePayload(payload, currentStepNum)) {
+                setCurrentStepNum(currentStepNum + 1);
+            } else return;
+        } else {
+            setCurrentStepNum(currentStepNum + 1);
+        }
     }
 
     const registration = async () => {

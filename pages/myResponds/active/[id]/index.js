@@ -23,12 +23,18 @@ export default function PublishedApplication() {
     const [reviewDate, setReviewDate] = useState('');
     const [reviewTime, setReviewTime] = useState('');
 
+    const [responseId, setResponseId] = useState();
+
     const types = {
         1: 'Квартира',
-        2: 'Дом',
-        3: 'Земельный участок',
-        4: 'Коттедж',
-        5: 'Дача',
+        2: 'Земельный участок',
+        3: 'Коттедж',
+        4: 'Частный дом',
+        5: 'Магазин',
+        6: 'СТО',
+        7: 'Производственная база',
+        8: 'Административно-бытовой комплекс',
+        9: 'Торговый дом',
     }
 
     useEffect(() => {
@@ -58,6 +64,21 @@ export default function PublishedApplication() {
             }
         })
         .catch(error => alert("Ошибка при загрузке заявок"))
+    }, [applicationId]);
+
+    useEffect(() => {
+        const currentUser = getCurrentUser();
+        if (currentUser) {
+            axios
+            .get(process.env.NEXT_PUBLIC_API_URL + 'getResponsesForOrder/' + applicationId, { headers: { 'ngrok-skip-browser-warning': 'true'  } })
+            .then(response => {
+                if (response.data?.success) {
+                    setResponseId(response?.data?.userRequests.find(item => item.owner_id == currentUser.id).id);
+                    console.log("asd", response?.data?.userRequests.find(item => item.owner_id == currentUser.id).id);
+                }
+            })
+            .catch(error => alert("Ошибка при загрузке заявок"))
+        }
     }, [applicationId]);
 
     const respondToApplication = () => {
@@ -225,7 +246,7 @@ export default function PublishedApplication() {
                                     type={'filled'}
                                     onClick={() => {
                                         axios
-                                        .post(process.env.NEXT_PUBLIC_API_URL + 'rejectResponse', { id: +applicationInfo.square })
+                                        .post(process.env.NEXT_PUBLIC_API_URL + 'rejectResponse', { id: +responseId })
                                         .then(({ data }) => {
                                             if (data.success) {
                                                 alert("Вы отказались от этой заявки. Заявка вернется в список опубликованных заявок.");

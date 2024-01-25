@@ -110,7 +110,7 @@ export default function PublishedApplication() {
                                         <div
                                             className={styles.userAvatar}
                                             style={{
-                                                backgroundImage: `url(${applicationInfo?.owner?.avatar || '/application_profile.png'})`,
+                                                backgroundImage: `url(${process.env.NEXT_PUBLIC_API_URL}file/${applicationInfo?.owner?.avatar || '/application_profile.png'})`,
                                             }}
                                         >
                                         </div>
@@ -220,7 +220,7 @@ export default function PublishedApplication() {
                                         <div style={{ display: 'flex', gap: 36 }}>
                                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                                 <span style={{ color: '#3F444A', fontSize: 14, fontWeight: 400, lineHeight: '14px' }}>Дата проведения<br/>осмотра</span>
-                                                <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>{moment(applicationInfo.review_date).format('DD.MM.YYYY')}<sup></sup></span>
+                                                <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>{moment(applicationInfo.order_deadline).format('DD.MM.YYYY')}<sup></sup></span>
                                             </div>
 
                                             <div style={{ display: 'flex', flexDirection: 'column' }}>

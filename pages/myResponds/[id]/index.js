@@ -22,38 +22,63 @@ export default function RespondApplication() {
     const [isResponding, setIsResponding] = useState(false);
     const [respondFinishDate, setRespondFinishDate] = useState('');
 
+    const [responseId, setResponseId] = useState();
+
     const types = {
         1: 'Квартира',
-        2: 'Дом',
-        3: 'Земельный участок',
-        4: 'Коттедж',
-        5: 'Дача',
+        2: 'Земельный участок',
+        3: 'Коттедж',
+        4: 'Частный дом',
+        5: 'Магазин',
+        6: 'СТО',
+        7: 'Производственная база',
+        8: 'Административно-бытовой комплекс',
+        9: 'Торговый дом',
     }
 
     useEffect(() => {
         if (getCurrentUser()?.id) {
-            axios
-            .get(process.env.NEXT_PUBLIC_API_URL + 'getFavorites/' + getCurrentUser().id, { headers: { 'ngrok-skip-browser-warning': 'true'  } })
-            .then(response => {
-                if(response.data.success) {
-                    const favourites = response.data.favorites;
-                    setIsFavourite(favourites.find(item => item.id == applicationId));
-                }
-            })
+            if (applicationId){
+                axios
+                .get(process.env.NEXT_PUBLIC_API_URL + 'getFavorites/' + getCurrentUser().id, { headers: { 'ngrok-skip-browser-warning': 'true'  } })
+                .then(response => {
+                    if(response.data.success) {
+                        const favourites = response.data.favorites;
+                        setIsFavourite(favourites.find(item => item.id == applicationId));
+                    }
+                })
+            }
+            
         }
     }, [applicationId]);
 
     useEffect(() => {
-        axios
-        .get(process.env.NEXT_PUBLIC_API_URL + 'getAllRequests', { headers: { 'ngrok-skip-browser-warning': 'true'  } })
-        .then(response => {
-            if (response.data?.success) {
-                const applications = response.data.requests;
-                setApplicationInfo(applications.find(app => app.id === +applicationId));
-            }
-        })
-        .catch(error => alert("Ошибка при загрузке заявок"))
+        if (applicationId){
+            axios
+            .get(process.env.NEXT_PUBLIC_API_URL + 'getAllRequests', { headers: { 'ngrok-skip-browser-warning': 'true'  } })
+            .then(response => {
+                if (response.data?.success) {
+                    const applications = response.data.requests;
+                    setApplicationInfo(applications.find(app => app.id === +applicationId));
+                }
+            })
+            .catch(error => alert("Ошибка при загрузке заявок"))
+        }
+        
     }, [applicationId]);
+
+    // useEffect(() => {
+    //     const currentUser = getCurrentUser();
+    //     if (applicationId) {
+    //         axios
+    //         .get(process.env.NEXT_PUBLIC_API_URL + 'getResponsesForOrder/' + applicationId, { headers: { 'ngrok-skip-browser-warning': 'true'  } })
+    //         .then(response => {
+    //             setResponseId(response?.data?.userRequests.find(item => item.owner_id == currentUser.id).id);
+    //             console.log("asd", response?.data?.userRequests.find(item => item.owner_id == currentUser.id).id);
+    //         })
+    //         .catch(error => alert("Ошибка при загрузке заявок"))
+    //     }
+    // }, [applicationId]);
 
     const respondToApplication = () => {
         setIsResponding(true);
@@ -236,7 +261,7 @@ export default function RespondApplication() {
                                         <div
                                             className={styles.userAvatar}
                                             style={{
-                                                backgroundImage: `url(${applicationInfo?.owner?.avatar || '/application_profile.png'})`,
+                                                backgroundImage: `url(${process.env.NEXT_PUBLIC_API_URL}file/${applicationInfo?.owner?.avatar || '/application_profile.png'})`,
                                             }}
                                         >
                                         </div>
@@ -353,12 +378,12 @@ export default function RespondApplication() {
                                         <div style={{ display: 'flex', gap: 36, flexDirection: 'column' }}>
                                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                                 <span style={{ color: '#3F444A', fontSize: 14, fontWeight: 400, lineHeight: '14px' }}>Дата проведения<br/>осмотра</span>
-                                                <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>{moment(applicationInfo.review_date).format('DD.MM.YYYY')}<sup></sup></span>
+                                                <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>{moment(applicationInfo.order_deadline).format('DD.MM.YYYY')}<sup></sup></span>
                                             </div>
 
                                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                                 <span style={{ color: '#3F444A', fontSize: 14, fontWeight: 400, lineHeight: '14px' }}>Время проведения<br/>осмотра</span>
-                                                <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>{applicationInfo.review_time.split(':').slice(0,2).join(':')}<sup></sup></span>
+                                                <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>{applicationInfo?.review_time_from?.split(':').slice(0,2).join(':')}<sup></sup></span>
                                             </div>
                                         </div>
                                     </div>
@@ -435,7 +460,21 @@ export default function RespondApplication() {
                                             // type={'text'}
                                             text={'Отменить'}
                                             // onClick={() => respondToApplication()}
-                                            onClick={() => {}}
+                                            onClick={() => {
+                                                axios
+                                                .post(process.env.NEXT_PUBLIC_API_URL + 'rejectResponse', { id: +responseId })
+                                                .then(({ data }) => {
+                                                    if (data.success) {
+                                                        alert("Вы отказались от этой заявки. Заявка вернется в список опубликованных заявок.");
+                                                        router.push("/publishedApplications");
+                                                    } else {
+                                                        alert("Что-то пошло нетак!");
+                                                    }
+                                                })
+                                                .catch(data => {
+                                                    alert(data.message);
+                                                })
+                                            }}
                                             additionalStyles={{
                                                 width: 210,
                                                 height: 50,

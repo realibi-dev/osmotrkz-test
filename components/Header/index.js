@@ -21,7 +21,11 @@ export default function Header() {
 
     const handleLogout = () => {
         resetCurrentSession();
-        router.push("/login");
+        if(router.route === '/') {
+            router.reload();
+        } else {
+            router.replace("/");
+        }
     }
 
     const handleProfileClick = () => {

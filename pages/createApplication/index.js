@@ -125,8 +125,8 @@ export default function CreateApplication() {
         formData.append("square", square);
         formData.append("phone", phone);
         formData.append("is_moving", haveMovableProperty);
-        formData.append("tehpassports", documents);
-        formData.append("movableProperty", haveMovableProperty ? movablePropertyItems.map(item => ({ title: item.name,count: item.quantity,unit: item.unit })) : []);
+        formData.append("tehpassports", JSON.stringify(documents));
+        formData.append("movableProperty", haveMovableProperty ? JSON.stringify(movablePropertyItems.map(item => ({ title: item.name,count: item.quantity,unit: item.unit }))) : []);
         formData.append("status_id", applicationType === APPLICATION_TYPES.PUBLIC ? 1 : 4);
         formData.append("latitude", latitude);
         formData.append("longitude", longitude);
@@ -542,6 +542,10 @@ export default function CreateApplication() {
                                                     onChange={e => changeMovableProperty(idx, 'unit', e.target.value)}
                                                 >
                                                     <option value={'Штук'}>Штук</option>
+                                                    <option value={'Литры'}>Литры</option>
+                                                    <option value={'Метры'}>Метры</option>
+                                                    <option value={'Киллограм'}>Киллограм</option>
+                                                    <option value={'Ватты'}>Ватты</option>
                                                 </select>
                                             </div>
                                         </div>
