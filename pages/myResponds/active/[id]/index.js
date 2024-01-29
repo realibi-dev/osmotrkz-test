@@ -68,16 +68,13 @@ export default function PublishedApplication() {
 
     useEffect(() => {
         const currentUser = getCurrentUser();
-        if (currentUser) {
+        if (applicationId) {
             axios
             .get(process.env.NEXT_PUBLIC_API_URL + 'getResponsesForOrder/' + applicationId, { headers: { 'ngrok-skip-browser-warning': 'true'  } })
             .then(response => {
-                if (response.data?.success) {
-                    setResponseId(response?.data?.userRequests.find(item => item.owner_id == currentUser.id).id);
-                    console.log("asd", response?.data?.userRequests.find(item => item.owner_id == currentUser.id).id);
-                }
+                setResponseId(response?.data?.responses.find(item => item.user_id == currentUser.id).id);
             })
-            .catch(error => alert("Ошибка при загрузке заявок"))
+            .catch(error => alert("Ошибка при загрузке заявок\n"+error))
         }
     }, [applicationId]);
 
@@ -86,7 +83,7 @@ export default function PublishedApplication() {
     }
 
     return (
-        <div className={styles.container} style={{ background: isResponding ? 'rgba(255, 255, 255, 0.2)' : '' }}>
+        <div className={styles.container} style={{ background: isResponding ? 'rgba(255, 255, 255, 0.2)' : 'none' }}>
             {/* <Head>
                 <meta httpEquiv="Content-Security-Policy" content={'frame-ancestors https://api.onevisionpay.com'} /> 
             </Head> */}
@@ -245,8 +242,9 @@ export default function PublishedApplication() {
                                     }}
                                     type={'filled'}
                                     onClick={() => {
+                                        console.log("RID"+responseId);
                                         axios
-                                        .post(process.env.NEXT_PUBLIC_API_URL + 'rejectResponse', { id: +responseId })
+                                        .post(process.env.NEXT_PUBLIC_API_URL + 'rejectResponse', { response_id: + responseId })
                                         .then(({ data }) => {
                                             if (data.success) {
                                                 alert("Вы отказались от этой заявки. Заявка вернется в список опубликованных заявок.");

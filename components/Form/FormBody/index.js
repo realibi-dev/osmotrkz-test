@@ -7,6 +7,8 @@ import { useMediaQuery } from 'react-responsive';
 export default function FormBody({ styles, formInfo, handleInputChange, currentStepNum }) {
     const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const [fields, setFields] = useState({});
+    const [cursorPosition, setCursorPosition] = useState(null);
+    const emailInputRef = useRef();
 
     useEffect(() => {
         const computedFields = formInfo.fields.reduce((acc, field) => {
@@ -24,6 +26,13 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
         }, {})
         setFields(computedFields);
     }, [currentStepNum, handleInputChange]);
+
+    useEffect(() => {
+        if (emailInputRef.current && cursorPosition !== null) {
+            emailInputRef.current.setSelectionRange(cursorPosition, cursorPosition);
+            setCursorPosition(null);
+        }
+    }, [fields.email?.value]); 
 
     const renderRegistrationForm = () => {
         return (
@@ -319,7 +328,12 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                         <span>{fields.email?.title}</span>
                         <a className={styles.link} href='/registration'>Регистрация</a>
                     </div>
-                    <input value={fields.email?.value} type={fields.email?.inputType} onChange={e => handleInputChange(currentStepNum, fields.email?.name, e.target.value)} />
+                    <input ref={emailInputRef} value={fields.email?.value} type={fields.email?.inputType} 
+                        onChange={ e => {   
+                            setCursorPosition(e.target.selectionStart);                            
+                            handleInputChange(currentStepNum, fields.email?.name, e.target.value)                                                                                    
+                        }} 
+                    />                    
                 </div>
 
                 <div className={styles.input_item}>

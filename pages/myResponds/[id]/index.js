@@ -38,7 +38,7 @@ export default function RespondApplication() {
 
     useEffect(() => {
         if (getCurrentUser()?.id) {
-            if (applicationId){
+            if (applicationId){                
                 axios
                 .get(process.env.NEXT_PUBLIC_API_URL + 'getFavorites/' + getCurrentUser().id, { headers: { 'ngrok-skip-browser-warning': 'true'  } })
                 .then(response => {
@@ -462,7 +462,7 @@ export default function RespondApplication() {
                                             // onClick={() => respondToApplication()}
                                             onClick={() => {
                                                 axios
-                                                .post(process.env.NEXT_PUBLIC_API_URL + 'rejectResponse', { id: +responseId })
+                                                .post(process.env.NEXT_PUBLIC_API_URL + 'rejectResponse', { id: + responseId })
                                                 .then(({ data }) => {
                                                     if (data.success) {
                                                         alert("Вы отказались от этой заявки. Заявка вернется в список опубликованных заявок.");

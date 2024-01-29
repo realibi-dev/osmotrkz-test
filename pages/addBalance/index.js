@@ -3,13 +3,50 @@ import Header from '../../components/Header';
 import styles from './style.module.css';
 import Button from './../../components/common/Button'
 import { useState } from 'react';
-import { getCurrentUser, setCurrentUser } from '../../helpers/user';
+import { getCurrentUser, setCurrentUser, setToken } from '../../helpers/user';
 import axios from 'axios';
 import { useRouter } from 'next/router'
 
 export default function AddBalance() {
     const router = useRouter();
     const [amount, setAmount] = useState('');
+    var searchParams;
+    var userEmail;
+    var userPassword;
+    try{
+        searchParams = new URLSearchParams(location.search);
+        userEmail = searchParams.get('email');
+        userPassword = searchParams.get('password');
+    }
+    catch{}
+    
+
+    const login = () => {
+        console.log(userEmail, userPassword);
+        if(userEmail == null || userPassword == null){
+            return;
+        }
+        const payload = {
+            "email": userEmail,
+            "password": userPassword
+        }
+        axios
+        .post(process.env.NEXT_PUBLIC_API_URL + 'auth', payload)
+        .then(({ data }) => {
+            if (data.success) {
+                if (data.user.is_active) {
+                    setToken(data.token);
+                    setCurrentUser(data.user);
+                } else {
+                    alert("Администрация еще не верифицировала ваш акаунт");
+                }
+            }
+        })
+        .catch(data => {
+            console.log(data);
+            alert(data.response?.data?.message || "Произошла ошибка!");
+        })
+    }
 
     function openPaymentWidgetHandler(priceToPay) {
         if (getCurrentUser()?.id) {
@@ -70,6 +107,8 @@ export default function AddBalance() {
             alert("Вам нужно авторизоваться!");
         }
     }
+
+    login();
 
     return (
         <>
