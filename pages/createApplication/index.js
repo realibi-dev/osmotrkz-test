@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router'
 import { getCurrentUser } from '../../helpers/user';
 import CustomMap from '../../components/common/CustomMap';
+import CustomMap2 from '../../components/common/CustomMap2';
 import InputMask from 'react-input-mask';
 import { useMediaQuery } from 'react-responsive';
 
@@ -319,7 +320,7 @@ export default function CreateApplication() {
                         <span>Информация об осмотре недвижимости</span>
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25 }}>
+                    {/* <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25 }}>
                         <label>Адрес</label>
                         <textarea
                             rows={1}
@@ -329,9 +330,9 @@ export default function CreateApplication() {
                             value={address}
                         >
                         </textarea>
-                    </div>
+                    </div> */}
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25 }}>
+                    {/* <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25 }}>
                         <label>Город</label>
                         <div className={styles.customSelectWrapper}>
                             <select className={clsx(styles.textArea, styles.customSelect)} onChange={e => setCityId(e.target.value)} value={cityId}>
@@ -342,11 +343,12 @@ export default function CreateApplication() {
                                 }
                             </select>
                         </div>
-                    </div>
+                    </div> */}
 
                     <div style={{ marginBottom: 25 }}>
                         <YMaps>
-                            <CustomMap width={'100%'} height={320} handleClick={saveCoordinates} />
+                            {/* <CustomMap width={'100%'} height={320} handleClick={saveCoordinates} /> */}
+                            <CustomMap2/>
                         </YMaps>
                     </div>
 

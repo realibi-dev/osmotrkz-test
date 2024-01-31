@@ -15,6 +15,14 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
     const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const router = useRouter();
 
+    var searchParams;
+    var userEmail;
+    try{
+        searchParams = new URLSearchParams(location.search);
+        userEmail = searchParams.get('email');
+    }
+    catch{}
+
     const init = async () => {
         const res = await axios.get(process.env.NEXT_PUBLIC_API_URL + 'getAllCities', { headers: { 'ngrok-skip-browser-warning': 'true'  } });
         const cities = await res.data.rows;
@@ -75,12 +83,19 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                     ]
                 },
                 {
-                    stepNum: FORMS_CONST.FORM_STEPS.RESET_PASSWORD,
+                    stepNum: FORMS_CONST.FORM_STEPS.SEND_EMAIL_CODE,
                     headingText: '',
                     fields: [
                         { name: 'email', title: 'Введите email указанный во время регистрации', inputType: 'text', value: '' },
+                    ]
+                },
+                {
+                    stepNum: FORMS_CONST.FORM_STEPS.RESET_PASSWORD,
+                    headingText: '',
+                    fields: [
                         { name: 'password', title: 'Придумайте новый пароль', inputType: 'password', value: '' },
                         { name: 'confirmPassword', title: 'Подтвердите пароль', inputType: 'password', value: '' },
+                        { name: 'code', title: 'Введите код отправленный на почту', inputType: 'text', value: '' },
                     ]
                 },
                 {
@@ -382,6 +397,7 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
         }, {});
 
         payload.confirmPassword = payload.password;
+        payload.email = userEmail;
 
         axios
         .post(process.env.NEXT_PUBLIC_API_URL + 'updatePassword', payload)
