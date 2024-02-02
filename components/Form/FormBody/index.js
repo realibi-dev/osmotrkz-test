@@ -453,7 +453,7 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
             {currentStepNum === FORMS_CONST.FORM_STEPS.REGISTRATION && renderRegistrationForm()}
             {currentStepNum === FORMS_CONST.FORM_STEPS.QUALIFICATION && renderQualificationForm()}
             {currentStepNum === FORMS_CONST.FORM_STEPS.AUTHORIZATION && renderAuthorizationForm()}
-            {currentStepNum === FORMS_CONST.FORM_STEPS.LOGIN &&( renderLoginForm)}
+            {currentStepNum === FORMS_CONST.FORM_STEPS.LOGIN && renderLoginForm()}
             {currentStepNum === FORMS_CONST.FORM_STEPS.SEND_EMAIL_CODE && renderSendEmailForm()}
             {currentStepNum === FORMS_CONST.FORM_STEPS.RESET_PASSWORD && renderPasswordRecoveryForm()}
             {currentStepNum === FORMS_CONST.FORM_STEPS.PROFILE_EDIT && renderProfileEditForm()}
