@@ -93,9 +93,8 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                     stepNum: FORMS_CONST.FORM_STEPS.RESET_PASSWORD,
                     headingText: '',
                     fields: [
-                        { name: 'password', title: 'Придумайте новый пароль', inputType: 'password', value: '' },
-                        { name: 'confirmPassword', title: 'Подтвердите пароль', inputType: 'password', value: '' },
-                        { name: 'code', title: 'Введите код отправленный на почту', inputType: 'text', value: '' },
+                        { name: 'newPassword', title: 'Придумайте новый пароль', inputType: 'password', value: '' },
+                        { name: 'verificationCode', title: 'Код высланный на почту', inputType: 'number', value: '' },                        
                     ]
                 },
                 {
@@ -221,6 +220,10 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
         }
         if (currentStepNum === FORMS_CONST.FORM_STEPS.RESET_PASSWORD) {
             resetPassword();
+            return;
+        }
+        if (currentStepNum === FORMS_CONST.FORM_STEPS.SEND_EMAIL_CODE) {
+            sendEmail();
             return;
         }
 
@@ -395,15 +398,38 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                 [field.name]: field.value,
             }
         }, {});
-
-        payload.confirmPassword = payload.password;
+        console.log("UserEmail:",userEmail);
         payload.email = userEmail;
+        payload.verificationCode = parseInt(payload.verificationCode);
+        console.log("payload:",payload);
+
 
         axios
-        .post(process.env.NEXT_PUBLIC_API_URL + 'updatePassword', payload)
+        .post(process.env.NEXT_PUBLIC_API_URL + 'changePassword', payload)
         .then(({ data }) => {
             if (data.success) {
                 router.push("/login");
+            }
+        })
+        .catch(data => {
+            alert(data.message);
+        })
+    }
+
+    const sendEmail = () => {
+        const sendEmailFields = forms.find(form => form.stepNum === FORMS_CONST.FORM_STEPS.SEND_EMAIL_CODE).fields;
+        const payload = sendEmailFields.reduce((acc, field) => {
+            return {
+                ...acc,
+                [field.name]: field.value,
+            }
+        }, {});
+
+        axios
+        .post(process.env.NEXT_PUBLIC_API_URL + 'sendVerificationCode', payload)
+        .then(({ data }) => {
+            if (data.success) {
+                router.push("/login/reset?email="+payload.email);
             }
         })
         .catch(data => {
@@ -462,6 +488,18 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                         className={clsx(styles.header_item, styles.header_item_full, styles.active_header)}
                     >
                         Войти
+                    </div>
+                </>
+            )
+        }
+
+        if (formType === 'sendEmail') {
+            return (
+                <>
+                    <div
+                        className={clsx(styles.header_item, styles.header_item_full, styles.active_header)}
+                    >
+                        Отправить письмо
                     </div>
                 </>
             )

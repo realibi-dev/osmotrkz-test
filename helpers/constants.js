@@ -6,5 +6,6 @@ export default {
         LOGIN: 4,
         RESET_PASSWORD: 5,
         PROFILE_EDIT: 6,
+        SEND_EMAIL_CODE: 7,
     }
 }

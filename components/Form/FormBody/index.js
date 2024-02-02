@@ -339,7 +339,7 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
                 <div className={styles.input_item}>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <span>{fields.password?.title}</span>
-                        <a className={styles.link} href='/login/reset'>Забыли пароль?</a>
+                        <a className={styles.link} href='/login/send-email'>Забыли пароль?</a>
                     </div>
                     <div className={styles.passwordInputWrapper}>
                         <input
@@ -376,20 +376,34 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
         );
     }
 
+    const renderSendEmailForm = () => {
+        return (
+            <>
+                <div className={styles.input_item}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <span>{fields.email?.title}</span>
+                    </div>
+                    <input ref={emailInputRef} value={fields.email?.value} type={fields.email?.inputType} 
+                        onChange={ e => {   
+                            setCursorPosition(e.target.selectionStart);                            
+                            handleInputChange(currentStepNum, fields.email?.name, e.target.value)                                                                                    
+                        }} 
+                    />                    
+                </div>
+            </>
+        );
+    }
+
     const renderPasswordRecoveryForm = () => {
         return (
             <>
                 <div className={styles.input_item}>
-                    <span>{fields.email?.title}</span>
-                    <input value={fields.email?.value} type={fields.email?.inputType} onChange={e => handleInputChange(currentStepNum, fields.email?.name, e.target.value)} />
+                    <span>{fields.newPassword?.title}</span>
+                    <input value={fields.newPassword?.value} type={fields.newPassword?.inputType} onChange={e => handleInputChange(currentStepNum, fields.newPassword?.name, e.target.value)} />
                 </div>
                 <div className={styles.input_item}>
-                    <span>{fields.password?.title}</span>
-                    <input value={fields.password?.value} type={fields.password?.inputType} onChange={e => handleInputChange(currentStepNum, fields.password?.name, e.target.value)} />
-                </div>
-                <div className={styles.input_item}>
-                    <span>{fields.confirmPassword?.title}</span>
-                    <input checked={fields.confirmPassword?.value} type={fields.confirmPassword?.inputType} onChange={e => handleInputChange(currentStepNum, fields.confirmPassword?.name, e.target.checked)} /> {fields.rememberMe?.title}
+                    <span>{fields.verificationCode?.title}</span>
+                    <input checked={fields.verificationCode?.value} type={fields.verificationCode?.inputType} onChange={e => handleInputChange(currentStepNum, fields.verificationCode?.name, e.target.value)} />
                 </div>
             </>
         );
@@ -439,7 +453,8 @@ export default function FormBody({ styles, formInfo, handleInputChange, currentS
             {currentStepNum === FORMS_CONST.FORM_STEPS.REGISTRATION && renderRegistrationForm()}
             {currentStepNum === FORMS_CONST.FORM_STEPS.QUALIFICATION && renderQualificationForm()}
             {currentStepNum === FORMS_CONST.FORM_STEPS.AUTHORIZATION && renderAuthorizationForm()}
-            {currentStepNum === FORMS_CONST.FORM_STEPS.LOGIN && renderLoginForm()}
+            {currentStepNum === FORMS_CONST.FORM_STEPS.LOGIN &&( renderLoginForm)}
+            {currentStepNum === FORMS_CONST.FORM_STEPS.SEND_EMAIL_CODE && renderSendEmailForm()}
             {currentStepNum === FORMS_CONST.FORM_STEPS.RESET_PASSWORD && renderPasswordRecoveryForm()}
             {currentStepNum === FORMS_CONST.FORM_STEPS.PROFILE_EDIT && renderProfileEditForm()}
         </div>

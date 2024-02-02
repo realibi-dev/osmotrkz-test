@@ -49,7 +49,7 @@ export default function WithdrawBalance() {
             }, 
             (success) => {
                 axios
-                .post(process.env.NEXT_PUBLIC_API_URL + 'reduceBalance', { amount: priceToPay, userId: getCurrentUser()?.id })
+                .post(process.env.NEXT_PUBLIC_API_URL + 'reduceBalance', { amount: priceToPay, user_id: getCurrentUser()?.id, payment_status: "created" })
                 .then(({ data }) => {
                     if (data.success) {
                         const currentUser = getCurrentUser();
