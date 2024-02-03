@@ -36,8 +36,8 @@ export default function Home() {
 
             {
               !isAuthorized && (
-                <button className={styles.button} style={isMobile ? { width: '100%' } : {}}>
-                  <Link href={'/registration'}>
+                <button className={styles.button} style={isMobile ? { width: '100%' } : { position: 'relative'} }>
+                  <Link href={'/registration'} style={{position: 'absolute', width: '100%', height: '100%', left: '0', top: '0', paddingTop: '13px'}}>
                     Зарегистрироваться
                   </Link>
                 </button>
@@ -326,8 +326,8 @@ export default function Home() {
             </p>
             {
               !isAuthorized && (
-                <button className={styles.button} style={ isMobile ? { width: '100%' } : {} }>
-                  <Link href={'/registration'}>
+                <button className={styles.button} style={isMobile ? { width: '100%' } : { position: 'relative'} }>
+                  <Link href={'/registration'} style={{position: 'absolute', width: '100%', height: '100%', left: '0', top: '0', paddingTop: '13px'}}>
                     Зарегистрироваться
                   </Link>
                 </button>

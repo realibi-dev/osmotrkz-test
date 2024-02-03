@@ -464,14 +464,14 @@ export default function Form({ formType, stepNum, isNeedBackgroundImages=true, i
                     </div>
                     <div
                         className={clsx(styles.header_item, currentStepNum === FORMS_CONST.FORM_STEPS.QUALIFICATION && styles.active_header)}
-                        onClick={() => setCurrentStepNum(FORMS_CONST.FORM_STEPS.QUALIFICATION)}
+                        // onClick={() => setCurrentStepNum(FORMS_CONST.FORM_STEPS.QUALIFICATION)}
                     >
                         <div className={styles.number_tag}>2</div>
                         Квалификация
                     </div>
                     <div
                         className={clsx(styles.header_item, currentStepNum === FORMS_CONST.FORM_STEPS.AUTHORIZATION && styles.active_header)}
-                        onClick={() => setCurrentStepNum(FORMS_CONST.FORM_STEPS.AUTHORIZATION)}
+                        // onClick={() => setCurrentStepNum(FORMS_CONST.FORM_STEPS.AUTHORIZATION)}
                         style={{ borderTopRightRadius: isMobile ? 0 : 20 }}
                     >
                         <div className={styles.number_tag}>3</div>

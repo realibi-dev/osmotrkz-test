@@ -37,7 +37,7 @@ export default function Header() {
     }
 
     const handleBalanceWithdrawClick = () => {
-
+        router.push("/withdraw");
     }
 
     const renderMobileHeaderAuthorized = () => {

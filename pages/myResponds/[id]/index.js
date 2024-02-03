@@ -111,7 +111,7 @@ export default function RespondApplication() {
                         }}
                     >
                         <span>
-                            <Link href={'/publishedApplications'}>Мои отклики</Link>
+                            <Link href={'/profile'}>Мои отклики</Link>
                         </span>
                         <span>
                             <img src={'/arrow-right.png'} width={7} height={10} />
@@ -378,12 +378,12 @@ export default function RespondApplication() {
                                         <div style={{ display: 'flex', gap: 36, flexDirection: 'column' }}>
                                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                                 <span style={{ color: '#3F444A', fontSize: 14, fontWeight: 400, lineHeight: '14px' }}>Дата проведения<br/>осмотра</span>
-                                                <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>{moment(applicationInfo.order_deadline).format('DD.MM.YYYY')}<sup></sup></span>
+                                                <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>{ moment(applicationInfo.order_deadline).isValid() ? moment(applicationInfo.order_deadline).format('DD.MM.YYYY') : "Дата не указана"}<sup></sup></span>
                                             </div>
 
                                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                                 <span style={{ color: '#3F444A', fontSize: 14, fontWeight: 400, lineHeight: '14px' }}>Время проведения<br/>осмотра</span>
-                                                <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>{applicationInfo?.review_time_from?.split(':').slice(0,2).join(':')}<sup></sup></span>
+                                                <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>С {applicationInfo?.review_time_from ? applicationInfo?.review_time_from?.split(':').slice(0,2).join(':') : ""} До {applicationInfo?.review_time_to ? applicationInfo?.review_time_to?.split(':').slice(0,2).join(':') : ""}<sup></sup></span>
                                             </div>
                                         </div>
                                     </div>
