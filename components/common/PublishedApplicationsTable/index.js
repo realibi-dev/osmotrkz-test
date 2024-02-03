@@ -46,7 +46,7 @@ function TableRow({ data, favourites, cities }) {
                 {data?.address}
             </td>
             <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
-                {moment(data?.order_deadline).format('DD.MM.YYYY')} <br/> (с {data.review_time_from.split(':').slice(0, 2).join(':')})
+                {moment(data?.order_deadline).format('DD.MM.YYYY')} <br/> (с {data.review_time_from ? data.review_time_from.split(':').slice(0, 2).join(':') : "Не указано время!"})
             </td>
             <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
                 {data?.price}т
