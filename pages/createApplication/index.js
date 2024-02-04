@@ -9,9 +9,9 @@ import axios from 'axios';
 import { useRouter } from 'next/router'
 import { getCurrentUser } from '../../helpers/user';
 import CustomMap from '../../components/common/CustomMap';
-import CustomMap2 from '../../components/common/CustomMap2';
 import InputMask from 'react-input-mask';
 import { useMediaQuery } from 'react-responsive';
+import MapWithSearch from '../../components/common/MapWithSearch';
 
 export default function CreateApplication() {
     const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
@@ -347,9 +347,9 @@ export default function CreateApplication() {
 
                     <div style={{ marginBottom: 25 }}>
                         <YMaps>
-                            <CustomMap width={'100%'} height={320} handleClick={saveCoordinates} />
-                            {/* <CustomMap2/> */}
+                            <CustomMap width={'100%'} height={320} handleClick={saveCoordinates} />                             
                         </YMaps>
+                        {/* <MapWithSearch apiKey={process.env.NEXT_PUBLIC_YANDEX_MAP_API_KEY}/> */}
                     </div>
 
                     {

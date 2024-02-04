@@ -74,7 +74,7 @@ export default function PublishedApplication() {
             .then(response => {
                 setResponseId(response?.data?.responses.find(item => item.user_id == currentUser.id).id);
             })
-            .catch(error => alert("Ошибка при загрузке заявок\n"+error))
+            //.catch(error => alert("Ошибка при загрузке заявок\n"+error))
         }
     }, [applicationId]);
 

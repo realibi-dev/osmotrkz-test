@@ -12,7 +12,7 @@ export default function Stats({ userData, createApplicationHandler }) {
     const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const [avatarUrl, setAvatarUrl] = useState('/profile.png');
     const [city, setCity] = useState('Не указан');
-
+    
     useEffect(() => {
         const currentUser = getCurrentUser();
         if (currentUser.avatar) {
@@ -26,6 +26,7 @@ export default function Stats({ userData, createApplicationHandler }) {
                 setCity(data.data.rows.find(item => item.id == currentUser?.city_id)?.name);
             }
         })
+        console.log("USERDATA", userData);
     }, [userData]);
 
     return (
@@ -75,7 +76,7 @@ export default function Stats({ userData, createApplicationHandler }) {
                         <Button
                             type={'text'}
                             onClick={() => router.push('/registration')}
-                            text={'Стать исполнителем'}
+                            text={ userData?.role_id == "1" ? 'Стать исполнителем' : 'Стать заказчиком'}
                         />
                     </div>
                 </div>
