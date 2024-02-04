@@ -468,8 +468,9 @@ export default function RespondApplication() {
                                             text={'Отменить'}
                                             // onClick={() => respondToApplication()}
                                             onClick={() => {
+                                                console.log(applicationId);
                                                 axios
-                                                .post(process.env.NEXT_PUBLIC_API_URL + 'rejectResponse', { id: + responseId })
+                                                .delete(process.env.NEXT_PUBLIC_API_URL + 'deleteRequest/' + applicationId)
                                                 .then(({ data }) => {
                                                     if (data.success) {
                                                         alert("Вы отказались от этой заявки. Заявка вернется в список опубликованных заявок.");
