@@ -414,10 +414,13 @@ export default function RespondApplication() {
                                         <div style={{ display: 'flex', gap: 36, flexDirection: 'column' }}>
                                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                             <span style={{ color: '#3F444A', fontSize: 14, fontWeight: 400, lineHeight: '14px' }}>Техпаспорт</span>
-                                                <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>
-                                                    <img src='/document.png' width={20} height={20} style={{ marginRight: 10 }} />
-                                                    {applicationInfo.doc_photo}<sup></sup>
-                                                </span>
+                                            <span style={{ color: '#50575E', fontSize: 16, fontWeight: 600 }}>
+                                                <a href={applicationInfo.doc_photo} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: '#50575E' }}>
+                                                    <img src='/document.png' width={20} height={20} style={{ marginRight: 10, verticalAlign: 'middle' }} />
+                                                    Посмотреть документ
+                                                </a>
+                                            </span>
+
                                             </div>
 
                                             <div style={{ display: 'flex', flexDirection: 'column' }}>
