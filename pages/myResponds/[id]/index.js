@@ -24,6 +24,13 @@ export default function RespondApplication() {
 
     const [responseId, setResponseId] = useState();
 
+    var my;
+    try{
+        searchParams = new URLSearchParams(location.search);
+        my = searchParams.get('my');
+    }
+    catch{}
+
     const types = {
         1: 'Квартира',
         2: 'Земельный участок',
@@ -73,10 +80,10 @@ export default function RespondApplication() {
     //         axios
     //         .get(process.env.NEXT_PUBLIC_API_URL + 'getResponsesForOrder/' + applicationId, { headers: { 'ngrok-skip-browser-warning': 'true'  } })
     //         .then(response => {
-    //             setResponseId(response?.data?.userRequests.find(item => item.owner_id == currentUser.id).id);
-    //             console.log("asd", response?.data?.userRequests.find(item => item.owner_id == currentUser.id).id);
+    //             console.log(response?.data?.responses);
+    //             setResponseId(response?.data?.responses.find(item => item.owner_id == currentUser.id).id);
     //         })
-    //         .catch(error => alert("Ошибка при загрузке заявок"))
+    //         .catch(error => alert("Ошибка при загрузке заявок" + error))
     //     }
     // }, [applicationId]);
 
@@ -111,7 +118,7 @@ export default function RespondApplication() {
                         }}
                     >
                         <span>
-                            <Link href={'/profile'}>Мои отклики</Link>
+                            <Link href={'/profile'}>{(my == "true") ? "Мои отклики" : "Мои заявки"}</Link>
                         </span>
                         <span>
                             <img src={'/arrow-right.png'} width={7} height={10} />
@@ -466,7 +473,7 @@ export default function RespondApplication() {
                                                 .then(({ data }) => {
                                                     if (data.success) {
                                                         alert("Вы отказались от этой заявки. Заявка вернется в список опубликованных заявок.");
-                                                        router.push("/publishedApplications");
+                                                        router.push("/profile");
                                                     } else {
                                                         alert("Что-то пошло нетак!");
                                                     }

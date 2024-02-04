@@ -248,7 +248,7 @@ export default function PublishedApplication() {
                                         .then(({ data }) => {
                                             if (data.success) {
                                                 alert("Вы отказались от этой заявки. Заявка вернется в список опубликованных заявок.");
-                                                router.push("/publishedApplications");
+                                                router.push("/profile");
                                             } else {
                                                 alert("Что-то пошло нетак!");
                                             }

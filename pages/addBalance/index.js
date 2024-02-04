@@ -84,7 +84,7 @@ export default function AddBalance() {
             }, 
             (success) => {
                 axios
-                .post(process.env.NEXT_PUBLIC_API_URL + 'addBalance', { amount: priceToPay, userId: getCurrentUser()?.id })
+                .post(process.env.NEXT_PUBLIC_API_URL + 'addBalance', { amount: priceToPay, user_id: getCurrentUser()?.id })
                 .then(({ data }) => {
                     if (data.success) {
                         const currentUser = getCurrentUser();
