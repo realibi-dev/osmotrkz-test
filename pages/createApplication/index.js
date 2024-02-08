@@ -157,6 +157,8 @@ export default function CreateApplication() {
         setLongitude(longitude);
     }
 
+    
+
     function openPaymentWidgetHandler(priceToPay) {
         if (getCurrentUser().id && latitude !== 0 && longitude !== 0) {
             openPaymentWidget({
@@ -203,6 +205,29 @@ export default function CreateApplication() {
     return (
         <div className={styles.container}>
             <script src='https://widget.onevisionpay.com' defer></ script>
+            <script>
+                function loadPaymentScript(src, attempts) {
+                    if (attempts <= 0) return; // Остановить попытки, если достигнут лимит
+                
+                    var script = document.createElement('script');
+                    script.src = src;
+                    script.defer = true;
+                
+                    script.onload = () => {
+                    console.log('Скрипт успешно загружен');
+                    };
+                
+                    script.onerror = () => {
+                    console.error('Ошибка при загрузке скрипта, пытаемся еще раз');
+                    // Повторная попытка с уменьшением количества оставшихся попыток
+                    loadPaymentScript(src, attempts - 1);
+                    };
+                
+                    document.head.appendChild(script);
+                }
+
+                loadPaymentScript('https://widget.onevisionpay.com', 3);
+            </script>
             <Header />
             <div style={{ padding: '0 10%', boxSizing: 'border-box' }}>
                 <h1 className={styles.heading}>Разместите вашу заявку</h1>
