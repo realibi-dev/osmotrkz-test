@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { YMaps, Map, Placemark, SearchControl } from '@pbe/react-yandex-maps';
 
 // Карта по идее рабочая, но у нас походу API ключ ограничен, т.к. бесплатный
