@@ -1,15 +1,33 @@
 import React, { useState } from 'react';
-import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
+import { YMaps, Map, Placemark, SearchControl } from '@pbe/react-yandex-maps';
 
 // Карта по идее рабочая, но у нас походу API ключ ограничен, т.к. бесплатный
 
 const MapWithSearch = ({ apiKey }) => {
   const [address, setAddress] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+  const [selectedPoint, setSelectedPoint] = useState(null);
   const [mapState, setMapState] = useState({
     center: [55.751574, 37.573856], // Центр Москвы
     zoom: 9,
   });
+
+  useEffect(() => {
+    const searchControl = document.querySelector('.ymaps-2-1-79-searchbox__input');
+    if (searchControl) {
+      searchControl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          setTimeout(() => {
+            const selected = document.querySelector('.ymaps-2-1-79-searchbox-list__item_selected');
+            if (selected) {
+              const coords = selected.getAttribute('data-coordinates').split(',');
+              setSelectedPoint({ coords: [parseFloat(coords[0]), parseFloat(coords[1])] });
+            }
+          }, 1000);
+        }
+      });
+    }
+  }, []);
 
   const handleAddressChange = async (event) => {
     const newAddress = event.target.value;
@@ -29,12 +47,6 @@ const MapWithSearch = ({ apiKey }) => {
     }
   };
 
-  const loadSuggest = (ymaps) => {
-    const suggestView = new ymaps.SuggestView("suggest");
-    suggestView.events.add("select", (e) => {
-      console.log(e.get("item"));
-    });
-  };
 
   const selectSuggestion = (suggestion) => {
     const coords = suggestion.Point.pos.split(' ').map(Number).reverse();
@@ -43,27 +55,14 @@ const MapWithSearch = ({ apiKey }) => {
     setSuggestions([]);
   };
 
-  return (    
-    <div>
-      <input
-        type="text"
-        value={address}
-        onChange={handleAddressChange}
-        placeholder="Введите адрес..."
-      />
-      <div>
-        {suggestions.map((suggestion, value) => (
-          <div key={value} onClick={() => selectSuggestion(suggestion)}>
-            {suggestion.displayName}
-          </div>
-        ))}
-      </div>
+  return (                
       <YMaps>
         <Map state={mapState} width="100%" height="400px">
           <Placemark geometry={mapState.center} />
+          {selectedPoint && <Placemark geometry={selectedPoint.coords} />}
+          <SearchControl options={{ float: 'right' }} />
         </Map>
       </YMaps>
-    </div>
   );
 };
 
