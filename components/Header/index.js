@@ -45,7 +45,7 @@ export default function Header() {
             <div>
                 <div className={styles.mobileContainer} style={{ backgroundColor: '#fff' }}>
                     <div className={styles.mobileLogo} style={{ backgroundColor: '#fff' }}>
-                        <Link href={'/'}>ОСМОТР.KZ</Link>
+                        <Link href={'/'}>OSMOTRI.KZ</Link>
                     </div>
                     <div
                         style={{
@@ -86,7 +86,7 @@ export default function Header() {
             <div>
                 <div className={styles.mobileContainer} style={{ backgroundColor: '#fff' }}>
                     <div className={styles.mobileLogo} style={{ backgroundColor: '#fff' }}>
-                        <Link href={'/'}>ОСМОТР.KZ</Link>
+                        <Link href={'/'}>OSMOTRI.KZ</Link>
                     </div>
                     <div
                         style={{
@@ -127,7 +127,7 @@ export default function Header() {
         return (
             <div className={styles.container}>
                 <div className={styles.logo}>
-                    <Link href={'/'}>ОСМОТР.KZ</Link>
+                    <Link href={'/'}>OSMOTRI.KZ</Link>
                 </div>
                 <div>
                     <ul className={styles.menu}>
@@ -152,7 +152,7 @@ export default function Header() {
         return (
             <div className={styles.container}>
                 <div className={styles.logo}>
-                    <Link href={'/'}>ОСМОТР.KZ</Link>
+                    <Link href={'/'}>OSMOTRI.KZ</Link>
                 </div>
                 <div>
                     <ul className={styles.menu}>
