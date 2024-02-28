@@ -226,6 +226,7 @@ export default function CreateApplication() {
 
     return (
         <div className={styles.container}>
+            <script src='https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=5ff5c5d4-eb68-41f5-8adf-ad545fa1fee8&suggest_apikey=05fccc59-6586-4563-8d7c-87bd890b4308'></script>
             <script src='https://widget.onevisionpay.com' defer></ script>
             
             <Header />
