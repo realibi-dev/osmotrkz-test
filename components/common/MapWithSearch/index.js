@@ -3,7 +3,14 @@ import { YMaps, Map, Placemark, SearchControl } from '@pbe/react-yandex-maps';
 
 // Карта по идее рабочая, но у нас походу API ключ ограничен, т.к. бесплатный
 
-const MapWithSearch = ({ apiKey }) => {
+const loadYandexMapsScript = (jsApiKey, suggestApiKey) => {
+  const script = document.createElement('script');
+  script.src = `https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=${jsApiKey}&suggest_apikey=${suggestApiKey}`;
+  script.type = 'text/javascript';
+  document.head.appendChild(script);
+};
+
+const MapWithSearch = ({ apiKey, suggestApiKey }) => {
   const [address, setAddress] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [selectedPoint, setSelectedPoint] = useState(null);
@@ -13,21 +20,9 @@ const MapWithSearch = ({ apiKey }) => {
   });
 
   useEffect(() => {
-    const searchControl = document.querySelector('.ymaps-2-1-79-searchbox__input');
-    if (searchControl) {
-      searchControl.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          setTimeout(() => {
-            const selected = document.querySelector('.ymaps-2-1-79-searchbox-list__item_selected');
-            if (selected) {
-              const coords = selected.getAttribute('data-coordinates').split(',');
-              setSelectedPoint({ coords: [parseFloat(coords[0]), parseFloat(coords[1])] });
-            }
-          }, 1000);
-        }
-      });
-    }
+    loadYandexMapsScript(apiKey, suggestApiKey);
   }, []);
+
 
   const handleAddressChange = async (event) => {
     const newAddress = event.target.value;
@@ -55,14 +50,38 @@ const MapWithSearch = ({ apiKey }) => {
     setSuggestions([]);
   };
 
+  const getSuggestions = (query) => {
+    window.ymaps.suggest(query)
+      .then(items => {
+        console.log(items);
+        setSuggestions(items);
+      })
+      .catch(error => console.log(error));
+  };
+
   return (                
-      <YMaps>
+    <div>
+      <input type="text" onChange={(e) => getSuggestions(e.target.value)} />
+      <YMaps 
+        query={{ 
+          apikey: apiKey,
+          load: 'package.full', 
+        }}      
+        onLoad={(ymaps) => {
+          window.ymaps = ymaps; // Сохраняем ссылку на ymaps в глобальный объект для последующего доступа
+        }}
+      >
         <Map state={mapState} width="100%" height="400px">
           <Placemark geometry={mapState.center} />
-          {selectedPoint && <Placemark geometry={selectedPoint.coords} />}
-          <SearchControl options={{ float: 'right' }} />
+          
+          <ul>
+            {suggestions.map((item, index) => (
+              <li key={index}>{item.displayName}</li>
+            ))}
+          </ul>
         </Map>
       </YMaps>
+    </div>
   );
 };
 
