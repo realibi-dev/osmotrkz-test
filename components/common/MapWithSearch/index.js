@@ -59,9 +59,7 @@ const MapWithSearch = ({ apiKey }) => {
         ))}
       </div>
       <YMaps>
-        <Map state={mapState} width="100%" height="400px"
-        onLoad={ymaps => loadSuggest(ymaps)}
-        >
+        <Map state={mapState} width="100%" height="400px">
           <Placemark geometry={mapState.center} />
         </Map>
       </YMaps>
