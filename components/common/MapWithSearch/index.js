@@ -29,6 +29,13 @@ const MapWithSearch = ({ apiKey }) => {
     }
   };
 
+  const loadSuggest = (ymaps) => {
+    const suggestView = new ymaps.SuggestView("suggest");
+    suggestView.events.add("select", (e) => {
+      console.log(e.get("item"));
+    });
+  };
+
   const selectSuggestion = (suggestion) => {
     const coords = suggestion.Point.pos.split(' ').map(Number).reverse();
     setAddress(suggestion.name);
@@ -52,7 +59,9 @@ const MapWithSearch = ({ apiKey }) => {
         ))}
       </div>
       <YMaps>
-        <Map state={mapState} width="100%" height="400px">
+        <Map state={mapState} width="100%" height="400px"
+        onLoad={ymaps => loadSuggest(ymaps)}
+        >
           <Placemark geometry={mapState.center} />
         </Map>
       </YMaps>
