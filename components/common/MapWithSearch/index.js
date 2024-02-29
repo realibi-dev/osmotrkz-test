@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { YMaps, Map, Placemark, SearchControl } from '@pbe/react-yandex-maps';
+import styles from "../../../pages/createApplication/style.module.css";
 
-// Карта по идее рабочая, но у нас походу API ключ ограничен, т.к. бесплатный
-// https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=25f9ba01-e442-4789-b995-ef1341e8d62a&suggest_apikey=f1213ace-e821-4b4e-9033-9d655ce35294
 const loadYandexMapsScript = (jsApiKey, suggestApiKey) => {
   const script = document.createElement('script');
   script.src = `https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=${jsApiKey}&suggest_apikey=${suggestApiKey}`;
@@ -10,7 +9,7 @@ const loadYandexMapsScript = (jsApiKey, suggestApiKey) => {
   document.head.appendChild(script);
 };
 
-const MapWithSearch = ({ apiKey, suggestApiKey }) => {
+const MapWithSearch = ({ apiKey, suggestApiKey, handleClick }) => {
   const [address, setAddress] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [selectedPoint, setSelectedPoint] = useState(null);
@@ -23,64 +22,63 @@ const MapWithSearch = ({ apiKey, suggestApiKey }) => {
     loadYandexMapsScript(apiKey, suggestApiKey);
   }, []);
 
-
-  const handleAddressChange = async (event) => {
-    const newAddress = event.target.value;
-    setAddress(newAddress);
-
-    if (newAddress.length > 3) {
-      // const response = await fetch(`https://geocode-maps.yandex.ru/1.x/?format=json&apikey=${apiKey}&geocode=${newAddress}`);
-      // const data = await response.json();
-      // console.log("YANDEX response:", data);
-      // console.log("YANDEX key:", apiKey);
-      // const newSuggestions = data.response.GeoObjectCollection.featureMember.map(member => member.GeoObject);
-      // setSuggestions(newSuggestions);
-      ymaps.suggest(newAddress).then(function (items) {
-        console.log("ITEMS: ", items);  
-        setSuggestions(items);          
-      });
-    }
-  };
-
-
-  const selectSuggestion = (suggestion) => {
-    const coords = suggestion.Point.pos.split(' ').map(Number).reverse();
-    setAddress(suggestion.name);
-    setMapState({ ...mapState, center: coords });
-    setSuggestions([]);
-  };
-
   const getSuggestions = (query) => {
     window.ymaps.suggest(query)
       .then(items => {
-        console.log("ITEMS2", items);
         setSuggestions(items);
       })
       .catch(error => console.log(error));
   };
 
-  return (                
+  const handleSelectSuggestion = (displayName) => {
+    window.ymaps.geocode(displayName, { results: 1 }).then(res => {
+      const firstGeoObject = res.geoObjects.get(0);
+      const coords = firstGeoObject.geometry.getCoordinates();
+
+      // Вызов handleClick с округлением координат
+      handleClick(coords[0].toPrecision(6), coords[1].toPrecision(6));
+
+      // Обновление состояний для отображения метки и центрирования карты
+      setSelectedPoint(coords);
+      setMapState({ ...mapState, center: coords });
+
+      // Обновление адреса в инпуте
+      setAddress(displayName);
+    });
+  };
+
+  return (
     <div>
-      <input type="text" onChange={(e) => getSuggestions(e.target.value)} />
-      <YMaps 
-        query={{ 
-          apikey: apiKey,
-          load: 'package.full', 
-        }}      
-        onLoad={(ymaps) => {
-          window.ymaps = ymaps; // Сохраняем ссылку на ymaps в глобальный объект для последующего доступа
-        }}
-      >
+      {/* <input
+        type="text"
+        value={address}
+        onChange={(e) => getSuggestions(e.target.value)}
+      /> */}
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25 }}>
+          <label>Адрес</label>
+          <textarea
+              rows={1}
+              placeholder='Адрес места осмотра'
+              className={styles.textArea}
+              onChange={(e) => getSuggestions(e.target.value)}
+              value={address}
+          >
+          </textarea>
+      </div>
+
+      <YMaps query={{ apikey: apiKey, load: 'package.full' }}>
         <Map state={mapState} width="100%" height="400px">
-          <Placemark geometry={mapState.center} />
-          
-          <ul>
-            {suggestions.map((item, index) => (
-              <li key={index}>{item.displayName}</li>
-            ))}
-          </ul>
+          {selectedPoint && <Placemark geometry={selectedPoint} />}
         </Map>
       </YMaps>
+      <ul>
+        {suggestions.map((item, index) => (
+          <li key={index} onClick={() => handleSelectSuggestion(item.displayName)}>
+            {item.displayName}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
