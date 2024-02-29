@@ -64,7 +64,7 @@ const MapWithSearch = ({ apiKey, suggestApiKey }) => {
       <input type="text" onChange={(e) => getSuggestions(e.target.value)} />
       <YMaps 
         query={{ 
-          apikey: suggestApiKey,
+          apikey: apiKey,
           load: 'package.full', 
         }}      
         onLoad={(ymaps) => {
