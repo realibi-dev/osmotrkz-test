@@ -10,7 +10,7 @@ const loadYandexMapsScript = (jsApiKey, suggestApiKey) => {
   document.head.appendChild(script);
 };
 
-const MapWithSearch = ({ apiKey, suggestApiKey, handleClick }) => {
+const MapWithSearch = ({ apiKey, suggestApiKey, handleClick, handleSetAddress }) => {
   const [address, setAddress] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [selectedPoint, setSelectedPoint] = useState(null);
@@ -46,6 +46,7 @@ const MapWithSearch = ({ apiKey, suggestApiKey, handleClick }) => {
 
       // Обновление адреса в инпуте
       setAddress(displayName);
+      handleSetAddress(displayName);
       setSuggestions([]);
     });
   };
