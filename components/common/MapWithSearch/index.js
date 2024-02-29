@@ -23,6 +23,7 @@ const MapWithSearch = ({ apiKey, suggestApiKey, handleClick }) => {
   }, []);
 
   const getSuggestions = (query) => {
+    setAddress(query);
     window.ymaps.suggest(query)
       .then(items => {
         setSuggestions(items);
@@ -66,12 +67,6 @@ const MapWithSearch = ({ apiKey, suggestApiKey, handleClick }) => {
           >
           </textarea>
       </div>
-
-      <YMaps query={{ apikey: apiKey, load: 'package.full' }}>
-        <Map state={mapState} width="100%" height="400px">
-          {selectedPoint && <Placemark geometry={selectedPoint} />}
-        </Map>
-      </YMaps>
       <ul>
         {suggestions.map((item, index) => (
           <li key={index} onClick={() => handleSelectSuggestion(item.displayName)}>
@@ -79,6 +74,12 @@ const MapWithSearch = ({ apiKey, suggestApiKey, handleClick }) => {
           </li>
         ))}
       </ul>
+      <YMaps query={{ apikey: apiKey, load: 'package.full' }}>
+        <Map state={mapState} width="100%" height="400px">
+          {selectedPoint && <Placemark geometry={selectedPoint} />}
+        </Map>
+      </YMaps>
+      
     </div>
   );
 };
