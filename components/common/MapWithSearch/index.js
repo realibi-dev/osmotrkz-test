@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { YMaps, Map, Placemark, SearchControl } from '@pbe/react-yandex-maps';
 
 // Карта по идее рабочая, но у нас походу API ключ ограничен, т.к. бесплатный
-
+// https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=5ff5c5d4-eb68-41f5-8adf-ad545fa1fee8&suggest_apikey=05fccc59-6586-4563-8d7c-87bd890b4308
 const loadYandexMapsScript = (jsApiKey, suggestApiKey) => {
   const script = document.createElement('script');
   script.src = `https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=${jsApiKey}&suggest_apikey=${suggestApiKey}`;
@@ -36,8 +36,8 @@ const MapWithSearch = ({ apiKey, suggestApiKey }) => {
       // const newSuggestions = data.response.GeoObjectCollection.featureMember.map(member => member.GeoObject);
       // setSuggestions(newSuggestions);
       ymaps.suggest(newAddress).then(function (items) {
-          setSuggestions(items);
-          console.log(items);
+        console.log("ITEMS: ", items);  
+        setSuggestions(items);          
       });
     }
   };
@@ -53,7 +53,7 @@ const MapWithSearch = ({ apiKey, suggestApiKey }) => {
   const getSuggestions = (query) => {
     window.ymaps.suggest(query)
       .then(items => {
-        console.log(items);
+        console.log("ITEMS2", items);
         setSuggestions(items);
       })
       .catch(error => console.log(error));

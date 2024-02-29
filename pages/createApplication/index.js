@@ -371,10 +371,10 @@ export default function CreateApplication() {
                     </div>
 
                     <div style={{ marginBottom: 25 }}>
-                        {/* <YMaps>
+                        <YMaps>
                             <CustomMap width={'100%'} height={320} handleClick={saveCoordinates} />                             
-                        </YMaps> */}
-                        <MapWithSearch apiKey={process.env.NEXT_PUBLIC_YANDEX_MAP_API_KEY} suggestApiKey={process.env.NEXT_PUBLIC_YANDEX_SUGGESTION_KEY}/>
+                        </YMaps>
+                        {/* <MapWithSearch apiKey={process.env.NEXT_PUBLIC_YANDEX_MAP_API_KEY} suggestApiKey={process.env.NEXT_PUBLIC_YANDEX_SUGGESTION_KEY}/> */}
                     </div>
 
                     {
