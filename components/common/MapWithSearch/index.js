@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { YMaps, Map, Placemark, SearchControl } from '@pbe/react-yandex-maps';
 
 // Карта по идее рабочая, но у нас походу API ключ ограничен, т.к. бесплатный
-// https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=5ff5c5d4-eb68-41f5-8adf-ad545fa1fee8&suggest_apikey=05fccc59-6586-4563-8d7c-87bd890b4308
+// https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=25f9ba01-e442-4789-b995-ef1341e8d62a&suggest_apikey=f1213ace-e821-4b4e-9033-9d655ce35294
 const loadYandexMapsScript = (jsApiKey, suggestApiKey) => {
   const script = document.createElement('script');
   script.src = `https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=${jsApiKey}&suggest_apikey=${suggestApiKey}`;
