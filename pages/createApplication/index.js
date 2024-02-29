@@ -133,12 +133,16 @@ export default function CreateApplication() {
         formData.append("longitude", longitude);
         formData.append("city_id", cityId);
 
+
         if (applicationType === APPLICATION_TYPES.PUBLIC) {
             formData.append("review_time_from", reviewTimeStart);
             formData.append("review_time_to", reviewTimeFinish);
             formData.append("price", price);
             formData.append("order_deadline", orderDeadline);
         }
+        
+        console.log("FormData: ", formData);
+        console.log("lat, long: ", latitude, longitude);
 
         axios
         .post(process.env.NEXT_PUBLIC_API_URL + 'addRequest', formData, { headers: { "Content-Type": "multipart/form-data" } })
