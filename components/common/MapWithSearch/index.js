@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { YMaps, Map, Placemark, SearchControl } from '@pbe/react-yandex-maps';
 import styles from "../../../pages/createApplication/style.module.css";
+import mapStyles from "./style.module.css";
 
 const loadYandexMapsScript = (jsApiKey, suggestApiKey) => {
   const script = document.createElement('script');
@@ -45,6 +46,7 @@ const MapWithSearch = ({ apiKey, suggestApiKey, handleClick }) => {
 
       // Обновление адреса в инпуте
       setAddress(displayName);
+      setSuggestions([]);
     });
   };
 
@@ -67,7 +69,7 @@ const MapWithSearch = ({ apiKey, suggestApiKey, handleClick }) => {
           >
           </textarea>
       </div>
-      <ul>
+      <ul className={mapStyles.suggestionsList}>
         {suggestions.map((item, index) => (
           <li key={index} onClick={() => handleSelectSuggestion(item.displayName)}>
             {item.displayName}
