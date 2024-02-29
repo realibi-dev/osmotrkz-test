@@ -58,7 +58,7 @@ const MapWithSearch = ({ apiKey, suggestApiKey, handleClick }) => {
         onChange={(e) => getSuggestions(e.target.value)}
       /> */}
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 25 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <label>Адрес</label>
           <textarea
               rows={1}
