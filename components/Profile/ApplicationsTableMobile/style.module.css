@@ -1,0 +1,195 @@
+.container {
+    border-radius: 20px;
+    box-shadow: 0px 4px 19px 0px rgba(117, 117, 117, 0.16);
+    padding: 5%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.table {
+    width: 100%;
+    border-radius: 20px;
+    border-collapse: collapse;
+}
+
+.table th {
+    background-color: #3F444A;
+    color: #fff;
+}
+
+.table th:first-child {
+    border-top-left-radius: 20px;
+}
+
+.table th:last-child {
+    border-top-right-radius: 20px;
+}
+
+.table th {
+    padding: 12px;
+}
+
+.tabs {
+    display: flex;
+}
+
+.tabs > * {
+    flex-grow: 1;
+    text-align: center;
+    border-bottom: 2px solid #94A3B8;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.activeTab {
+    border-bottom: 2px solid #00CF91;
+}
+
+.select {
+    width: 170px;
+    padding: 12px;
+    border-radius: 50px;
+    border: 1px solid #3F444A;
+}
+
+.tableRow {
+    border-top: 1px solid #DCE7FE;
+    cursor: pointer;
+}
+
+.tableRow:hover {
+    background-color: #f2f2f2;
+}
+
+.tableRowCell {
+    padding: 14px;
+    font-size: 14px;
+    font-family: 'Nunito_Sans';
+    font-weight: 400;
+    color: #3F444A;
+}
+
+/* styles.module.css */
+
+.item {
+    background: #FFFFFF;
+    border-radius: 8px;     
+    padding: 20px; 
+    margin-bottom: 20px;
+    cursor: pointer;
+    margin: 5% auto;
+    margin-top: 7.5%;
+    width: 90%;
+    box-shadow: 0px 4px 19px 0px #75757529;
+}
+
+.head {
+    display: flex; 
+    align-items: center;
+    justify-content: space-between;
+}
+
+.publishedText {
+    color: #0075FF; 
+}
+
+.completedText {
+    color: #09C18A; 
+}
+
+.defaultText {
+    color: #3F444A; 
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    background-color: #FF0000;
+    border-radius: 50%;
+}
+
+.kad {
+    color: #000000; 
+    font-size: 16px; 
+    margin-top: 10px; 
+}
+
+.title {
+    color: #333333; 
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 5px; 
+}
+
+.flex {
+    display: flex; 
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.budgetBlock, .deadlineBlock {
+    display: flex;
+    flex-direction: column;
+}
+
+.budgetText, .deadlineText {
+    color: #888888; 
+    font-size: 14px; 
+}
+
+.budget, .deadline {
+    color: #000000; 
+    font-size: 16px; 
+    font-weight: bold; 
+    margin-top: 5px; 
+}
+
+.addressBlock {
+    display: flex; 
+    align-items: center;
+    margin-top: 15px; 
+}
+
+.geoIcon {
+    height: 20px;
+    width: 20px;
+    background-image: url('/location.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    margin-right: 10px;
+}
+
+.address{
+    color: #50575E;
+    font-size: 14px;
+}
+    
+
+@media screen and (max-width: 760px) {
+    .table {
+        max-width: 100%;
+        overflow: scroll;
+        display: block;
+    }
+
+    .tabs {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .tabs > * {
+        margin-top: 20px;
+    }
+
+    .select{
+        width: 100%;
+        border-radius: 10px;
+    }
+}
+
