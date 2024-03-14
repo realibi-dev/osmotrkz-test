@@ -5,6 +5,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Link from 'next/link';
 import PublishedApplicationsTable from '../../components/common/PublishedApplicationsTable';
+import PublishedApplicationsTableMobile from '../../components/common/PublishedApplicationsTableMobile';
 import { useMediaQuery } from 'react-responsive';
 
 export default function PublishedApplications() {
@@ -24,8 +25,13 @@ export default function PublishedApplications() {
 
             <h1 className={styles.heading}>Опубликованные заявки</h1>
 
-            <div style={{ padding: isMobile ? '0 8%' : '0 15%', boxSizing: 'border-box' }}>
-                <PublishedApplicationsTable />
+            <div style={{ padding: isMobile ? '0 0%' : '0 15%', boxSizing: 'border-box' }}>
+                <div className={styles.mobileOnly}>
+                    <PublishedApplicationsTable />
+                </div>
+                <div className={styles.desktopOnly}>
+                    <PublishedApplicationsTableMobile />
+                </div>
                 <br/>
                 <br/>
                 <br/>

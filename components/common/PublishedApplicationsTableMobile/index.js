@@ -1,0 +1,246 @@
+import { useEffect, useState } from 'react';
+import styles from './style.module.css'
+import clsx from 'clsx';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import moment from 'moment';
+import { getCurrentUser } from './../../../helpers/user';
+import { useMediaQuery } from 'react-responsive';
+
+function TableRow({ data, favourites, cities }) {
+    const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+    const router = useRouter();
+    const [isFavourite, setIsFavourite] = useState(false);
+    
+    useEffect(() => {
+        setIsFavourite(favourites.find(item => item.request_id === data.id));
+    }, [])
+
+    const types = {
+        1: 'Квартира',
+        2: 'Земельный участок',
+        3: 'Коттедж',
+        4: 'Частный дом',
+        5: 'Магазин',
+        6: 'СТО',
+        7: 'Производственная база',
+        8: 'Административно-бытовой комплекс',
+        9: 'Торговый дом',
+    }
+
+    return (
+        <div className={styles.item} onClick={() => router.push('/publishedApplications/' + data.id)}>                            
+            <div className={styles.kad}>
+                {data.kad_number}
+            </div>
+
+            <div className={styles.title}>
+                {data.description}
+            </div>
+                                        
+            <div className={styles.flex}>
+                <div className={styles.budgetBlock}>
+                    <div className={styles.budgetText}>
+                        Бюджет
+                    </div>  
+                    <div className={styles.budget}>
+                        {data.price}
+                    </div>  
+                </div>
+                <div className={styles.deadlineBlock}>
+                    <div className={styles.deadlineText}>
+                        Сроки (до)
+                    </div>  
+                    <div className={styles.deadline}>
+                        {moment(data.order_deadline).format('DD.MM.YYYY')}
+                    </div>  
+                </div>
+            </div>
+
+            <div className={styles.addressBlock}>
+                <div className={styles.geoIcon}></div>
+                <div className={styles.address}>{data.address}</div>                                
+            </div>  
+        </div>
+        // <tr className={styles.tableRow}>
+        //     <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
+        //         {data.id}
+        //     </td>
+        //     <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
+        //         {data.description}
+        //     </td>
+        //     <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
+        //         {types[data.object_type_id]}
+        //     </td>
+        //     <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
+        //         {cities?.find(city => city.id === data.city_id)?.name}
+        //     </td>
+        //     <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
+        //         {data?.address}
+        //     </td>
+        //     <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
+        //         {moment(data?.order_deadline).format('DD.MM.YYYY')} <br/> (с {data.review_time_from ? data.review_time_from.split(':').slice(0, 2).join(':') : "Не указано время!"})
+        //     </td>
+        //     <td className={styles.tableRowCell} onClick={() => router.push('/publishedApplications/' + data.id)}>
+        //         {data?.price}т
+        //     </td>
+        //     <td className={clsx(styles.tableRowCell, styles.center)}>
+        //         <div
+        //             style={{
+        //                 width: 20,
+        //                 height: 20,
+        //                 margin: '0 auto',
+        //                 backgroundImage: `url(${isFavourite ? 'heart-clicked.png' : '/heart-non-clicked.png'})`,
+        //                 backgroundRepeat: 'no-repeat',
+        //                 backgroundSize: 'contain',
+        //                 backgroundPosition: 'center',
+        //             }}
+        //             onClick={() => {
+        //                 if (isFavourite) {
+        //                     axios
+        //                     .delete(process.env.NEXT_PUBLIC_API_URL + `removeFromFavorites/${getCurrentUser().id}/${data.id}`)
+        //                     .then(response => {
+        //                         console.log(response.data);
+        //                     })
+
+        //                     setIsFavourite(false);
+        //                 } else {
+        //                     axios
+        //                     .post(process.env.NEXT_PUBLIC_API_URL + 'addToFavorites', { person_id: getCurrentUser().id, request_id: data.id })
+        //                     .then(response => {
+        //                         console.log(response.data);
+        //                     })
+
+        //                     setIsFavourite(true);
+        //                 }
+        //             }}
+        //         >
+        //         </div>
+        //     </td>
+
+        // </tr>
+    );
+}
+
+export default function PublishedApplicationsTableMobile({}) {
+    const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+    const [allApplications, setAllApplications] = useState();
+    const [tableRows, setTableRows] = useState([]);
+    const [activeTabId, setActiveTabId] = useState(1);
+    const [sortingMethod, setSortingMethod] = useState(0);
+    const [filterCity, setFilterCity] = useState(0);
+    const [filterType, setFilterType] = useState(0);
+    const [citiesList, setCitiesList] = useState([]);
+    const [favourites, setFavourites] = useState([]);
+
+    useEffect(() => {
+        if (getCurrentUser()?.id) {
+            axios
+            .get(process.env.NEXT_PUBLIC_API_URL + 'getFavorites/' + getCurrentUser()?.id, { headers: { 'ngrok-skip-browser-warning': 'true'  } })
+            .then(response => {
+                if(response.data.success) {
+                    setFavourites(response.data.favorites);
+                }
+            })
+        }
+    }, []);
+
+    useEffect(() => {
+        axios
+        .get(process.env.NEXT_PUBLIC_API_URL + 'getAllCities', { headers: { 'ngrok-skip-browser-warning': 'true'  } })
+        .then(response => {
+            setCitiesList(response.data.rows);
+        })
+    }, []);
+
+    useEffect(() => {
+        axios
+        .get(process.env.NEXT_PUBLIC_API_URL + 'getAllRequests', { headers: { 'ngrok-skip-browser-warning': 'true'  } })
+        .then(response => {
+            if (response.data?.success) {
+                setTableRows(response.data.requests.reverse().filter(item => item.type_id == 1));
+                setAllApplications(response.data.requests.reverse().filter(item => item.type_id == 1));
+            }
+        })
+        .catch(error => alert("Ошибка при загрузке заявок"))
+    }, []);
+
+    const filter = () => {
+        let items = [...allApplications];
+        if (sortingMethod != 0) {
+            if (sortingMethod === 'date') {
+                items = items.sort((a, b) => {
+                    return Number(new Date(a.order_deadline)) - Number(new Date(b.order_deadline));
+                });
+            } else if (sortingMethod === 'budget') {
+                items = items.sort((a, b) => {
+                    return parseFloat(a.price) - parseFloat(b.price);
+                });
+            }
+        }
+
+        if (filterCity != 0) {
+            items = items.filter(item => item.city_id == filterCity);
+        }
+
+        if (filterType != 0) {
+            items = items.filter(item => item.object_type_id == filterType);
+        }
+
+        setTableRows(items);
+    };
+
+    return (
+        <div className={styles.container}>
+            <div
+                className={styles.dropdowns}
+                style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    gap: isMobile ? 20 : 0,
+                    flexDirection: isMobile ? 'column' : 'gap',
+                }}
+            >
+
+                <div className={styles.customSelectWrapper}>
+                    <select className={clsx(styles.textArea, styles.customSelect)} style={{ width: '100%' }} onChange={e => setSortingMethod(e.target.value)}>
+                        <option value={0}>Сортировка</option>
+                        <option value={'date'}>По дате</option>
+                        <option value={'budget'}>По бюджету</option>
+                    </select>
+                </div>
+
+                <div className={styles.customSelectWrapper}>
+                    <select className={clsx(styles.textArea, styles.customSelect)} style={{ width: '100%' }} onChange={e => setFilterCity(e.target.value)}>
+                        <option value={0}>Все города</option>
+                        {
+                            citiesList.map(city => (<option value={city.id}>{city.name}</option>))
+                        }
+                    </select>
+                </div>
+
+                <div className={styles.customSelectWrapper}>
+                    <select className={clsx(styles.textArea, styles.customSelect)} style={{ width: '100%' }} onChange={e => setFilterType(e.target.value)}>
+                        <option value={1}>Квартира</option>
+                        <option value={2}>Земельный участок</option>
+                        <option value={3}>Коттедж</option>
+                        <option value={4}>Частный дом</option>
+                        <option value={5}>Магазин</option>
+                        <option value={6}>СТО</option>
+                        <option value={7}>Производственная база</option>
+                        <option value={8}>Административно-бытовой комплекс</option>
+                        <option value={9}>Торговый дом</option>
+                    </select>
+                </div>
+
+                <button className={styles.button} onClick={() => filter()}>Найти</button>
+            </div>
+            
+            {
+                tableRows?.length ? (        
+                    tableRows.map(row => (<TableRow favourites={favourites} data={row} cities={citiesList} />))
+                ) : null
+            }
+        </div>
+    );
+}
